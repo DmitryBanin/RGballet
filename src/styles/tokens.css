@@ -1,0 +1,23 @@
+:root {
+  --color-text-primary: #232323;
+  --color-surface-primary: #ffffff;
+
+  --color-accent-primary: #5ba9e1;
+  --color-accent-primary-30: rgb(91 169 225 / 30%);
+
+  --color-accent-secondary: #5fa8d3;
+  --color-accent-secondary-20: rgb(95 168 211 / 20%);
+  --color-accent-secondary-24: rgb(95 168 211 / 24%);
+  --color-accent-secondary-30: rgb(95 168 211 / 30%);
+  --color-accent-secondary-40: rgb(95 168 211 / 40%);
+
+  --color-button-gradient-start: #6db8ff;
+  --color-button-gradient-start-28: rgb(109 184 255 / 28%);
+  --color-button-gradient-end: #3379d7;
+  --color-button-border: #cfe7fa;
+  --color-button-shadow: #357cd8;
+  --color-button-shadow-18: rgb(53 124 216 / 18%);
+
+  --color-photo-placeholder: #d9d9d9;
+  --color-black: #000000;
+}
