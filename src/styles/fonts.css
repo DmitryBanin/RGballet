@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'Corvetta';
+  src:
+    url('/fonts/corvetta-regular.woff2') format('woff2'),
+    url('/fonts/corvetta-regular.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src:
+    url('/fonts/manrope-light.woff2') format('woff2'),
+    url('/fonts/manrope-light.woff') format('woff');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src:
+    url('/fonts/manrope-regular.woff2') format('woff2'),
+    url('/fonts/manrope-regular.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src:
+    url('/fonts/manrope-medium.woff2') format('woff2'),
+    url('/fonts/manrope-medium.woff') format('woff');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src:
+    url('/fonts/manrope-semibold.woff2') format('woff2'),
+    url('/fonts/manrope-semibold.woff') format('woff');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src:
+    url('/fonts/manrope-bold.woff2') format('woff2'),
+    url('/fonts/manrope-bold.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src:
+    url('/fonts/cormorant-garamond-bold.woff2') format('woff2'),
+    url('/fonts/cormorant-garamond-bold.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
