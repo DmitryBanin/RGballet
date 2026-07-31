@@ -100,3 +100,6 @@ Telegram
 
 CRM
 
+Создать 
+robots.txt и sitemap.xml
+
