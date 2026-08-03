@@ -1,4 +1,7 @@
 :root {
+  --container-max-width: 1840px;
+  --page-gutter: clamp(20px, 2.083vw, 40px);
+
   --color-text-primary: #232323;
   --color-surface-primary: #ffffff;
 

@@ -1,0 +1,176 @@
+---
+const assetPath = '/images/figma-assets';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <img class="hero-background" src={`${assetPath}/hero-background.png`} alt="Юные балерины на занятии" />
+
+  <div class="hero-content">
+    <h1 id="hero-title">Там, где линия тела становится музыкой</h1>
+
+    <button class="hero-button" type="button">
+      <span class="button-text button-text-desktop">Записаться на бесплатное занятие</span>
+      <span class="button-text button-text-mobile">Записаться на пробное занятие</span>
+      <span class="button-arrow" aria-hidden="true">
+        <img src={`${assetPath}/hero-arrow.svg`} alt="" />
+      </span>
+    </button>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    height: 880px;
+    overflow: hidden;
+  }
+
+  .hero-background {
+    position: absolute;
+    top: -43px;
+    left: 50%;
+    width: 1920px;
+    max-width: none;
+    height: 1024px;
+    object-fit: cover;
+    transform: translateX(-50%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 72px;
+  }
+
+  h1 {
+    width: calc(100% - 80px);
+    margin: 0;
+    font-family: 'Corvetta', 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 3.125vw, 60px);
+    font-weight: 400;
+    line-height: 100px;
+    text-align: center;
+  }
+
+  .hero-button {
+    display: flex;
+    width: 472px;
+    height: 64px;
+    margin-top: 20px;
+    padding: 0 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    color: var(--color-accent-primary);
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-button-border);
+    border-radius: 30px;
+    box-shadow: 0 12px 15px var(--color-accent-primary-30);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 27px;
+    cursor: pointer;
+  }
+
+  .button-text {
+    white-space: nowrap;
+  }
+
+  .button-text-mobile {
+    display: none;
+  }
+
+  .button-arrow {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    place-items: center;
+  }
+
+  .button-arrow img {
+    width: 16px;
+    height: 28px;
+  }
+
+  @media (min-width: 1921px) {
+    .hero-background {
+      width: 100%;
+      height: auto;
+      min-height: 1024px;
+    }
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .hero {
+      height: 760px;
+    }
+
+    .hero-background {
+      top: 0;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-content {
+      padding-top: 50px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      height: 700px;
+    }
+
+    .hero-background {
+      top: 0;
+      left: calc(50% - 40px);
+      width: 1478px;
+      height: 789px;
+    }
+
+    .hero-content {
+      padding-top: 40px;
+    }
+
+    h1 {
+      width: calc(100% - 40px);
+      max-width: 319px;
+      font-size: 26px;
+      line-height: 42px;
+    }
+
+    .hero-button {
+      width: calc(100% - 40px);
+      max-width: 319px;
+      height: 46px;
+      margin-top: 22px;
+      padding: 0 30px;
+      gap: 10px;
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .button-text-desktop {
+      display: none;
+    }
+
+    .button-text-mobile {
+      display: inline;
+    }
+
+    .button-arrow {
+      width: 20px;
+      height: 20px;
+      flex-basis: 20px;
+    }
+
+    .button-arrow img {
+      width: 11px;
+      height: 19px;
+    }
+  }
+</style>

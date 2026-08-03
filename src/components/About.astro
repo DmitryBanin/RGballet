@@ -1,0 +1,277 @@
+---
+const assetPath = '/images/figma-assets';
+
+const features = [
+  {
+    icon: 'feature-professional.svg',
+    text: 'Профессиональная танцевальная подготовка',
+  },
+  {
+    icon: 'feature-subject.svg',
+    text: 'Предметная подготовка',
+  },
+  {
+    icon: 'feature-choreography.svg',
+    text: 'Постановка индивидуальных и групповых танцевальных номеров',
+  },
+  {
+    icon: 'feature-performance.svg',
+    text: 'Участие в выступлениях и шоу-программах в России и зарубежом',
+  },
+];
+---
+
+<section class="about" id="about" aria-labelledby="about-title">
+  <div class="about-grid">
+    <div class="about-content">
+      <div class="about-copy">
+        <h2 id="about-title">О школе</h2>
+        <p>
+          <strong>RG-ballet</strong> — это уникальная танцевальная школа, где искусство балета и выразительность
+          художественной гимнастики соединяются с современными танцевальными направлениями, создавая новый
+          язык сценического движения.
+        </p>
+      </div>
+
+      <ul class="features">
+        {features.map((feature) => (
+          <li class="feature">
+            <span class="feature-icon">
+              <img src={`${assetPath}/${feature.icon}`} alt="" />
+            </span>
+            <span>{feature.text}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="about-video">
+      <img class="about-video-image" src={`${assetPath}/about-video.png`} alt="Занятие в балетной студии RGballet" />
+      <span class="video-label">
+        <img src={`${assetPath}/about-play.svg`} alt="" />
+        <span>Смотреть видео<br />о нашей студии</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    min-height: 612px;
+    padding: 59px var(--page-gutter) 40px;
+    background: var(--color-surface-primary);
+  }
+
+  .about-grid {
+    display: grid;
+    width: min(100%, var(--container-max-width));
+    margin-inline: auto;
+    grid-template-columns: minmax(0, 983px) minmax(500px, 775px);
+    gap: clamp(40px, 4.27vw, 82px);
+    align-items: start;
+  }
+
+  .about-copy h2 {
+    margin: 0;
+    color: var(--color-accent-primary);
+    font-family: 'Corvetta', 'Cormorant Garamond', serif;
+    font-size: 60px;
+    font-weight: 400;
+    line-height: 100px;
+  }
+
+  .about-content {
+    padding-top: 21px;
+  }
+
+  .about-copy p {
+    max-width: 949px;
+    margin: 40px 0 0;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .about-copy strong {
+    font-weight: 600;
+  }
+
+  .features {
+    display: grid;
+    width: min(100%, 1004px);
+    margin: 77px 0 0 -10px;
+    padding: 0;
+    grid-template-columns: 205px 202px 281px 256px;
+    gap: 20px;
+    list-style: none;
+  }
+
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    font-size: 18px;
+    line-height: 26px;
+    text-align: center;
+  }
+
+  .feature-icon {
+    display: grid;
+    width: 80px;
+    height: 80px;
+    place-items: center;
+  }
+
+  .feature-icon img {
+    max-width: 81px;
+    max-height: 80px;
+  }
+
+  .about-video {
+    position: relative;
+    width: 100%;
+    max-width: 775px;
+    overflow: hidden;
+  }
+
+  .about-video-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .video-label {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--color-surface-primary);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+  }
+
+  .video-label > img {
+    width: 50px;
+    height: 50px;
+  }
+
+  @media (max-width: 1599px) and (min-width: 1200px) {
+    .about-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(460px, 0.85fr);
+    }
+
+    .features {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .feature {
+      font-size: 15px;
+      line-height: 22px;
+    }
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .about {
+      padding-block: 60px;
+    }
+
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about-content {
+      padding-top: 0;
+    }
+
+    .features {
+      width: 100%;
+      margin: 50px 0 0;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .about-video {
+      max-width: 775px;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .about {
+      min-height: 810px;
+      padding: 70px 20px 70px;
+    }
+
+    .about-grid {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .about-content {
+      padding-top: 0;
+    }
+
+    .about-copy h2 {
+      font-size: 40px;
+      line-height: 70px;
+    }
+
+    .about-copy p {
+      margin-top: 30px;
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    .features {
+      width: 100%;
+      margin: 24px 0 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 16px;
+      row-gap: 16px;
+    }
+
+    .feature {
+      min-height: 110px;
+      gap: 16px;
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+    }
+
+    .feature-icon img {
+      max-width: 50px;
+      max-height: 50px;
+    }
+
+    .about-video {
+      width: 100%;
+      max-width: none;
+      margin-top: 30px;
+    }
+
+    .about-video-image {
+      aspect-ratio: 320 / 212;
+      object-fit: cover;
+    }
+
+    .video-label {
+      top: 20px;
+      right: 20px;
+      gap: 10px;
+      font-size: 12px;
+      line-height: 16px;
+    }
+
+    .video-label > img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+</style>
