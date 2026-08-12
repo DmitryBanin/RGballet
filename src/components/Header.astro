@@ -1,4 +1,6 @@
 ---
+import { contacts } from '../config/contacts.js';
+
 const leftNavigation = [
   { label: 'О нас', href: '#about' },
   { label: 'Наши педагоги', href: '#teachers' },
@@ -11,13 +13,13 @@ const rightNavigation = [
   { label: 'Контакты', href: '#contacts' },
 ];
 
-const assetPath = '/images/figma-assets';
+const assetPath = '/images';
 ---
 
 <header class="site-header">
   <div class="header-inner">
     <button class="mobile-menu-button" type="button" aria-label="Открыть меню">
-      <img src={`${assetPath}/mobile-menu.png`} alt="" width="40" height="40" />
+      <img src={`${assetPath}/mobile-menu.png`} alt="" width="40" height="40" />  <!-- заменить mobile-menu.png` на стили -->
     </button>
 
     <nav class="navigation navigation-left" aria-label="Основная навигация">
@@ -31,21 +33,21 @@ const assetPath = '/images/figma-assets';
     <nav class="navigation navigation-right" aria-label="Дополнительная навигация">
       {rightNavigation.map((item) => <a href={item.href}>{item.label}</a>)}
     </nav>
-
+<!-- socials -->
     <div class="socials" aria-label="Контакты">
-      <span class="social-icon" aria-label="Telegram">
-        <img src={`${assetPath}/social-telegram.png`} alt="" width="50" height="50" />
-      </span>
-      <a class="social-icon social-icon-bordered" href="mailto:rg-ballet@mail.ru" aria-label="Написать на электронную почту">
-        <img src={`${assetPath}/social-mail-glyph.svg`} alt="" width="30" height="22" />
+      <a class="social-icon" href={contacts.telegram} aria-label="Открыть Telegram RGballet">
+        <img src={`${assetPath}/social-telegram.svg`} alt="" width="50" height="50" />
       </a>
-      <a class="social-icon social-icon-bordered" href="tel:+79153747556" aria-label="Позвонить в RGballet">
-        <img src={`${assetPath}/social-phone-glyph.svg`} alt="" width="30" height="30" />
+      <a class="social-icon" href={contacts.email.href} aria-label="Написать на электронную почту">
+        <img src={`${assetPath}/social-mail.svg`} alt="" width="50" height="50" />
+      </a>
+      <a class="social-icon" href={contacts.phone.href} aria-label={`Позвонить в RGballet: ${contacts.phone.display}`}>
+        <img src={`${assetPath}/social-phone.svg`} alt="" width="50" height="50" />
       </a>
     </div>
 
-    <a class="mobile-phone" href="tel:+79153747556" aria-label="Позвонить в RGballet">
-      <img src={`${assetPath}/mobile-phone.png`} alt="" width="40" height="40" />
+    <a class="mobile-phone" href={contacts.phone.href} aria-label={`Позвонить в RGballet: ${contacts.phone.display}`}>
+      <img src={`${assetPath}/social-phone.svg`} alt="" width="40" height="40" />
     </a>
   </div>
 </header>
@@ -122,11 +124,6 @@ const assetPath = '/images/figma-assets';
     place-items: center;
   }
 
-  .social-icon-bordered {
-    border: 1px solid var(--color-accent-primary);
-    border-radius: 50%;
-  }
-
   .mobile-menu-button,
   .mobile-phone {
     display: none;
@@ -156,10 +153,6 @@ const assetPath = '/images/figma-assets';
       max-height: 100%;
     }
 
-    .social-icon-bordered img {
-      width: 25px;
-      height: auto;
-    }
   }
 
   @media (max-width: 1199px) {
