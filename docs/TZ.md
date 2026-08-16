@@ -8,19 +8,19 @@ RGballet
 
 **Макеты**
 
-img\\Main\_1920.jpg
+.initial\_data\\img\\Main\_1920.jpg
 
-img\\Form\_open.jpg
+.initial\_data\\img\\Form\_open.jpg
 
-img\\Mob\_Main\_360.jpg
+.initial\_data\\img\\Mob\_Main\_360.jpg
 
-img\\Mob\_Menu\_360.jpg
+.initial\_data\\img\\Mob\_Menu\_360.jpg
 
-img\\Mo\_form\_open.jpg
+.initial\_data\\img\\Mo\_form\_open.jpg
 
 
 
-img\\logo.svg
+public\\images\\logo.svg
 
 
 
