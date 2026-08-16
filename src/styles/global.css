@@ -17,6 +17,20 @@ body {
   font-weight: 300;
 }
 
+.page-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: var(--page-max-width);
+  min-height: 100vh;
+  margin-inline: auto;
+  flex-direction: column;
+  background: var(--color-surface-primary);
+}
+
+.page-wrapper > main {
+  flex: 1 0 auto;
+}
+
 button,
 input,
 textarea,
