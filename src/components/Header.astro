@@ -18,8 +18,18 @@ const assetPath = '/images';
 
 <header class="site-header">
   <div class="header-inner">
-    <button class="mobile-menu-button" type="button" aria-label="Открыть меню">
-      <img src={`${assetPath}/mobile-menu.png`} alt="" width="40" height="40" />  <!-- заменить mobile-menu.png` на стили -->
+    <button class="mobile-menu-button" type="button" aria-label="Открыть меню" aria-expanded="false">
+      <svg class="mobile-menu-icon ham hamRotate ham4" viewBox="0 0 100 100" aria-hidden="true">
+        <path
+          class="line top"
+          d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"
+        />
+        <path class="line middle" d="m 70,50 h -40" />
+        <path
+          class="line bottom"
+          d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"
+        />
+      </svg>
     </button>
 
     <nav class="navigation navigation-left" aria-label="Основная навигация">
@@ -129,6 +139,44 @@ const assetPath = '/images';
     display: none;
   }
 
+  .mobile-menu-icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ham {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transform-origin: center;
+    transition: transform 400ms;
+    user-select: none;
+  }
+
+  .hamRotate.active {
+    transform: rotate(45deg);
+  }
+
+  .line {
+    fill: none;
+    stroke: #000;
+    stroke-width: 5.5;
+    stroke-linecap: round;
+    transition:
+      stroke-dasharray 400ms,
+      stroke-dashoffset 400ms;
+  }
+
+  .ham4 .top,
+  .ham4 .bottom {
+    stroke-dasharray: 40 121;
+  }
+
+  .ham4.active .top,
+  .ham4.active .bottom {
+    stroke-dashoffset: -68px;
+  }
+
   @media (max-width: 1500px) {
     .navigation {
       gap: 34px;
@@ -195,3 +243,15 @@ const assetPath = '/images';
     }
   }
 </style>
+
+<script>
+  const menuButton = document.querySelector('.mobile-menu-button');
+  const menuIcon = menuButton?.querySelector('.ham');
+
+  menuButton?.addEventListener('click', () => {
+    const isActive = menuIcon?.classList.toggle('active') ?? false;
+
+    menuButton.setAttribute('aria-expanded', String(isActive));
+    menuButton.setAttribute('aria-label', isActive ? 'Закрыть меню' : 'Открыть меню');
+  });
+</script>
