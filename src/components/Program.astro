@@ -1,0 +1,253 @@
+---
+const assetPath = '/images';
+
+const programs = [
+  {
+    image: 'program-gymnastics.png',
+    title: 'База художественной гимнастики',
+    description: 'Идеальные линии, контроль тела, владение предметом',
+  },
+  {
+    image: 'program-ballet.png',
+    title: 'Элементы классического балета',
+    description: 'Грацию, выворотность, постановку корпуса и рук',
+  },
+  {
+    image: 'program-modern.png',
+    title: 'Современная хореография',
+    description: 'Динамику, пластику, актуальные стили',
+  },
+];
+---
+
+<section class="program" id="program" aria-labelledby="program-title">
+  <h2 id="program-title">
+    <span class="program-title-desktop">Программа сочетает в себе</span>
+    <span class="program-title-mobile">Программа сочетает<br />в себе</span>
+  </h2>
+
+  <div class="program-cards">
+    {programs.map((program) => (
+      <article class="program-card">
+        <img
+          class="program-image"
+          src={`${assetPath}/${program.image}`}
+          alt=""
+          width="185"
+          height="177"
+          loading="lazy"
+        />
+        <div class="program-copy">
+          <h3>{program.title}</h3>
+          <p>{program.description}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <p class="program-summary">
+    Такой подход позволяет ученикам развивать всесторонние танцевальные навыки и формировать яркий сценический образ.
+  </p>
+</section>
+
+<style>
+  .program {
+    width: min(100%, var(--container-max-width));
+    min-height: 411px;
+    margin: 150px auto 0;
+  }
+
+  h2 {
+    margin: 0;
+    color: var(--color-accent-primary);
+    font-family: 'Corvetta', 'Cormorant Garamond', serif;
+    font-size: 60px;
+    font-weight: 400;
+    line-height: 100px;
+    text-align: center;
+  }
+
+  .program-title-mobile {
+    display: none;
+  }
+
+  .program-cards {
+    display: grid;
+    margin-top: 40px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .program-card {
+    display: flex;
+    min-width: 0;
+    height: 217px;
+    padding: 20px;
+    align-items: flex-start;
+    gap: 22px;
+    background: var(--color-accent-secondary-20);
+    border-radius: 30px;
+    overflow: hidden;
+  }
+
+  .program-image {
+    width: 185px;
+    height: 177px;
+    flex: 0 0 185px;
+    border-radius: 24px;
+    object-fit: cover;
+  }
+
+  .program-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .program-copy h3,
+  .program-copy p {
+    margin: 0;
+  }
+
+  .program-copy h3 {
+    max-width: 341px;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 34px;
+  }
+
+  .program-copy p {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .program-summary {
+    margin: 18px 0 0;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+  }
+
+  @media (max-width: 1919px) {
+    .program {
+      width: auto;
+      margin-inline: var(--page-gutter);
+    }
+  }
+
+  @media (max-width: 1599px) and (min-width: 1200px) {
+    .program-card {
+      gap: 16px;
+    }
+
+    .program-image {
+      width: 155px;
+      flex-basis: 155px;
+    }
+
+    .program-copy h3 {
+      font-size: 20px;
+      line-height: 28px;
+    }
+
+    .program-copy p {
+      font-size: 16px;
+      line-height: 22px;
+    }
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .program {
+      margin-top: 90px;
+    }
+
+    h2 {
+      font-size: 52px;
+      line-height: 80px;
+    }
+
+    .program-cards {
+      max-width: 700px;
+      margin: 35px auto 0;
+      grid-template-columns: 1fr;
+    }
+
+    .program-card {
+      height: 217px;
+    }
+
+    .program-summary {
+      max-width: 700px;
+      margin: 25px auto 0;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .program {
+      width: auto;
+      min-height: 1082px;
+      margin: 70px 20px 0;
+    }
+
+    h2 {
+      height: 180px;
+      font-size: 40px;
+      line-height: 90px;
+    }
+
+    .program-title-desktop {
+      display: none;
+    }
+
+    .program-title-mobile {
+      display: inline;
+    }
+
+    .program-cards {
+      margin-top: 30px;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .program-card {
+      height: 256px;
+      padding: 16px;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .program-card:last-child {
+      height: 236px;
+    }
+
+    .program-image {
+      width: 142px;
+      height: 136px;
+      flex-basis: 136px;
+      border-radius: 22px;
+    }
+
+    .program-copy {
+      width: 100%;
+      gap: 10px;
+    }
+
+    .program-copy h3 {
+      max-width: none;
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .program-copy p {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .program-summary {
+      margin-top: 20px;
+      font-size: 14px;
+      line-height: 24px;
+    }
+  }
+</style>

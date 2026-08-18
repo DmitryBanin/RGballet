@@ -1,0 +1,371 @@
+---
+import GradientButton from './GradientButton.astro';
+
+const assetPath = '/images';
+
+const teachers = [
+  {
+    image: 'teacher-banina.png',
+    name: 'Елена Николаевна Банина',
+    role: 'Основатель и художественный руководитель RG-ballet',
+    education: 'Российский государственный университет спорта «ГЦОЛИФК»',
+    description:
+      'Экс-солистка театра Аллы Духовой «Тодес». Мастер спорта по художественной гимнастике. Член сборной команды России (2011–2015). Чемпионка России и международных соревнований.',
+  },
+  {
+    image: 'teacher-zakharova.png',
+    name: 'Тата Гайковна Захарова',
+    role: 'Педагог-хореограф RG-ballet',
+    education: 'Московская Академия Танца Н.В. Нестеровой. Артистка русского балета.',
+    description: 'Артистка русского балета.\nС 2014 - 2019 г. принимала участие в спектаклях Большого театра.',
+  },
+  {
+    image: 'teacher-spruch.png',
+    name: 'Алина Романовна Спруч',
+    role: 'Педагог-хореограф RG-ballet',
+    education: 'Орловский государственный институт культуры (ОГИК)',
+    description: 'Хореографическое искусство, профиль-педагогика',
+  },
+];
+---
+
+<section class="teachers" id="teachers" aria-labelledby="teachers-title">
+  <header class="teachers-header">
+    <h2 id="teachers-title">Наши педагоги</h2>
+    <p>
+      Команда RG-ballet — это опытные, увлечённые своим делом педагоги, которые с любовью передают ученикам мастерство
+      и вдохновение. Мы стремимся раскрыть творческий потенциал каждого ученика и дать возможность блистать на сцене!
+    </p>
+  </header>
+
+  <div class="teacher-cards">
+    {teachers.map((teacher, index) => (
+      <article class="teacher-card">
+        <div class="teacher-top">
+          <img
+            class="teacher-image"
+            src={`${assetPath}/${teacher.image}`}
+            alt={teacher.name}
+            width="210"
+            height="382"
+            loading="lazy"
+          />
+          <div class="teacher-intro">
+            <h3>{teacher.name}</h3>
+            <p class="teacher-role">{teacher.role}</p>
+          </div>
+        </div>
+
+        <div class="teacher-details">
+          <p>{teacher.education}</p>
+          <p class:list={{ 'banina-description': index === 0 }}>
+            {index === 0 ? (
+              <>
+                Экс-солистка театра <span class="desktop-only">Аллы Духовой </span>«Тодес». Мастер спорта по
+                художественной гимнастике. Член сборной команды России (2011–2015). Чемпионка России и международных
+                соревнований.
+              </>
+            ) : (
+              teacher.description.split('\n').map((line) => <span>{line}</span>)
+            )}
+          </p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="teachers-footer">
+    <p>
+      Каждый из нас — не просто тренер или хореограф, а настоящий творец, для кого танец и искусство движения стали
+      образом жизни.
+    </p>
+    <GradientButton label="Смотреть расписание" />
+  </div>
+</section>
+
+<style>
+  .teachers {
+    width: min(100%, var(--container-max-width));
+    min-height: 827px;
+    margin: 150px auto 0;
+  }
+
+  .teachers-header {
+    display: flex;
+    height: 190px;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .teachers-header h2,
+  .teachers-header p,
+  .teacher-intro h3,
+  .teacher-intro p,
+  .teacher-details p,
+  .teachers-footer p {
+    margin: 0;
+  }
+
+  .teachers-header h2 {
+    width: 100%;
+    color: var(--color-accent-primary);
+    font-family: 'Corvetta', 'Cormorant Garamond', serif;
+    font-size: 60px;
+    font-weight: 400;
+    line-height: 100px;
+  }
+
+  .teachers-header p {
+    width: min(100%, 1161px);
+    font-size: 20px;
+    line-height: 30px;
+    opacity: 0.8;
+  }
+
+  .teacher-cards {
+    display: grid;
+    margin-top: 30px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .teacher-card {
+    display: grid;
+    height: 428px;
+    padding: 20px;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 22px;
+    background: var(--color-accent-secondary-10);
+    border-radius: 30px;
+    overflow: hidden;
+  }
+
+  .teacher-top {
+    display: contents;
+  }
+
+  .teacher-image {
+    width: 210px;
+    height: 382px;
+    grid-row: 1;
+    border-radius: 26px;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .teacher-intro,
+  .teacher-details {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .teacher-intro {
+    display: flex;
+    z-index: 1;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .teacher-intro h3 {
+    max-width: 281px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 40px;
+  }
+
+  .teacher-role {
+    font-size: 16px;
+    line-height: 22px;
+    opacity: 0.7;
+  }
+
+  .teacher-details {
+    display: flex;
+    padding-top: 126px;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .teacher-details span:not(.desktop-only) {
+    display: block;
+  }
+
+  .teachers-footer {
+    display: flex;
+    width: min(100%, 1019px);
+    margin: 30px auto 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .teachers-footer p {
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+  }
+
+  @media (max-width: 1919px) {
+    .teachers {
+      width: auto;
+      margin-inline: var(--page-gutter);
+    }
+  }
+
+  @media (max-width: 1599px) and (min-width: 1200px) {
+    .teacher-card {
+      grid-template-columns: minmax(160px, 38%) minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .teacher-image {
+      width: 100%;
+    }
+
+    .teacher-intro h3 {
+      font-size: 28px;
+      line-height: 34px;
+    }
+
+    .teacher-role {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .teacher-details {
+      padding-top: 115px;
+      font-size: 15px;
+      line-height: 21px;
+    }
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .teachers {
+      margin-top: 90px;
+    }
+
+    .teachers-header {
+      height: auto;
+    }
+
+    .teachers-header h2 {
+      font-size: 52px;
+      line-height: 80px;
+    }
+
+    .teacher-cards {
+      max-width: 700px;
+      margin-inline: auto;
+      grid-template-columns: 1fr;
+    }
+
+    .teachers-footer {
+      max-width: 700px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .teachers {
+      width: auto;
+      min-height: 1474px;
+      margin: 70px 20px 0;
+    }
+
+    .teachers-header {
+      height: 222px;
+      gap: 30px;
+    }
+
+    .teachers-header h2 {
+      font-size: 40px;
+      line-height: 60px;
+    }
+
+    .teachers-header p {
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    .teacher-cards {
+      margin-top: 30px;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .teacher-card {
+      display: block;
+      height: 374px;
+      padding: 15px 16px 16px;
+      background: var(--color-accent-secondary-10);
+      border: 1px solid transparent;
+    }
+
+    .teacher-card:first-child {
+      border-color: var(--color-accent-primary);
+    }
+
+    .teacher-card:nth-child(2) {
+      height: 332px;
+    }
+
+    .teacher-card:nth-child(3) {
+      height: 302px;
+    }
+
+    .teacher-top {
+      display: grid;
+      height: 146px;
+      grid-template-columns: 136px minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .teacher-image {
+      width: 136px;
+      height: 146px;
+      border-radius: 20px;
+    }
+
+    .teacher-intro {
+      grid-column: auto;
+      grid-row: auto;
+      gap: 10px;
+    }
+
+    .teacher-intro h3 {
+      font-size: 22px;
+      line-height: 26px;
+    }
+
+    .teacher-role {
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    .teacher-details {
+      padding-top: 23px;
+      gap: 6px;
+      font-size: 14px;
+      line-height: 24px;
+    }
+
+    .desktop-only {
+      display: none;
+    }
+
+    .teachers-footer {
+      width: 100%;
+      margin-top: 30px;
+      gap: 20px;
+    }
+
+    .teachers-footer p {
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+const { label } = Astro.props;
+---
+
+<button class="gradient-button" type="button">{label}</button>
+
+<style>
+  .gradient-button {
+    display: flex;
+    min-height: 59px;
+    padding: 16px 70px;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-surface-primary);
+    background: linear-gradient(180deg, var(--color-button-gradient-start), var(--color-button-gradient-end));
+    border: 0;
+    border-radius: 30px;
+    box-shadow:
+      0 6px 14px var(--color-button-shadow-18),
+      0 18px 40px var(--color-button-gradient-start-28);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 27px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  @media (max-width: 767px) {
+    .gradient-button {
+      width: 320px;
+      max-width: calc(100vw - 40px);
+      min-height: 54px;
+      padding: 16px 36px;
+      font-size: 16px;
+      line-height: 22px;
+    }
+  }
+</style>

@@ -1,0 +1,79 @@
+---
+import GradientButton from './GradientButton.astro';
+---
+
+<section class="invitation" aria-labelledby="invitation-title">
+  <div class="invitation-content">
+    <h2 id="invitation-title">Мы приглашаем вас в нашу дружную танцевальную семью!</h2>
+    <GradientButton label="Записаться" />
+  </div>
+</section>
+
+<style>
+  .invitation {
+    display: flex;
+    height: 364px;
+    margin-top: 110px;
+    padding-inline: var(--page-gutter);
+    align-items: flex-start;
+    justify-content: center;
+    background: var(--color-accent-secondary-20);
+  }
+
+  .invitation-content {
+    display: flex;
+    width: min(100%, 1450px);
+    padding-top: 50px;
+    flex-direction: column;
+    align-items: center;
+    gap: 45px;
+  }
+
+  h2 {
+    margin: 0;
+    font-family: 'Corvetta', 'Cormorant Garamond', serif;
+    font-size: 50px;
+    font-weight: 400;
+    line-height: 80px;
+    text-align: center;
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .invitation {
+      height: 330px;
+      margin-top: 70px;
+    }
+
+    .invitation-content {
+      padding-top: 45px;
+      gap: 35px;
+    }
+
+    h2 {
+      max-width: 900px;
+      font-size: 44px;
+      line-height: 64px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .invitation {
+      height: 294px;
+      margin-top: 0;
+      padding-inline: 20px;
+    }
+
+    .invitation-content {
+      width: 320px;
+      max-width: 100%;
+      padding-top: 30px;
+      gap: 30px;
+    }
+
+    h2 {
+      height: 150px;
+      font-size: 34px;
+      line-height: 50px;
+    }
+  }
+</style>
