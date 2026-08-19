@@ -1,0 +1,78 @@
+---
+import GradientButton from './GradientButton.astro';
+---
+
+<section class="recruitment" aria-labelledby="recruitment-title">
+  <div class="recruitment-content">
+    <h2 id="recruitment-title">Открыт набор девочек с 4-х лет, а также взрослых!</h2>
+    <GradientButton label="Записаться на пробное занятие" />
+  </div>
+</section>
+
+<style>
+  .recruitment {
+    display: flex;
+    height: 364px;
+    margin-top: 150px;
+    padding-inline: var(--page-gutter);
+    justify-content: center;
+    background: var(--color-accent-secondary-20);
+  }
+
+  .recruitment-content {
+    display: flex;
+    width: min(100%, 1371px);
+    padding-top: 50px;
+    flex-direction: column;
+    align-items: center;
+    gap: 45px;
+  }
+
+  h2 {
+    margin: 0;
+    font-family: 'Corvetta', 'Cormorant Garamond', serif;
+    font-size: 50px;
+    font-weight: 400;
+    line-height: 80px;
+    text-align: center;
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .recruitment {
+      height: 330px;
+      margin-top: 90px;
+    }
+
+    .recruitment-content {
+      padding-top: 45px;
+      gap: 35px;
+    }
+
+    h2 {
+      max-width: 900px;
+      font-size: 44px;
+      line-height: 64px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .recruitment {
+      height: 294px;
+      margin-top: 54px;
+      padding-inline: 20px;
+    }
+
+    .recruitment-content {
+      width: 320px;
+      max-width: 100%;
+      padding-top: 30px;
+      gap: 30px;
+    }
+
+    h2 {
+      height: 150px;
+      font-size: 34px;
+      line-height: 50px;
+    }
+  }
+</style>

@@ -1,0 +1,196 @@
+---
+const assetPath = '/images';
+
+const opportunities = [
+  { icon: 'opportunity-education.svg', text: 'Обучение на высоком уровне' },
+  { icon: 'opportunity-filming.svg', text: 'Участие в съемках, клипах и проектах' },
+  { icon: 'opportunity-masterclasses.svg', text: 'Интенсивные курсы и мастер-классы от ведущих педагогов' },
+  { icon: 'opportunity-costumes.svg', text: 'Индивидуальный пошив костюмов' },
+  { icon: 'opportunity-concerts.svg', text: 'Ежегодные отчетные концерты' },
+  { icon: 'opportunity-events.svg', text: 'Выступления на городских мероприятиях' },
+  { icon: 'opportunity-show.svg', text: 'Возможность войти в основной состав RG-ballet и участвовать в шоу' },
+  { icon: 'opportunity-contests.svg', text: 'Конкурсы и фестивали зарубежом.' },
+];
+---
+
+<section class="opportunities" aria-labelledby="opportunities-title" data-opportunities>
+  <h2 id="opportunities-title">Возможности для учеников</h2>
+
+  <div class="opportunity-grid">
+    {opportunities.map((item, index) => (
+      <article class:list={['opportunity-card', { 'mobile-extra': index > 3 }]}>
+        <span class="opportunity-icon">
+          <img src={`${assetPath}/${item.icon}`} alt="" loading="lazy" />
+        </span>
+        <p>{item.text}</p>
+      </article>
+    ))}
+  </div>
+
+  <button class="show-all" type="button" aria-expanded="false">Смотреть все</button>
+</section>
+
+<script>
+  document.querySelectorAll('[data-opportunities]').forEach((section) => {
+    const button = section.querySelector('.show-all');
+
+    button?.addEventListener('click', () => {
+      const expanded = section.classList.toggle('is-expanded');
+      button.setAttribute('aria-expanded', String(expanded));
+      button.textContent = expanded ? 'Скрыть' : 'Смотреть все';
+    });
+  });
+</script>
+
+<style>
+  .opportunities {
+    width: min(100%, var(--container-max-width));
+    min-height: 604px;
+    margin: 150px auto 0;
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    height: 100px;
+    color: var(--color-accent-primary);
+    font-family: 'Corvetta', 'Cormorant Garamond', serif;
+    font-size: 60px;
+    font-weight: 400;
+    line-height: 100px;
+    text-align: center;
+  }
+
+  .opportunity-grid {
+    display: grid;
+    margin-top: 50px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .opportunity-card {
+    display: flex;
+    height: 217px;
+    padding: 30px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 17px;
+    background: var(--color-surface-primary);
+    border-radius: 30px;
+    box-shadow: 0 0 20px var(--color-accent-secondary-20);
+  }
+
+  .opportunity-icon {
+    display: grid;
+    width: 80px;
+    height: 80px;
+    flex: 0 0 80px;
+    place-items: center;
+  }
+
+  .opportunity-icon img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+  }
+
+  .opportunity-card p {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .show-all {
+    display: none;
+  }
+
+  @media (max-width: 1919px) {
+    .opportunities {
+      width: auto;
+      margin-inline: var(--page-gutter);
+    }
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .opportunities {
+      min-height: auto;
+      margin-top: 90px;
+    }
+
+    h2 {
+      font-size: 52px;
+      line-height: 80px;
+    }
+
+    .opportunity-grid {
+      margin-top: 30px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .opportunities {
+      width: auto;
+      min-height: 542px;
+      margin: 70px 20px 0;
+    }
+
+    h2 {
+      height: 120px;
+      font-size: 40px;
+      line-height: 60px;
+    }
+
+    .opportunity-grid {
+      margin-top: 30px;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .opportunity-card {
+      height: 76px;
+      padding: 16px;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      border-radius: 20px;
+    }
+
+    .opportunity-icon {
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+    }
+
+    .opportunity-card p {
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    .mobile-extra {
+      display: none;
+    }
+
+    .is-expanded .mobile-extra {
+      display: flex;
+    }
+
+    .show-all {
+      display: block;
+      width: 100%;
+      margin-top: 16px;
+      padding: 0;
+      color: var(--color-accent-primary);
+      background: transparent;
+      border: 0;
+      font-size: 14px;
+      line-height: 24px;
+      text-align: right;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+</style>
