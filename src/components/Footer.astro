@@ -2,7 +2,7 @@
 import { contacts } from '../config/contacts.js';
 import GradientButton from './GradientButton.astro';
 
-const assetPath = '/images';
+const assetPath = `${import.meta.env.BASE_URL}/images`;
 ---
 
 <footer class="site-footer">

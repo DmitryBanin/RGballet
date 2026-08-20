@@ -1,7 +1,7 @@
 ---
 import GradientButton from './GradientButton.astro';
 
-const assetPath = '/images';
+const assetPath = `${import.meta.env.BASE_URL}/images`;
 
 const prices = [
   { icon: 'pricing-trial.svg', title: 'Первое пробное занятие', desktopTitle: ['Первое', 'пробное занятие'], price: 'Бесплатно' },
@@ -11,7 +11,12 @@ const prices = [
 ];
 ---
 
-<section class="pricing" id="pricing" aria-labelledby="pricing-title">
+<section
+  class="pricing"
+  id="pricing"
+  aria-labelledby="pricing-title"
+  style={`--pricing-background-desktop: url("${assetPath}/pricing-background-desktop.png"); --pricing-background-mobile: url("${assetPath}/pricing-background-mobile.png");`}
+>
   <div class="pricing-inner">
     <h2 id="pricing-title">Стоимость</h2>
 
@@ -50,7 +55,7 @@ const prices = [
   .pricing {
     height: 801px;
     margin-top: 150px;
-    background: url('/images/pricing-background-desktop.png') center / cover no-repeat;
+    background: var(--pricing-background-desktop) center / cover no-repeat;
   }
 
   .pricing-inner {
@@ -222,7 +227,7 @@ const prices = [
     .pricing {
       height: 767px;
       margin-top: 70px;
-      background-image: url('/images/pricing-background-mobile.png');
+      background-image: var(--pricing-background-mobile);
     }
 
     .pricing-inner {
