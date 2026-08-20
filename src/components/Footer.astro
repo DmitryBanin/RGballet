@@ -44,10 +44,19 @@ const assetPath = '/images';
           <span class="contact-icon"><img src={`${assetPath}/contact-phone.svg`} alt="" /></span>
           <strong>{contacts.phone.display}</strong>
         </a>
-        <div class="contact">
+        <a
+          class="contact"
+          href={contacts.map.desktop}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Открыть адрес в Яндекс Картах"
+          data-map-link
+          data-android-map={contacts.map.android}
+          data-ios-map={contacts.map.ios}
+        >
           <span class="contact-icon"><img src={`${assetPath}/contact-location.svg`} alt="" /></span>
           <span>{contacts.address}</span>
-        </div>
+        </a>
         <a class="contact" href={contacts.email.href}>
           <span class="contact-icon"><img src={`${assetPath}/contact-mail.svg`} alt="" /></span>
           <span>{contacts.email.display}</span>
@@ -91,6 +100,29 @@ const assetPath = '/images';
     <p class="copyright">© RG BALLET, 2026</p>
   </div>
 </footer>
+
+<script>
+  const mapLink = document.querySelector('[data-map-link]');
+
+  if (mapLink instanceof HTMLAnchorElement) {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS =
+      /iPad|iPhone|iPod/i.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    if (isAndroid && mapLink.dataset.androidMap) {
+      mapLink.href = mapLink.dataset.androidMap;
+      mapLink.removeAttribute('target');
+      mapLink.removeAttribute('rel');
+      mapLink.setAttribute('aria-label', 'Открыть адрес в приложении карт');
+    } else if (isIOS && mapLink.dataset.iosMap) {
+      mapLink.href = mapLink.dataset.iosMap;
+      mapLink.removeAttribute('target');
+      mapLink.removeAttribute('rel');
+      mapLink.setAttribute('aria-label', 'Открыть адрес в Apple Maps');
+    }
+  }
+</script>
 
 <style>
   .site-footer {
