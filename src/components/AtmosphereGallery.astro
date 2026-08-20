@@ -1,0 +1,307 @@
+---
+const assetPath = '/images';
+
+const photos = [
+  { image: 'atmosphere-1.png', alt: 'Сольное выступление ученицы RG-ballet' },
+  { image: 'atmosphere-2.png', alt: 'Ученицы RG-ballet после занятия' },
+  { image: 'atmosphere-3.png', alt: 'Сценический номер RG-ballet' },
+  { image: 'atmosphere-4.png', alt: 'Выступление коллектива RG-ballet' },
+  { image: 'atmosphere-5.png', alt: 'Ученицы RG-ballet с наградами' },
+  { image: 'atmosphere-6.png', alt: 'Ученицы RG-ballet перед выступлением' },
+];
+---
+
+<section class="atmosphere" aria-labelledby="atmosphere-title" data-atmosphere-gallery>
+  <header class="atmosphere-header">
+    <h2 id="atmosphere-title">Погрузитесь в атмосферу вдохновения!</h2>
+    <p>
+      <strong>Присоединяйтесь к RG-ballet</strong> и окунитесь в мир творчества и танца, где ты раскроешь свой
+      потенциал, а также обретёшь новых друзей. <strong>У нас тёплая атмосфера и индивидуальный подход к каждому клиенту.</strong>
+    </p>
+  </header>
+
+  <div class="atmosphere-grid">
+    {photos.map((photo) => (
+      <img src={`${assetPath}/${photo.image}`} alt={photo.alt} width="290" height="340" loading="lazy" />
+    ))}
+  </div>
+
+  <div class="atmosphere-controls" aria-label="Управление галереей">
+    <button class="atmosphere-arrow prev" type="button" aria-label="Предыдущая фотография" data-atmosphere-prev>
+      <img src={`${assetPath}/students-arrow.svg`} alt="" width="30" height="30" />
+    </button>
+    <button class="atmosphere-arrow next" type="button" aria-label="Следующая фотография" data-atmosphere-next>
+      <img src={`${assetPath}/students-arrow.svg`} alt="" width="30" height="30" />
+    </button>
+  </div>
+
+  <div class="atmosphere-slider" aria-live="polite">
+    {photos.slice(0, 5).map((photo, index) => (
+      <img
+        class:list={['atmosphere-slide', { 'is-active': index === 0 }]}
+        src={`${assetPath}/${photo.image}`}
+        alt={photo.alt}
+        width="320"
+        height="437"
+        loading="lazy"
+        data-atmosphere-slide
+      />
+    ))}
+  </div>
+
+  <div class="atmosphere-dots" aria-label="Выбор фотографии">
+    {photos.slice(0, 5).map((_, index) => (
+      <button
+        class:list={['atmosphere-dot', { 'is-active': index === 0 }]}
+        type="button"
+        aria-label={`Фотография ${index + 1}`}
+        aria-current={index === 0 ? 'true' : undefined}
+        data-atmosphere-dot={index}
+      />
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-atmosphere-gallery]').forEach((gallery) => {
+    const slides = [...gallery.querySelectorAll('[data-atmosphere-slide]')];
+    const dots = [...gallery.querySelectorAll('[data-atmosphere-dot]')];
+    const previousButton = gallery.querySelector('[data-atmosphere-prev]');
+    const nextButton = gallery.querySelector('[data-atmosphere-next]');
+    let current = 0;
+
+    const update = (nextIndex) => {
+      current = Math.min(Math.max(nextIndex, 0), slides.length - 1);
+      slides.forEach((slide, index) => slide.classList.toggle('is-active', index === current));
+      dots.forEach((dot, index) => {
+        const active = index === current;
+        dot.classList.toggle('is-active', active);
+        active ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current');
+      });
+      if (previousButton) previousButton.disabled = current === 0;
+      if (nextButton) nextButton.disabled = current === slides.length - 1;
+    };
+
+    previousButton?.addEventListener('click', () => update(current - 1));
+    nextButton?.addEventListener('click', () => update(current + 1));
+    dots.forEach((dot, index) => dot.addEventListener('click', () => update(index)));
+    update(0);
+  });
+</script>
+
+<style>
+  .atmosphere {
+    width: min(100%, var(--container-max-width));
+    min-height: 578px;
+    margin: 150px auto 0;
+  }
+
+  .atmosphere-header {
+    display: flex;
+    height: 198px;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    width: 100%;
+    color: var(--color-accent-primary);
+    font-family: 'Corvetta', 'Cormorant Garamond', serif;
+    font-size: 60px;
+    font-weight: 400;
+    line-height: 100px;
+  }
+
+  .atmosphere-header p {
+    width: min(100%, 1551px);
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  .atmosphere-header strong {
+    font-weight: 600;
+  }
+
+  .atmosphere-grid {
+    display: grid;
+    height: 340px;
+    margin-top: 40px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .atmosphere-grid img {
+    width: 100%;
+    height: 340px;
+    border-radius: 30px;
+    object-fit: cover;
+  }
+
+  .atmosphere-controls,
+  .atmosphere-slider,
+  .atmosphere-dots {
+    display: none;
+  }
+
+  @media (max-width: 1919px) {
+    .atmosphere {
+      width: auto;
+      margin-inline: var(--page-gutter);
+    }
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .atmosphere {
+      min-height: auto;
+      margin-top: 90px;
+    }
+
+    .atmosphere-header {
+      height: auto;
+    }
+
+    h2 {
+      font-size: 52px;
+      line-height: 80px;
+    }
+
+    .atmosphere-header p {
+      font-size: 20px;
+      line-height: 30px;
+    }
+
+    .atmosphere-grid {
+      height: auto;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .atmosphere-grid img {
+      height: 320px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .atmosphere {
+      width: auto;
+      min-height: 856px;
+      margin: 70px 20px 0;
+    }
+
+    .atmosphere-header {
+      height: 320px;
+      gap: 30px;
+    }
+
+    h2 {
+      height: 180px;
+      font-size: 32px;
+      line-height: 60px;
+    }
+
+    .atmosphere-header p {
+      width: 320px;
+      max-width: 100%;
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    .atmosphere-grid {
+      display: none;
+    }
+
+    .atmosphere-controls {
+      display: flex;
+      height: 30px;
+      margin-top: 20px;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .atmosphere-arrow {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      place-items: center;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .atmosphere-arrow img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .atmosphere-arrow.prev img {
+      transform: scaleX(-1);
+    }
+
+    .atmosphere-arrow:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .atmosphere-slider {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 437px;
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 30px;
+      background: var(--color-photo-placeholder);
+    }
+
+    .atmosphere-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      object-fit: cover;
+      transition: opacity 200ms ease;
+    }
+
+    .atmosphere-slide.is-active {
+      z-index: 1;
+      opacity: 1;
+    }
+
+    .atmosphere-dots {
+      display: flex;
+      height: 16px;
+      margin-top: 19px;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .atmosphere-dot {
+      width: 16px;
+      height: 16px;
+      padding: 0;
+      background: transparent;
+      border: 2px solid var(--color-accent-primary);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .atmosphere-dot.is-active {
+      background: var(--color-accent-primary);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .atmosphere-slide {
+      transition: none;
+    }
+  }
+</style>

@@ -9,4 +9,5 @@ export const contacts = {
     display: 'rg-ballet@mail.ru',
     href: 'mailto:rg-ballet@mail.ru',
   },
+  address: 'Октябрьский проспект 186 2-й этаж',
 };

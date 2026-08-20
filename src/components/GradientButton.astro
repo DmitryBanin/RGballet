@@ -1,8 +1,8 @@
 ---
-const { label } = Astro.props;
+const { label, fullWidth = false, disabled = false } = Astro.props;
 ---
 
-<button class="gradient-button" type="button">{label}</button>
+<button class:list={['gradient-button', { 'full-width': fullWidth }]} type="button" disabled={disabled}>{label}</button>
 
 <style>
   .gradient-button {
@@ -23,6 +23,15 @@ const { label } = Astro.props;
     line-height: 27px;
     white-space: nowrap;
     cursor: pointer;
+  }
+
+  .gradient-button.full-width {
+    width: 100%;
+  }
+
+  .gradient-button:disabled {
+    opacity: 1;
+    cursor: default;
   }
 
   @media (max-width: 767px) {

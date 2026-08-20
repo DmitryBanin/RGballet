@@ -1,0 +1,318 @@
+---
+import GradientButton from './GradientButton.astro';
+
+const assetPath = '/images';
+
+const prices = [
+  { icon: 'pricing-trial.svg', title: 'Первое пробное занятие', desktopTitle: ['Первое', 'пробное занятие'], price: 'Бесплатно' },
+  { icon: 'pricing-subscription.svg', title: 'Абонемент на месяц', desktopTitle: ['Абонемент', 'на месяц'], price: '7 700 ₽' },
+  { icon: 'pricing-group.svg', title: 'Разовое занятие в группе', desktopTitle: ['Разовое занятие', 'в группе'], price: '800 ₽' },
+  { icon: 'pricing-individual.svg', title: 'Индивидуальное занятие', desktopTitle: ['Индивидуальное', 'занятие'], price: '3 500 ₽' },
+];
+---
+
+<section class="pricing" id="pricing" aria-labelledby="pricing-title">
+  <div class="pricing-inner">
+    <h2 id="pricing-title">Стоимость</h2>
+
+    <div class="price-grid">
+      {prices.map((item) => (
+        <article class="price-card">
+          <span class="price-icon">
+            <img src={`${assetPath}/${item.icon}`} alt="" loading="lazy" />
+          </span>
+          <div class="price-copy">
+            <p class="price-title">
+              <span class="mobile-title">{item.title}</span>
+              <span class="desktop-title">{item.desktopTitle.map((line) => <span>{line}</span>)}</span>
+            </p>
+            <p class="price-value">{item.price}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="discount">
+      <img src={`${assetPath}/pricing-discount.png`} alt="" width="116" height="116" loading="lazy" />
+      <div>
+        <p class="discount-title">Скидка до <strong>20%</strong></p>
+        <p class="discount-note">для льготных категорий, а также второго члена семьи.</p>
+      </div>
+    </div>
+
+    <div class="pricing-action">
+      <GradientButton label="Записаться на пробное занятие" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing {
+    height: 801px;
+    margin-top: 150px;
+    background: url('/images/pricing-background-desktop.png') center / cover no-repeat;
+  }
+
+  .pricing-inner {
+    width: min(100%, var(--container-max-width));
+    height: 100%;
+    margin-inline: auto;
+    padding-top: 70px;
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    height: 100px;
+    font-family: 'Corvetta', 'Cormorant Garamond', serif;
+    font-size: 60px;
+    font-weight: 400;
+    line-height: 100px;
+  }
+
+  .price-grid {
+    display: grid;
+    width: 1220px;
+    margin-top: 30px;
+    grid-template-columns: repeat(4, 290px);
+    gap: 20px;
+  }
+
+  .price-card {
+    display: flex;
+    height: 314px;
+    padding-top: 40px;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    background: var(--color-surface-primary);
+    border-radius: 30px;
+    box-shadow: 0 0 12px var(--color-accent-secondary-30);
+  }
+
+  .price-icon {
+    display: grid;
+    width: 90px;
+    height: 90px;
+    place-items: center;
+  }
+
+  .price-icon img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+  }
+
+  .price-copy {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .price-title {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .desktop-title,
+  .desktop-title span {
+    display: block;
+  }
+
+  .mobile-title {
+    display: none;
+  }
+
+  .price-value {
+    color: var(--color-accent-primary);
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 40px;
+    text-transform: uppercase;
+  }
+
+  .discount {
+    display: flex;
+    width: 1220px;
+    height: 177px;
+    margin-top: 40px;
+    padding: 28px 49px;
+    align-items: center;
+    gap: 49px;
+    border: 1px solid var(--color-accent-secondary);
+    border-radius: 30px;
+    box-shadow: 0 0 12px var(--color-accent-secondary-40);
+  }
+
+  .discount > img {
+    width: 116px;
+    height: 116px;
+    flex: 0 0 116px;
+  }
+
+  .discount-title {
+    font-size: 70px;
+    line-height: 80px;
+  }
+
+  .discount-title strong {
+    color: var(--color-accent-primary);
+    font-weight: 500;
+  }
+
+  .discount-note {
+    font-size: 20px;
+    line-height: 40px;
+  }
+
+  .pricing-action {
+    display: flex;
+    width: 1220px;
+    margin-top: 10px;
+    justify-content: center;
+  }
+
+  @media (max-width: 1919px) {
+    .pricing-inner {
+      width: auto;
+      margin-inline: var(--page-gutter);
+    }
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .pricing {
+      height: auto;
+      min-height: 990px;
+      background-position: 62% center;
+    }
+
+    .pricing-inner {
+      padding-block: 60px;
+    }
+
+    h2 {
+      font-size: 52px;
+      line-height: 80px;
+    }
+
+    .price-grid {
+      width: 600px;
+      grid-template-columns: repeat(2, 290px);
+    }
+
+    .discount,
+    .pricing-action {
+      width: 600px;
+    }
+
+    .discount-title {
+      font-size: 42px;
+      line-height: 54px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .pricing {
+      height: 767px;
+      margin-top: 70px;
+      background-image: url('/images/pricing-background-mobile.png');
+    }
+
+    .pricing-inner {
+      width: 320px;
+      max-width: calc(100% - 40px);
+      margin-inline: auto;
+      padding-top: 30px;
+    }
+
+    h2 {
+      height: 60px;
+      font-size: 40px;
+      line-height: 60px;
+    }
+
+    .price-grid {
+      width: 287px;
+      margin-top: 26px;
+      grid-template-columns: 287px;
+      gap: 16px;
+    }
+
+    .price-card {
+      height: 88px;
+      padding: 16px;
+      flex-direction: row;
+      gap: 20px;
+      border-radius: 20px;
+    }
+
+    .price-icon {
+      width: 50px;
+      height: 50px;
+      flex: 0 0 50px;
+    }
+
+    .price-copy {
+      width: auto;
+      flex: 1;
+      align-items: flex-start;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .price-title {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .desktop-title {
+      display: none;
+    }
+
+    .mobile-title {
+      display: block;
+    }
+
+    .price-value {
+      font-size: 20px;
+      line-height: 28px;
+    }
+
+    .discount {
+      width: 320px;
+      height: 123px;
+      margin-top: 20px;
+      padding: 15px 8px;
+      gap: 20px;
+    }
+
+    .discount > img {
+      width: 60px;
+      height: 60px;
+      flex-basis: 60px;
+    }
+
+    .discount-title {
+      font-size: 30px;
+      line-height: 40px;
+    }
+
+    .discount-note {
+      max-width: 215px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .pricing-action {
+      width: 320px;
+      margin-top: 24px;
+    }
+  }
+</style>
