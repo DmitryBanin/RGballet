@@ -77,9 +77,9 @@ const prices = [
 
   .price-grid {
     display: grid;
-    width: 1220px;
+    width: min(100%, 1220px);
     margin-top: 30px;
-    grid-template-columns: repeat(4, 290px);
+    grid-template-columns: repeat(4, minmax(0, 290px));
     gap: 20px;
   }
 
@@ -142,7 +142,7 @@ const prices = [
 
   .discount {
     display: flex;
-    width: 1220px;
+    width: min(100%, 1220px);
     height: 177px;
     margin-top: 40px;
     padding: 28px 49px;
@@ -176,7 +176,7 @@ const prices = [
 
   .pricing-action {
     display: flex;
-    width: 1220px;
+    width: min(100%, 1220px);
     margin-top: 10px;
     justify-content: center;
   }
