@@ -67,15 +67,25 @@ const desktopOrder = [students[0], students[5], students[1], students[2], studen
 
 <script>
   document.querySelectorAll('[data-students-gallery]').forEach((gallery) => {
-    const slides = [...gallery.querySelectorAll('[data-gallery-slide]')];
-    const dots = [...gallery.querySelectorAll('[data-gallery-dot]')];
-    const tiles = [...gallery.querySelectorAll('[data-gallery-tile]')];
-    const previousButtons = [...gallery.querySelectorAll('[data-gallery-prev]')];
-    const nextButtons = [...gallery.querySelectorAll('[data-gallery-next]')];
+    const slides = [...gallery.querySelectorAll('[data-gallery-slide]')].filter(
+      (element) => element instanceof HTMLImageElement,
+    );
+    const dots = [...gallery.querySelectorAll('[data-gallery-dot]')].filter(
+      (element) => element instanceof HTMLButtonElement,
+    );
+    const tiles = [...gallery.querySelectorAll('[data-gallery-tile]')].filter(
+      (element) => element instanceof HTMLImageElement,
+    );
+    const previousButtons = [...gallery.querySelectorAll('[data-gallery-prev]')].filter(
+      (element) => element instanceof HTMLButtonElement,
+    );
+    const nextButtons = [...gallery.querySelectorAll('[data-gallery-next]')].filter(
+      (element) => element instanceof HTMLButtonElement,
+    );
     const initialTiles = tiles.map((tile) => ({ src: tile.src, alt: tile.alt }));
     let current = 0;
 
-    const update = (nextIndex) => {
+    const update = (nextIndex = 0) => {
       current = Math.min(Math.max(nextIndex, 0), slides.length - 1);
 
       slides.forEach((slide, index) => slide.classList.toggle('is-active', index === current));
@@ -86,6 +96,8 @@ const desktopOrder = [students[0], students[5], students[1], students[2], studen
       });
       tiles.forEach((tile, index) => {
         const image = initialTiles[(index + current) % initialTiles.length];
+        if (!image) return;
+
         tile.src = image.src;
         tile.alt = image.alt;
       });
