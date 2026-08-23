@@ -64,10 +64,11 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
       </div>
 
       <div class="footer-socials" aria-label="Социальные сети">
-        <a href={contacts.telegram} aria-label="Открыть Vk">
-          <img src={`${assetPath}/social-vk.svg`} alt="" width="50" height="50" />
-        </a>
-        <a href={contacts.max} aria-label="Открыть MAX">
+      <a href={contacts.vk} target="_blank" rel="noopener noreferrer" aria-label="Открыть VK в новой вкладке"
+      >
+        <img src={`${assetPath}/social-vk.svg`} alt="" width="50" height="50" />
+      </a>
+        <a href={contacts.max} target="_blank" rel="noopener noreferrer" aria-label="Открыть MAX в новой вкладке">
           <img src={`${assetPath}/social-MAX.svg`} alt="" width="50" height="50" />
         </a>
       </div>
