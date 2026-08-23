@@ -1,18 +1,20 @@
 ---
 import GradientButton from './GradientButton.astro';
+
+const { title, buttonLabel, titleId } = Astro.props;
 ---
 
-<section class="invitation" aria-labelledby="invitation-title">
-  <div class="invitation-content">
-    <h2 id="invitation-title">Мы приглашаем вас в нашу дружную танцевальную семью!</h2>
-    <GradientButton label="Записаться" />
+<section class="banner" aria-labelledby={titleId}>
+  <div class="banner-content">
+    <h2 id={titleId}>{title}</h2>
+    <GradientButton label={buttonLabel} />
   </div>
 </section>
 
 <style>
-  .invitation {
+  .banner {
     display: flex;
-    height: 364px;
+    height: 450px;
     margin-top: 110px;
     padding-inline: var(--page-gutter);
     align-items: flex-start;
@@ -20,7 +22,7 @@ import GradientButton from './GradientButton.astro';
     background: var(--color-accent-secondary-20);
   }
 
-  .invitation-content {
+  .banner-content {
     display: flex;
     width: min(100%, 1450px);
     padding-top: 50px;
@@ -34,17 +36,17 @@ import GradientButton from './GradientButton.astro';
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
     font-size: 50px;
     font-weight: 400;
-    line-height: 80px;
+    line-height: 120px;
     text-align: center;
   }
 
   @media (max-width: 1199px) and (min-width: 768px) {
-    .invitation {
+    .banner {
       height: 330px;
       margin-top: 70px;
     }
 
-    .invitation-content {
+    .banner-content {
       padding-top: 45px;
       gap: 35px;
     }
@@ -57,13 +59,13 @@ import GradientButton from './GradientButton.astro';
   }
 
   @media (max-width: 767px) {
-    .invitation {
+    .banner {
       height: 294px;
       margin-top: 0;
       padding-inline: 20px;
     }
 
-    .invitation-content {
+    .banner-content {
       width: 320px;
       max-width: 100%;
       padding-top: 30px;

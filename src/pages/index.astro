@@ -1,14 +1,13 @@
 ---
 import About from '../components/About.astro';
 import AtmosphereGallery from '../components/AtmosphereGallery.astro';
+import Banner from '../components/Banner.astro';
 import Footer from '../components/Footer.astro';
-import InvitationBanner from '../components/InvitationBanner.astro';
 import Program from '../components/Program.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Opportunities from '../components/Opportunities.astro';
 import Pricing from '../components/Pricing.astro';
-import RecruitmentBanner from '../components/RecruitmentBanner.astro';
 import StudentsGallery from '../components/StudentsGallery.astro';
 import Teachers from '../components/Teachers.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -19,10 +18,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <main>
     <Hero />
     <About />
-    <InvitationBanner />
+    <Banner
+      title="Мы приглашаем вас в нашу дружную танцевальную семью!"
+      buttonLabel="Записаться"
+      titleId="invitation-title"
+    />
     <Program />
     <Teachers />
-    <RecruitmentBanner />
+    <Banner
+      title="Открыт набор девочек с 4-х лет, а также взрослых!"
+      buttonLabel="Записаться на пробное занятие"
+      titleId="recruitment-title"
+    />
     <Opportunities />
     <StudentsGallery />
     <Pricing />
