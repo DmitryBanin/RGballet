@@ -3,6 +3,35 @@ import { contacts } from '../config/contacts.js';
 import GradientButton from './GradientButton.astro';
 
 const assetPath = `${import.meta.env.BASE_URL}/images`;
+
+const comments = [
+  // Здесь добавлять комментарии
+  {
+    name: 'Ирина Солоха',
+    date: '21.06.2026',
+    comment: 'Дочка с огромным удовольствием ходит на занятия, и мы видим, как она развивается. Отношение к детям просто замечательное: доброжелательная атмосфера, поддержка и поощрение даже самых маленьких успехов. Мы очень довольны выбором и с уверенностью рекомендуем эту танцевальную студию всем, кто хочет привить ребёнку любовь к танцам и развить его физические и творческие способности! Спасибо за ваш труд и заботу о наших детях!',
+  },
+  {
+    name: 'Александр Фёдоров',
+    date: '22.06.2026',
+    comment: 'Наши девочки ходят уже более полугода к Елене и мы очень довольны. Очень грамотные преподаватели, наши девочки выросли прям на глазах в плане хореографии и растяжке. И самое главное самим девчонкам очень нравится. Всем родителям рекомендую👍👍👍',
+  },
+  {
+    name: 'Elena Druzhinina',
+    date: '21.06.2026',
+    comment: 'Ценим за индивидуальный подход абсолютно к каждому ребёнку! Хореографы студии заинтересованы в результатах обучения, делают все возможное, чтобы дети хотели ходить на занятия и ощущать свои успехи.',
+  },
+  {
+    name: 'Алексей Гончаров',
+    date: '26.04.2026',
+    comment: 'Если вы думаете отдать своего ребенка в танцы , советую Rg ballet. Отличная база, квалифицированные тренера, которые найдут подход к каждому ребенку. Ребенок в восторге и с удовольствием занимается',
+  },
+  {
+    name: 'Анна Ц.',
+    date: '01.01.2026',
+    comment: 'Отличная балетная студия для детей! Хотим выразить огромную благодарность замечательной студии балета. Моя дочь занимается здесь уже пол года и мы видим потрясающие результаты. Самое главное для нас — это не только красивые позиции, но и гармоничное развитие. Благодаря грамотному и внимательному подходу педагогов, дочь стала невероятно гибкой, пластичной и грациозной. Уроки построены очень профессионально: разминка, растяжка, хореография — всё идет постепенно, без перегрузок, но с ощутимым прогрессом.Отдельное спасибо преподавателям за их доброе, но требовательное отношение к детям. Они умеют создать атмосферу настоящего искусства, где есть и дисциплина, и радость творчества. Дочь ходит на занятия с огромным удовольствием, а я как родитель вижу, как крепчает ее спинка, улучшается осанка и появляется уверенность в себе.Рекомендуем эту студию всем, кто хочет приобщить ребенка к прекрасному и подарить ему здоровье, грацию и хороший вкус!',
+  },
+];
 ---
 
 <footer class="site-footer">
@@ -10,26 +39,53 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     <section class="reviews" id="reviews" aria-labelledby="reviews-title">
       <div class="reviews-heading">
         <h2 id="reviews-title">Отзывы</h2>
-        <span class="reviews-all">Смотреть все отзывы</span>
+        <a class="reviews-all" href={contacts.map.reviews} target="_blank" rel="noopener noreferrer">
+          Смотреть все отзывы
+        </a>
       </div>
 
-      <article class="review">
-        <h3>Ирина Солохо</h3>
-        <time datetime="2026-06-21">21.06.2026</time>
-        <p>
-          Дочка с огромным удовольствием ходит на занятия, и мы видим, как она развивается. Отношение к детям просто
-          замечательное: доброжелательная атмосфера, поддержка и поощрение даже самых маленьких успехов...
-        </p>
-        <span class="review-more">Читать полностью</span>
-      </article>
+      {comments.map((comment, index) => (
+        <article class="review" data-review-card hidden={index !== 0}>
+          <h3>{comment.name}</h3>
+          <time datetime={comment.date.split('.').reverse().join('-')}>{comment.date}</time>
+          <p class="review-text" id={`review-text-${index + 1}`}>{comment.comment}</p>
+          <button
+            class="review-more"
+            type="button"
+            aria-expanded="false"
+            aria-controls={`review-text-${index + 1}`}
+            data-review-toggle
+          >
+            Читать полностью
+          </button>
+        </article>
+      ))}
 
-      <div class="review-navigation" aria-hidden="true">
+      <div class="review-navigation" aria-label="Навигация по отзывам">
         <div class="review-dots">
-          <span class="active"></span><span></span><span></span><span></span><span></span>
+          {comments.map((_, index) => (
+            <button
+              class={index === 0 ? 'review-dot active' : 'review-dot'}
+              type="button"
+              aria-label={`Показать отзыв ${index + 1}`}
+              aria-current={index === 0 ? 'true' : undefined}
+              data-review-dot={index}
+            ></button>
+          ))}
         </div>
         <div class="review-arrows">
-          <img class="review-prev" src={`${assetPath}/arrow.svg`} alt="" width="30" height="30" />
-          <img src={`${assetPath}/arrow.svg`} alt="" width="30" height="30" />
+          <button class="review-arrow review-prev" type="button" aria-label="Предыдущий отзыв" data-review-prev disabled>
+            <img src={`${assetPath}/arrow.svg`} alt="" width="30" height="30" />
+          </button>
+          <button
+            class="review-arrow"
+            type="button"
+            aria-label="Следующий отзыв"
+            data-review-next
+            disabled={comments.length < 2}
+          >
+            <img src={`${assetPath}/arrow.svg`} alt="" width="30" height="30" />
+          </button>
         </div>
       </div>
     </section>
@@ -123,11 +179,88 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
       mapLink.setAttribute('aria-label', 'Открыть адрес в Apple Maps');
     }
   }
+
+  document.querySelectorAll('[data-review-toggle]').forEach((toggle) => {
+    if (!(toggle instanceof HTMLButtonElement)) return;
+
+    const textId = toggle.getAttribute('aria-controls');
+    const reviewText = textId ? document.getElementById(textId) : null;
+
+    if (!reviewText) return;
+
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+      toggle.setAttribute('aria-expanded', String(!isExpanded));
+      toggle.textContent = isExpanded ? 'Читать полностью' : 'Свернуть';
+      reviewText.classList.toggle('is-expanded', !isExpanded);
+    });
+  });
+
+  const reviews = document.querySelector('.reviews');
+
+  if (reviews instanceof HTMLElement) {
+    const reviewCards = Array.from(reviews.querySelectorAll('[data-review-card]')).filter(
+      (card): card is HTMLElement => card instanceof HTMLElement,
+    );
+    const reviewDots = Array.from(reviews.querySelectorAll('[data-review-dot]')).filter(
+      (dot): dot is HTMLButtonElement => dot instanceof HTMLButtonElement,
+    );
+    const previousButton = reviews.querySelector('[data-review-prev]');
+    const nextButton = reviews.querySelector('[data-review-next]');
+    let activeReview = 0;
+
+    const collapseReview = (card: HTMLElement) => {
+      const toggle = card.querySelector('[data-review-toggle]');
+      const reviewText = card.querySelector('.review-text');
+
+      if (toggle instanceof HTMLButtonElement && reviewText instanceof HTMLElement) {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = 'Читать полностью';
+        reviewText.classList.remove('is-expanded');
+      }
+    };
+
+    const showReview = (index: number) => {
+      if (index < 0 || index >= reviewCards.length) return;
+
+      reviewCards.forEach((card, cardIndex) => {
+        if (cardIndex !== index) collapseReview(card);
+        card.hidden = cardIndex !== index;
+      });
+
+      reviewDots.forEach((dot, dotIndex) => {
+        const isActive = dotIndex === index;
+        dot.classList.toggle('active', isActive);
+
+        if (isActive) {
+          dot.setAttribute('aria-current', 'true');
+        } else {
+          dot.removeAttribute('aria-current');
+        }
+      });
+
+      activeReview = index;
+
+      if (previousButton instanceof HTMLButtonElement) previousButton.disabled = activeReview === 0;
+      if (nextButton instanceof HTMLButtonElement) nextButton.disabled = activeReview === reviewCards.length - 1;
+    };
+
+    reviewDots.forEach((dot, index) => dot.addEventListener('click', () => showReview(index)));
+
+    if (previousButton instanceof HTMLButtonElement) {
+      previousButton.addEventListener('click', () => showReview(activeReview - 1));
+    }
+
+    if (nextButton instanceof HTMLButtonElement) {
+      nextButton.addEventListener('click', () => showReview(activeReview + 1));
+    }
+  }
 </script>
 
 <style>
   .site-footer {
-    height: 524px;
+    min-height: 524px;
     margin-top: 100px;
     padding: 50px 40px 0;
     background: var(--color-accent-secondary-20);
@@ -137,9 +270,9 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     position: relative;
     display: grid;
     width: min(100%, var(--container-max-width));
-    height: 471px;
+    min-height: 471px;
     margin-inline: auto;
-    padding: 30px;
+    padding: 30px 30px 50px;
     grid-template-columns: 539px 1px 418px 1px 513px;
     column-gap: 77px;
     background: var(--color-surface-primary);
@@ -158,7 +291,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
   }
 
   .reviews {
-    height: 353px;
+    min-height: 353px;
   }
 
   .reviews-heading {
@@ -207,18 +340,33 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     line-height: 28px;
   }
 
+  .review-text {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .review-text.is-expanded {
+    display: block;
+  }
+
   .review-more {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    display: block;
+    padding: 0;
+    margin: 4px 0 0 auto;
     color: var(--color-accent-primary);
+    background: transparent;
+    border: 0;
     font-size: 14px;
     line-height: 20px;
+    text-decoration: underline;
+    cursor: pointer;
   }
 
   .review-navigation {
     display: flex;
-    margin-top: 40px;
+    margin-top: 28px;
     align-items: center;
     justify-content: flex-end;
     gap: 50px;
@@ -229,11 +377,14 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     gap: 6px;
   }
 
-  .review-dots span {
+  .review-dot {
     width: 16px;
     height: 16px;
+    padding: 0;
+    background: transparent;
     border: 2px solid var(--color-accent-primary);
     border-radius: 50%;
+    cursor: pointer;
   }
 
   .review-dots .active {
@@ -245,19 +396,34 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     gap: 20px;
   }
 
+  .review-arrow {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    place-items: center;
+  }
+
   .review-arrows img {
     width: 30px;
     height: 30px;
   }
 
-  .review-prev {
-    opacity: 0.5;
+  .review-prev img {
     transform: scaleX(-1);
+  }
+
+  .review-arrow:disabled {
+    opacity: 0.5;
+    cursor: default;
   }
 
   .footer-divider {
     width: 1px;
-    height: 368px;
+    min-height: 368px;
     background: var(--color-text-primary);
     opacity: 0.15;
   }
@@ -421,14 +587,14 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
 
   @media (max-width: 1199px) and (min-width: 768px) {
     .site-footer {
-      height: auto;
+      min-height: auto;
       margin-top: 90px;
       padding: 40px var(--page-gutter);
     }
 
     .footer-panel {
       display: grid;
-      height: auto;
+      min-height: auto;
       padding: 30px;
       grid-template-columns: 1fr 1fr;
       gap: 50px;
@@ -457,7 +623,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
 
   @media (max-width: 767px) {
     .site-footer {
-      height: 1138px;
+      min-height: 1138px;
       margin-top: 70px;
       padding: 28px 20px 0;
     }
@@ -466,13 +632,13 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
       display: block;
       width: 320px;
       max-width: 100%;
-      height: 1110px;
-      padding: 30px 16px 24px;
+      min-height: 1110px;
+      padding: 30px 16px 48px;
       border-radius: 30px 30px 0 0;
     }
 
     .reviews {
-      height: 349px;
+      min-height: 349px;
     }
 
     .reviews-heading {
@@ -514,7 +680,6 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     }
 
     .review-more {
-      bottom: 0;
       font-size: 12px;
     }
 
@@ -531,6 +696,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
       width: 288px;
       max-width: 100%;
       height: 1px;
+      min-height: 1px;
       margin-block: 30px 29px;
     }
 
