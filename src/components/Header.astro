@@ -13,12 +13,21 @@ const rightNavigation = [
   { label: 'Контакты', href: '#contacts' },
 ];
 
+const mobileNavigation = [...leftNavigation, ...rightNavigation];
+const mobilePhone = contacts.phone.display.replace('+7', '8');
 const assetPath = `${import.meta.env.BASE_URL}/images`;
 ---
 
 <header class="site-header">
   <div class="header-inner">
-    <button class="mobile-menu-button" type="button" aria-label="Открыть меню" aria-expanded="false">
+    <button
+      class="mobile-menu-button"
+      type="button"
+      aria-label="Открыть меню"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-menu-button
+    >
       <svg class="mobile-menu-icon ham hamRotate ham4" viewBox="0 0 100 100" aria-hidden="true">
         <path
           class="line top"
@@ -43,7 +52,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     <nav class="navigation navigation-right" aria-label="Дополнительная навигация">
       {rightNavigation.map((item) => <a href={item.href}>{item.label}</a>)}
     </nav>
-<!-- socials -->
+
     <div class="socials" aria-label="Контакты">
       <a class="social-icon" href={contacts.max} aria-label="Открыть MAX">
         <img src={`${assetPath}/social-MAX.svg`} alt="" width="50" height="50" />
@@ -60,6 +69,40 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
       <img src={`${assetPath}/social-phone.svg`} alt="" width="40" height="40" />
     </a>
   </div>
+
+  <div class="mobile-menu-backdrop" aria-hidden="true" data-menu-backdrop></div>
+
+  <aside
+    class="mobile-menu"
+    id="mobile-menu"
+    role="dialog"
+    aria-label="Мобильное меню"
+    aria-modal="true"
+    aria-hidden="true"
+    inert
+    data-mobile-menu
+  >
+    <nav class="mobile-navigation" aria-label="Мобильная навигация">
+      {mobileNavigation.map((item) => <a href={item.href} data-menu-link>{item.label}</a>)}
+    </nav>
+
+    <a class="mobile-menu-contact" href={contacts.phone.href}>
+      <img src={`${assetPath}/contact-phone.svg`} alt="" width="24" height="24" />
+      <strong>{mobilePhone}</strong>
+    </a>
+
+    <div class="mobile-menu-socials" aria-label="Социальные сети">
+      <a href={contacts.email.href} aria-label="Написать на электронную почту">
+        <img src={`${assetPath}/social-mail.svg`} alt="" width="40" height="40" />
+      </a>
+      <a href={contacts.vk} target="_blank" rel="noopener noreferrer" aria-label="Открыть VK">
+        <img src={`${assetPath}/social-vk.svg`} alt="" width="40" height="40" />
+      </a>
+      <a href={contacts.max} target="_blank" rel="noopener noreferrer" aria-label="Открыть MAX">
+        <img src={`${assetPath}/social-MAX.svg`} alt="" width="40" height="40" />
+      </a>
+    </div>
+  </aside>
 </header>
 
 <style>
@@ -135,7 +178,9 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
   }
 
   .mobile-menu-button,
-  .mobile-phone {
+  .mobile-phone,
+  .mobile-menu,
+  .mobile-menu-backdrop {
     display: none;
   }
 
@@ -159,7 +204,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
 
   .line {
     fill: none;
-    stroke: #000;
+    stroke: var(--color-black);
     stroke-width: 5.5;
     stroke-linecap: round;
     transition:
@@ -183,6 +228,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     }
 
     .socials {
+      top: 19px;
       right: 20px;
       gap: 10px;
     }
@@ -192,15 +238,10 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
       height: 42px;
     }
 
-    .socials {
-      top: 19px;
-    }
-
     .social-icon img {
       max-width: 100%;
       max-height: 100%;
     }
-
   }
 
   @media (max-width: 1199px) {
@@ -223,11 +264,108 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
 
     .mobile-menu-button {
       left: 20px;
+      z-index: 103;
       cursor: pointer;
     }
 
     .mobile-phone {
       right: 20px;
+    }
+
+    .mobile-menu-backdrop {
+      position: fixed;
+      z-index: 100;
+      display: block;
+      visibility: hidden;
+      background: var(--color-overlay-70);
+      opacity: 0;
+      inset: 0;
+      transition:
+        opacity 240ms ease,
+        visibility 240ms;
+    }
+
+    .mobile-menu-backdrop.is-open {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 101;
+      display: flex;
+      width: min(272px, 100vw);
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 77px 20px 30px;
+      overflow-y: auto;
+      flex-direction: column;
+      background: var(--color-surface-primary);
+      overscroll-behavior: contain;
+      transform: translateX(-100%);
+      transition: transform 240ms ease;
+    }
+
+    .mobile-menu.is-open {
+      transform: translateX(0);
+    }
+
+    .mobile-navigation {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mobile-navigation a {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 22px;
+      text-decoration: none;
+    }
+
+    .mobile-menu-contact {
+      display: flex;
+      padding-top: 22px;
+      margin-top: 15px;
+      align-items: center;
+      gap: 13px;
+      border-top: 1px solid rgb(35 35 35 / 15%);
+      text-decoration: none;
+    }
+
+    .mobile-menu-contact img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .mobile-menu-contact strong {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 28px;
+      white-space: nowrap;
+    }
+
+    .mobile-menu-socials {
+      display: flex;
+      margin-top: auto;
+      gap: 8px;
+    }
+
+    .mobile-menu-socials a,
+    .mobile-menu-socials img {
+      display: block;
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+    }
+
+    :global(body.mobile-menu-open) {
+      overflow: hidden;
+      overscroll-behavior: none;
     }
   }
 
@@ -242,16 +380,89 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
       height: 39px;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ham,
+    .line,
+    .mobile-menu,
+    .mobile-menu-backdrop {
+      transition: none;
+    }
+  }
 </style>
 
 <script>
-  const menuButton = document.querySelector('.mobile-menu-button');
+  const menuButton = document.querySelector('[data-menu-button]');
   const menuIcon = menuButton?.querySelector('.ham');
+  const menuPanel = document.querySelector('[data-mobile-menu]');
+  const menuBackdrop = document.querySelector('[data-menu-backdrop]');
+  const menuLinks = menuPanel?.querySelectorAll('[data-menu-link]') ?? [];
+  const backgroundElements = document.querySelectorAll(
+    '.page-wrapper > main, .page-wrapper > footer, .header-inner > :not([data-menu-button])',
+  );
+  const mobileMedia = window.matchMedia('(max-width: 1199px)');
 
-  menuButton?.addEventListener('click', () => {
-    const isActive = menuIcon?.classList.toggle('active') ?? false;
+  if (
+    menuButton instanceof HTMLButtonElement &&
+    menuPanel instanceof HTMLElement &&
+    menuBackdrop instanceof HTMLElement
+  ) {
+    const getFocusableElements = () => [
+      menuButton,
+      ...Array.from(menuPanel.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')).filter(
+        (element): element is HTMLElement => element instanceof HTMLElement,
+      ),
+    ];
 
-    menuButton.setAttribute('aria-expanded', String(isActive));
-    menuButton.setAttribute('aria-label', isActive ? 'Закрыть меню' : 'Открыть меню');
-  });
+    const setMenuState = (isOpen: boolean, restoreFocus = false) => {
+      menuIcon?.classList.toggle('active', isOpen);
+      menuPanel.classList.toggle('is-open', isOpen);
+      menuBackdrop.classList.toggle('is-open', isOpen);
+      menuPanel.inert = !isOpen;
+      menuPanel.setAttribute('aria-hidden', String(!isOpen));
+      menuButton.setAttribute('aria-expanded', String(isOpen));
+      menuButton.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+      document.body.classList.toggle('mobile-menu-open', isOpen);
+      backgroundElements.forEach((element) => {
+        if (element instanceof HTMLElement) element.inert = isOpen;
+      });
+
+      if (restoreFocus) menuButton.focus();
+    };
+
+    menuButton.addEventListener('click', () => {
+      setMenuState(menuButton.getAttribute('aria-expanded') !== 'true');
+    });
+
+    menuBackdrop.addEventListener('click', () => setMenuState(false, true));
+    menuLinks.forEach((link) => link.addEventListener('click', () => setMenuState(false)));
+
+    document.addEventListener('keydown', (event) => {
+      if (menuButton.getAttribute('aria-expanded') !== 'true') return;
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setMenuState(false, true);
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const focusableElements = getFocusableElements();
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement?.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement?.focus();
+      }
+    });
+
+    mobileMedia.addEventListener('change', (event) => {
+      if (!event.matches) setMenuState(false);
+    });
+  }
 </script>
