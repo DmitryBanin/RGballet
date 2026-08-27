@@ -7,7 +7,7 @@ const { title, buttonLabel, titleId } = Astro.props;
 <section class="banner" aria-labelledby={titleId}>
   <div class="banner-content">
     <h2 id={titleId}>{title}</h2>
-    <GradientButton label={buttonLabel} />
+    <GradientButton label={buttonLabel} opensForm={true} />
   </div>
 </section>
 

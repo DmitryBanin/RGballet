@@ -5,6 +5,8 @@
 
   --color-text-primary: #232323;
   --color-surface-primary: #ffffff;
+  --color-danger: #d60a2e;
+  --color-overlay-70: rgb(35 35 35 / 70%);
 
   --color-accent-primary: #5ba9e1;
   --color-accent-primary-30: rgb(91 169 225 / 30%);

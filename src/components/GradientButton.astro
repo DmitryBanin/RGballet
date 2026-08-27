@@ -1,8 +1,15 @@
 ---
-const { label, fullWidth = false, disabled = false } = Astro.props;
+const { label, fullWidth = false, disabled = false, opensForm = false } = Astro.props;
 ---
 
-<button class:list={['gradient-button', { 'full-width': fullWidth }]} type="button" disabled={disabled}>{label}</button>
+<button
+  class:list={['gradient-button', { 'full-width': fullWidth }]}
+  type="button"
+  disabled={disabled}
+  data-form-open={opensForm || undefined}
+>
+  {label}
+</button>
 
 <style>
   .gradient-button {

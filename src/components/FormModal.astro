@@ -1,0 +1,407 @@
+---
+import { contacts } from '../config/contacts.js';
+
+const assetPath = `${import.meta.env.BASE_URL}/images`;
+---
+
+<dialog class="contact-modal" aria-labelledby="contact-modal-title" data-form-modal>
+  <form class="contact-form" aria-describedby="contact-form-disabled-note">
+    <h2 id="contact-modal-title">Оставьте <span>ваши контакты</span></h2>
+
+    <button class="modal-close" type="button" aria-label="Закрыть форму" data-form-close>
+      <img src={`${assetPath}/form-close.svg`} alt="" width="50" height="50" />
+    </button>
+
+    <label class="form-field name-field">
+      <span>Ваше имя <b aria-hidden="true">*</b></span>
+      <input type="text" name="name" placeholder="Имя" autocomplete="name" required />
+    </label>
+
+    <label class="form-field phone-field">
+      <span>Ваш номер телефона <b aria-hidden="true">*</b></span>
+      <input type="tel" name="phone" placeholder="8 (000) 000-00-00" autocomplete="tel" inputmode="tel" required />
+    </label>
+
+    <label class="consent">
+      <input type="checkbox" name="consent" checked required />
+      <span>Нажимая на кнопку «Отправить», Вы соглашаетесь с политикой конфиденциальности</span>
+    </label>
+
+    <button class="form-submit" type="submit" disabled>Отправить</button>
+    <span class="visually-hidden" id="contact-form-disabled-note">Отправка формы пока не подключена</span>
+
+    <p class="alternative-contact">
+      <span>Или</span>
+      <span>Вы можете <strong>написать нам здесь:</strong></span>
+    </p>
+
+    <div class="form-socials" aria-label="Написать в социальной сети">
+      <a href={contacts.vk} target="_blank" rel="noopener noreferrer" aria-label="Написать ВКонтакте">
+        <img src={`${assetPath}/social-vk.svg`} alt="" width="50" height="50" />
+      </a>
+      <a href={contacts.max} target="_blank" rel="noopener noreferrer" aria-label="Написать в MAX">
+        <img src={`${assetPath}/social-MAX.svg`} alt="" width="50" height="50" />
+      </a>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  const modal = document.querySelector('[data-form-modal]');
+
+  if (modal instanceof HTMLDialogElement) {
+    const closeButton = modal.querySelector('[data-form-close]');
+    const nameInput = modal.querySelector('input[name="name"]');
+    let previousFocus = null;
+
+    const openModal = (trigger) => {
+      if (modal.open) return;
+
+      previousFocus = trigger;
+      modal.showModal();
+      document.body.classList.add('modal-open');
+
+      requestAnimationFrame(() => {
+        if (nameInput instanceof HTMLInputElement) nameInput.focus();
+      });
+    };
+
+    const closeModal = () => {
+      if (modal.open) modal.close();
+    };
+
+    document.querySelectorAll('[data-form-open]').forEach((trigger) => {
+      trigger.addEventListener('click', () => openModal(trigger));
+    });
+
+    closeButton?.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal();
+    });
+
+    modal.addEventListener('close', () => {
+      document.body.classList.remove('modal-open');
+
+      if (previousFocus instanceof HTMLElement) previousFocus.focus();
+      previousFocus = null;
+    });
+  }
+</script>
+
+<style>
+  .contact-modal {
+    position: fixed;
+    top: max(20px, min(21vh, calc(100dvh - 651px)));
+    left: 50%;
+    width: 600px;
+    height: 631px;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100dvh - 40px);
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    color: var(--color-text-primary);
+    background: var(--color-surface-primary);
+    border: 0;
+    border-radius: 30px;
+    transform: translateX(-50%);
+  }
+
+  .contact-modal::backdrop {
+    background: var(--color-overlay-70);
+  }
+
+  .contact-form {
+    position: relative;
+    width: 100%;
+    min-height: 631px;
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 46px;
+    white-space: nowrap;
+    transform: translateX(-50%);
+  }
+
+  h2 span {
+    display: inline;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .modal-close img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .form-field {
+    position: absolute;
+    left: 52px;
+    display: block;
+    width: 496px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 25px;
+  }
+
+  .name-field {
+    top: 120px;
+  }
+
+  .phone-field {
+    top: 219px;
+  }
+
+  .form-field b {
+    color: var(--color-danger);
+    font-weight: 600;
+  }
+
+  .form-field input {
+    display: block;
+    width: 100%;
+    height: 46px;
+    padding: 11px 15px;
+    margin-top: 8px;
+    color: var(--color-text-primary);
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-accent-primary);
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 22px;
+    outline: none;
+  }
+
+  .form-field input::placeholder {
+    color: var(--color-text-primary);
+    opacity: 0.4;
+  }
+
+  .form-field input:focus-visible,
+  .consent input:focus-visible {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+  }
+
+  .consent {
+    position: absolute;
+    top: 319px;
+    left: 52px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    cursor: pointer;
+  }
+
+  .consent input {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    margin: 0;
+    appearance: none;
+    background: var(--color-surface-primary) center / 14.1767px 10px no-repeat;
+    border: 1px solid var(--color-accent-primary);
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .consent input:checked {
+    background-image: url('/images/form-checkbox.svg');
+  }
+
+  .consent span {
+    width: 435px;
+  }
+
+  .form-submit {
+    position: absolute;
+    top: 375px;
+    left: 52px;
+    display: flex;
+    width: 496px;
+    height: 59px;
+    padding: 16px 70px;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-surface-primary);
+    background: linear-gradient(180deg, var(--color-button-gradient-start), var(--color-button-gradient-end));
+    border: 0;
+    border-radius: 30px;
+    box-shadow:
+      0 6px 14px var(--color-button-shadow-18),
+      0 18px 40px var(--color-button-gradient-start-28);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 27px;
+    opacity: 1;
+  }
+
+  .alternative-contact {
+    position: absolute;
+    top: 454px;
+    left: 50%;
+    width: 435px;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 30px;
+    text-align: center;
+    transform: translateX(-50%);
+  }
+
+  .alternative-contact span {
+    display: block;
+  }
+
+  .alternative-contact strong {
+    color: var(--color-accent-primary);
+    font-weight: 600;
+  }
+
+  .form-socials {
+    position: absolute;
+    top: 529px;
+    left: 50%;
+    display: flex;
+    gap: 20px;
+    transform: translateX(-50%);
+  }
+
+  .form-socials a,
+  .form-socials img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  :global(body.modal-open) {
+    overflow: hidden;
+  }
+
+  @media (max-width: 767px) {
+    .contact-modal {
+      top: max(20px, min(16.9vh, calc(100dvh - 590px)));
+      width: 320px;
+      height: 570px;
+      border-radius: 20px;
+    }
+
+    .contact-form {
+      min-height: 570px;
+    }
+
+    h2 {
+      top: 40px;
+      width: 175px;
+      font-size: 24px;
+      line-height: 30px;
+      text-align: center;
+      white-space: normal;
+    }
+
+    h2 span {
+      display: block;
+    }
+
+    .modal-close {
+      top: 16px;
+      right: 16px;
+      width: 30px;
+      height: 30px;
+    }
+
+    .form-field {
+      left: 16px;
+      width: 288px;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    .name-field {
+      top: 120px;
+    }
+
+    .phone-field {
+      top: 205px;
+    }
+
+    .form-field input {
+      height: 43px;
+      padding: 11px 19px;
+      margin-top: 8px;
+      font-size: 14px;
+      line-height: 19px;
+    }
+
+    .consent {
+      top: 291px;
+      left: 16px;
+      font-size: 12px;
+      line-height: 16px;
+    }
+
+    .consent span {
+      width: 254px;
+    }
+
+    .form-submit {
+      top: 357px;
+      left: 16px;
+      width: 288px;
+      height: 54px;
+    }
+
+    .alternative-contact {
+      top: 431px;
+      width: 288px;
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .form-socials {
+      top: 490px;
+      gap: 12px;
+    }
+
+    .form-socials a,
+    .form-socials img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+</style>
