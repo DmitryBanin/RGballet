@@ -1,0 +1,128 @@
+<main class="error-page">
+  <div>
+    <h1 data-h1="404">404</h1>
+    <p data-p="PAGE NOT FOUND">СТРАНИЦА НЕ НАЙДЕНА</p>
+  </div>
+</main>
+
+<style is:global>
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+    background: #f7f7f7;
+  }
+</style>
+
+<style>
+  .error-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  }
+
+  .error-page h1 {
+    position: relative;
+    margin: -8vh 0 0;
+    padding: 0;
+    font-size: 30vh;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .error-page h1::after {
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background: repeating-linear-gradient(
+      -45deg,
+      #71b7e6,
+      #69a6ce,
+      #b98acc,
+      #ee8176,
+      #b98acc,
+      #69a6ce,
+      #9b59b6
+    );
+    background-size: 400%;
+    background-clip: text;
+    content: attr(data-h1);
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.25);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animate-text-background 10s ease-in-out infinite;
+  }
+
+  .error-page h1 + p {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #d6d6d6;
+    font-size: 8vh;
+    font-weight: 700;
+    line-height: 10vh;
+  }
+
+  .error-page h1 + p::after {
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background-clip: text;
+    content: attr(data-p);
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    -webkit-background-clip: text;
+  }
+
+  @keyframes animate-text-background {
+    0% {
+      background-position: 0 0;
+    }
+
+    25% {
+      background-position: 100% 0;
+    }
+
+    50% {
+      background-position: 100% 100%;
+    }
+
+    75% {
+      background-position: 0 100%;
+    }
+
+    100% {
+      background-position: 0 0;
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .error-page h1 {
+      font-size: 32vw;
+    }
+
+    .error-page h1 + p {
+      max-width: 70vw;
+      font-size: 8vw;
+      line-height: 10vw;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .error-page h1::after {
+      animation: none;
+    }
+  }
+</style>

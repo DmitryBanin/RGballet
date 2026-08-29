@@ -16,6 +16,7 @@ const rightNavigation = [
 const mobileNavigation = [...leftNavigation, ...rightNavigation];
 const mobilePhone = contacts.phone.display.replace('+7', '8');
 const assetPath = `${import.meta.env.BASE_URL}/images`;
+const homePath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 ---
 
 <header class="site-header">
@@ -47,7 +48,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
       </nav>
     </div>
 
-    <a class="logo" href="/" aria-label="RGballet — на главную">
+    <a class="logo" href={homePath} aria-label="RGballet — на главную">
       <img src={`${assetPath}/logo.png`} alt="RGballet" width="135" height="60" />
     </a>
 
