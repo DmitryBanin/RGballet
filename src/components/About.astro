@@ -75,9 +75,9 @@ const features = [
     margin: 0;
     color: var(--color-accent-primary);
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: 60px;
+    font-size: clamp(52px, 3.125vw, 60px);
     font-weight: 400;
-    line-height: 100px;
+    line-height: clamp(80px, 5.208vw, 100px);
   }
 
   .about-content {
@@ -215,8 +215,9 @@ const features = [
     }
 
     .about-copy h2 {
-      font-size: 40px;
-      line-height: 70px;
+      max-width: 100%;
+      font-size: clamp(32px, 10vw, 40px);
+      line-height: clamp(56px, 17.5vw, 70px);
     }
 
     .about-copy p {

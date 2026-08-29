@@ -34,9 +34,9 @@ const { title, buttonLabel, titleId } = Astro.props;
   h2 {
     margin: 0;
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: 50px;
+    font-size: clamp(44px, 2.604vw, 50px);
     font-weight: 400;
-    line-height: 120px;
+    line-height: clamp(64px, 6.25vw, 120px);
     text-align: center;
   }
 
@@ -74,8 +74,9 @@ const { title, buttonLabel, titleId } = Astro.props;
 
     h2 {
       height: 150px;
-      font-size: 34px;
-      line-height: 50px;
+      max-width: 100%;
+      font-size: clamp(28px, 8.5vw, 34px);
+      line-height: clamp(44px, 12.5vw, 50px);
     }
   }
 </style>

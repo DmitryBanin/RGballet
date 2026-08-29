@@ -302,8 +302,8 @@ const comments = [
   .reviews-heading h2,
   .contacts h2 {
     color: var(--color-accent-primary);
-    font-size: 40px;
-    line-height: 80px;
+    font-size: clamp(34px, 2.083vw, 40px);
+    line-height: clamp(68px, 4.167vw, 80px);
   }
 
   .reviews-all {
@@ -502,8 +502,8 @@ const comments = [
 
   .question-heading h2 {
     height: 58px;
-    font-size: 40px;
-    line-height: 80px;
+    font-size: clamp(34px, 2.083vw, 40px);
+    line-height: clamp(68px, 4.167vw, 80px);
   }
 
   .question-heading p {
@@ -648,8 +648,9 @@ const comments = [
     .reviews-heading h2,
     .contacts h2 {
       height: 67px;
-      font-size: 30px;
-      line-height: 60px;
+      max-width: 100%;
+      font-size: clamp(26px, 7.5vw, 30px);
+      line-height: clamp(52px, 15vw, 60px);
     }
 
     .reviews-all {
@@ -757,8 +758,9 @@ const comments = [
 
     .question-heading h2 {
       height: 52px;
-      font-size: 25px;
-      line-height: 60px;
+      max-width: 100%;
+      font-size: clamp(22px, 6.25vw, 25px);
+      line-height: clamp(48px, 15vw, 60px);
     }
 
     .question-heading p {
