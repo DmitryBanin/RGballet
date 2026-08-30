@@ -1,12 +1,12 @@
 ---
 const assetPath = `${import.meta.env.BASE_URL}/images`;
-const videoUrl = 'https://kinescope.io/embed/pl/tGbG4RzQYKQFBPVxwJGcCo?autoplay=1';
+const videoUrl = 'https://kinescope.io/embed/0NLFuty3QtSp6s61FWQp7K';
 ---
 
 <dialog class="video-modal" aria-label="Видео о студии RGballet" data-video-modal>
   <div class="video-player">
     <button class="video-close" type="button" aria-label="Закрыть видео" data-video-close>
-      <img src={`${assetPath}/form-close.svg`} alt="" width="50" height="50" />
+      <img src={`${assetPath}/close.svg`} alt="" width="50" height="50" />
     </button>
 
     <iframe
@@ -106,9 +106,12 @@ const videoUrl = 'https://kinescope.io/embed/pl/tGbG4RzQYKQFBPVxwJGcCo?autoplay=
     width: 50px;
     height: 50px;
     padding: 0;
-    background: var(--color-surface-primary);
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
     border: 0;
     border-radius: 50%;
+    box-shadow: none;
     cursor: pointer;
   }
 

@@ -9,7 +9,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     <h2 id="contact-modal-title">Оставьте <span>ваши контакты</span></h2>
 
     <button class="modal-close" type="button" aria-label="Закрыть форму" data-form-close>
-      <img src={`${assetPath}/form-close.svg`} alt="" width="50" height="50" />
+      <img src={`${assetPath}/close.svg`} alt="" width="50" height="50" />
     </button>
 
     <label class="form-field name-field">
@@ -145,8 +145,11 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     width: 50px;
     height: 50px;
     padding: 0;
-    background: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
     border: 0;
+    box-shadow: none;
     cursor: pointer;
   }
 
