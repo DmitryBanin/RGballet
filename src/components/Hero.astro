@@ -49,7 +49,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     width: calc(100% - 80px);
     margin: 0;
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: clamp(40px, calc(-30.541px + 4.716vw), 60px);
+    font-size: clamp(20px, calc(3.724px + 2.931vw), 60px);
     font-weight: 400;
     line-height: 100px;
     text-align: center;
@@ -121,14 +121,6 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
       padding-top: 40px;
     }
 
-    h1 {
-      width: calc(100% - 26px);
-      max-width: 319px;
-      line-height: 42px;
-      white-space: normal;
-      font-size: 26px;
-    }
-
     .hero-button {
       width: calc(100% - 40px);
       max-width: 319px;
@@ -160,10 +152,29 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     }
   }
 
-  @media (max-width: 760px) {
-
+  @media (max-width: 713px) {
     .hero-background {
       left: calc(50% - 40px);
     }
+
+    h1 {
+      width: calc(100% - 26px);
+      font-size: 26px;
+      line-height: 55px;
+      white-space: normal;
+    }
+  }
+
+    @media (max-width: 400px) {
+
+    h1 {
+      width: calc(100% - 26px);
+      max-width: 319px;
+      font-size: 26px;
+      line-height: 42px;
+      white-space: normal;
+    }
+  }
+
 
 </style>
