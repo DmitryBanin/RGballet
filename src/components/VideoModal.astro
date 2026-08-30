@@ -25,12 +25,12 @@ const videoUrl = 'https://kinescope.io/embed/0NLFuty3QtSp6s61FWQp7K';
   if (modal instanceof HTMLDialogElement) {
     const closeButton = modal.querySelector('[data-video-close]');
     const frame = modal.querySelector('[data-video-frame]');
-    let previousFocus = null;
+    let previousFocus = document.activeElement;
 
-    const openModal = (trigger) => {
+    const openModal = () => {
       if (modal.open || !(frame instanceof HTMLIFrameElement)) return;
 
-      previousFocus = trigger;
+      previousFocus = document.activeElement;
       frame.src = frame.dataset.src ?? '';
       modal.showModal();
       document.body.classList.add('modal-open');
@@ -45,7 +45,7 @@ const videoUrl = 'https://kinescope.io/embed/0NLFuty3QtSp6s61FWQp7K';
     };
 
     document.querySelectorAll('[data-video-open]').forEach((trigger) => {
-      trigger.addEventListener('click', () => openModal(trigger));
+      trigger.addEventListener('click', openModal);
     });
 
     closeButton?.addEventListener('click', closeModal);

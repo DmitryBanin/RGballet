@@ -4,7 +4,12 @@ import { contacts } from '../config/contacts.js';
 const assetPath = `${import.meta.env.BASE_URL}/images`;
 ---
 
-<dialog class="contact-modal" aria-labelledby="contact-modal-title" data-form-modal>
+<dialog
+  class="contact-modal"
+  aria-labelledby="contact-modal-title"
+  data-form-modal
+  style={`--form-checkbox-image: url("${assetPath}/form-checkbox.svg")`}
+>
   <form class="contact-form" aria-describedby="contact-form-disabled-note">
     <h2 id="contact-modal-title">Оставьте <span>ваши контакты</span></h2>
 
@@ -50,14 +55,15 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
   const modal = document.querySelector('[data-form-modal]');
 
   if (modal instanceof HTMLDialogElement) {
+    const form = modal.querySelector('.contact-form');
     const closeButton = modal.querySelector('[data-form-close]');
     const nameInput = modal.querySelector('input[name="name"]');
-    let previousFocus = null;
+    let previousFocus = document.activeElement;
 
-    const openModal = (trigger) => {
+    const openModal = () => {
       if (modal.open) return;
 
-      previousFocus = trigger;
+      previousFocus = document.activeElement;
       modal.showModal();
       document.body.classList.add('modal-open');
 
@@ -71,9 +77,10 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     };
 
     document.querySelectorAll('[data-form-open]').forEach((trigger) => {
-      trigger.addEventListener('click', () => openModal(trigger));
+      trigger.addEventListener('click', openModal);
     });
 
+    form?.addEventListener('submit', (event) => event.preventDefault());
     closeButton?.addEventListener('click', closeModal);
 
     modal.addEventListener('click', (event) => {
@@ -234,7 +241,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
   }
 
   .consent input:checked {
-    background-image: url('/images/form-checkbox.svg');
+    background-image: var(--form-checkbox-image);
   }
 
   .consent span {
