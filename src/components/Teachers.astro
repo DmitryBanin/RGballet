@@ -1,7 +1,7 @@
 ---
 import GradientButton from './GradientButton.astro';
 
-const assetPath = `${import.meta.env.BASE_URL}/images`;
+const assetPath = `${import.meta.env.BASE_URL}/images/teacher`;
 
 const teachers = [
   {
@@ -26,6 +26,7 @@ const teachers = [
     description: 'Хореографическое искусство, профиль-педагогика',
   },
 ];
+
 ---
 
 <section class="teachers" id="teachers" aria-labelledby="teachers-title">
@@ -40,14 +41,22 @@ const teachers = [
   <div class="teacher-cards">
     {teachers.map((teacher, index) => (
       <article class="teacher-card">
-        <img
-          class="teacher-image"
-          src={`${assetPath}/${teacher.image}`}
-          alt={teacher.name}
-          width="210"
-          height="382"
-          loading="lazy"
-        />
+        <div class="teacher-image-frame">
+          <picture>
+            <source
+              media="(max-width: 767px)"
+              srcset={`${assetPath}/${teacher.image.replace('.png', '-mob.png')}`}
+            />
+            <img
+              class="teacher-image"
+              src={`${assetPath}/${teacher.image}`}
+              alt={teacher.name}
+              width="210"
+              height="382"
+              loading="lazy"
+            />
+          </picture>
+        </div>
 
         <div class="teacher-content">
           <div class="teacher-intro">
@@ -147,12 +156,26 @@ const teachers = [
     overflow: hidden;
   }
 
-  .teacher-image {
+  .teacher-image-frame {
     width: 210px;
     height: 382px;
     grid-column: 1;
     grid-row: 1;
     border-radius: 26px;
+    overflow: hidden;
+  }
+
+  .teacher-image-frame picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .teacher-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
     object-fit: cover;
     object-position: center top;
   }
@@ -240,32 +263,6 @@ const teachers = [
     }
   }
 
-  @media (width < 1600px) and (width >= 1200px) {
-    .teacher-card {
-      grid-template-columns: minmax(160px, 38%) minmax(0, 1fr);
-      column-gap: 16px;
-    }
-
-    .teacher-image {
-      width: 100%;
-    }
-
-    .teacher-intro h3 {
-      font-size: 28px;
-      line-height: 34px;
-    }
-
-    .teacher-role {
-      font-size: 14px;
-      line-height: 20px;
-    }
-
-    .teacher-details {
-      font-size: 15px;
-      line-height: 21px;
-    }
-  }
-
   @media (width < 1200px) and (width >= 768px) {
     .teachers {
       margin-top: 90px;
@@ -305,8 +302,9 @@ const teachers = [
 
     .teachers-header h2 {
       max-width: 100%;
-      font-size: clamp(32px, 10vw, 40px);
-      line-height: clamp(50px, 15vw, 60px);
+      font-size: 32px;
+      line-height: 60px;
+      white-space: nowrap;
     }
 
     .teachers-header p {
@@ -347,7 +345,8 @@ const teachers = [
       min-height: 302px;
     }
 
-    .teacher-image {
+    .teacher-image-frame {
+      position: relative;
       width: 136px;
       height: 146px;
       grid-column: 1;
@@ -362,7 +361,7 @@ const teachers = [
     }
 
     .teacher-intro h3 {
-      font-size: 22px;
+      font-size: 24px;
       line-height: 26px;
     }
 

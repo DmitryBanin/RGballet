@@ -1,13 +1,14 @@
 ---
-const assetPath = `${import.meta.env.BASE_URL}/images`;
+const assetPath = `${import.meta.env.BASE_URL}/images/atmosphere`;
+const assetPathArrow = `${import.meta.env.BASE_URL}/images`;
 
 const photos = [
-  { image: 'atmosphere-1.png', alt: 'Сольное выступление ученицы RG-ballet' },
-  { image: 'atmosphere-2.png', alt: 'Ученицы RG-ballet после занятия' },
-  { image: 'atmosphere-3.png', alt: 'Сценический номер RG-ballet' },
-  { image: 'atmosphere-4.png', alt: 'Выступление коллектива RG-ballet' },
-  { image: 'atmosphere-5.png', alt: 'Ученицы RG-ballet с наградами' },
-  { image: 'atmosphere-6.png', alt: 'Ученицы RG-ballet перед выступлением' },
+  { image: 'atmosphere-1.webp', alt: 'Сольное выступление ученицы RG-ballet' },
+  { image: 'atmosphere-2.webp', alt: 'Ученицы RG-ballet после занятия' },
+  { image: 'atmosphere-3.webp', alt: 'Сценический номер RG-ballet' },
+  { image: 'atmosphere-4.webp', alt: 'Выступление коллектива RG-ballet' },
+  { image: 'atmosphere-5.webp', alt: 'Ученицы RG-ballet с наградами' },
+  { image: 'atmosphere-6.webp', alt: 'Ученицы RG-ballet перед выступлением' },
 ];
 ---
 
@@ -28,10 +29,10 @@ const photos = [
 
   <div class="atmosphere-controls" aria-label="Управление галереей">
     <button class="atmosphere-arrow prev" type="button" aria-label="Предыдущая фотография" data-atmosphere-prev>
-      <img src={`${assetPath}/arrow.svg`} alt="" width="30" height="30" />
+      <img src={`${assetPathArrow}/arrow.svg`} alt="" width="30" height="30" />
     </button>
     <button class="atmosphere-arrow next" type="button" aria-label="Следующая фотография" data-atmosphere-next>
-      <img src={`${assetPath}/arrow.svg`} alt="" width="30" height="30" />
+      <img src={`${assetPathArrow}/arrow.svg`} alt="" width="30" height="30" />
     </button>
   </div>
 
