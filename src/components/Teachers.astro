@@ -9,8 +9,7 @@ const teachers = [
     name: 'Елена Николаевна Банина',
     role: 'Основатель и художественный руководитель RG-ballet',
     education: 'Российский государственный университет спорта «ГЦОЛИФК»',
-    description:
-      'Экс-солистка театра Аллы Духовой «Тодес». Мастер спорта по художественной гимнастике. Член сборной команды России (2011–2015). Чемпионка России и международных соревнований.',
+    description: 'Экс-солистка театра Аллы Духовой «Тодес». Мастер спорта по художественной гимнастике. Член сборной команды России (2011–2015). Чемпионка России и международных соревнований.',
   },
   {
     image: 'teacher-zakharova.png',
@@ -41,34 +40,35 @@ const teachers = [
   <div class="teacher-cards">
     {teachers.map((teacher, index) => (
       <article class="teacher-card">
-        <div class="teacher-top">
-          <img
-            class="teacher-image"
-            src={`${assetPath}/${teacher.image}`}
-            alt={teacher.name}
-            width="210"
-            height="382"
-            loading="lazy"
-          />
+        <img
+          class="teacher-image"
+          src={`${assetPath}/${teacher.image}`}
+          alt={teacher.name}
+          width="210"
+          height="382"
+          loading="lazy"
+        />
+
+        <div class="teacher-content">
           <div class="teacher-intro">
             <h3>{teacher.name}</h3>
             <p class="teacher-role">{teacher.role}</p>
           </div>
-        </div>
 
-        <div class="teacher-details">
-          <p>{teacher.education}</p>
-          <p class:list={{ 'banina-description': index === 0 }}>
-            {index === 0 ? (
-              <>
-                Экс-солистка театра <span class="desktop-only">Аллы Духовой </span>«Тодес». Мастер спорта по
-                художественной гимнастике. Член сборной команды России (2011–2015). Чемпионка России и международных
-                соревнований.
-              </>
-            ) : (
-              teacher.description.split('\n').map((line) => <span>{line}</span>)
-            )}
-          </p>
+          <div class="teacher-details">
+            <p>{teacher.education}</p>
+            <p class:list={{ 'banina-description': index === 0 }}>
+              {index === 0 ? (
+                <>
+                  Экс-солистка театра <span class="desktop-only">Аллы Духовой </span>«Тодес». Мастер спорта по
+                  художественной гимнастике. Член сборной команды России (2011–2015). Чемпионка России и международных
+                  соревнований.
+                </>
+              ) : (
+                teacher.description.split('\n').map((line) => <span>{line}</span>)
+              )}
+            </p>
+          </div>
         </div>
       </article>
     ))}
@@ -134,32 +134,33 @@ const teachers = [
 
   .teacher-card {
     display: grid;
-    height: 428px;
+    min-height: 428px;
     padding: 20px;
     grid-template-columns: 210px minmax(0, 1fr);
-    gap: 22px;
+    align-content: start;
+    column-gap: 22px;
     background: var(--color-accent-secondary-10);
     border-radius: 30px;
     overflow: hidden;
   }
 
-  .teacher-top {
-    display: contents;
-  }
-
   .teacher-image {
     width: 210px;
     height: 382px;
+    grid-column: 1;
     grid-row: 1;
     border-radius: 26px;
     object-fit: cover;
     object-position: center top;
   }
 
-  .teacher-intro,
-  .teacher-details {
+  .teacher-content {
     grid-column: 2;
     grid-row: 1;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 30px;
   }
 
   .teacher-intro {
@@ -185,7 +186,6 @@ const teachers = [
 
   .teacher-details {
     display: flex;
-    padding-top: 126px;
     flex-direction: column;
     gap: 12px;
     font-size: 18px;
@@ -194,6 +194,10 @@ const teachers = [
 
   .teacher-details span:not(.desktop-only) {
     display: block;
+  }
+
+  .teacher-details span:not(.desktop-only) + span:not(.desktop-only) {
+    margin-top: 12px;
   }
 
   .teachers-footer {
@@ -221,7 +225,7 @@ const teachers = [
   @media (max-width: 1599px) and (min-width: 1200px) {
     .teacher-card {
       grid-template-columns: minmax(160px, 38%) minmax(0, 1fr);
-      gap: 16px;
+      column-gap: 16px;
     }
 
     .teacher-image {
@@ -239,7 +243,6 @@ const teachers = [
     }
 
     .teacher-details {
-      padding-top: 115px;
       font-size: 15px;
       line-height: 21px;
     }
@@ -300,11 +303,18 @@ const teachers = [
     }
 
     .teacher-card {
-      display: block;
-      height: 374px;
+      min-height: 374px;
       padding: 15px 16px 16px;
+      grid-template-columns: 136px minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      column-gap: 16px;
+      row-gap: 0;
       background: var(--color-accent-secondary-10);
       border: 1px solid transparent;
+    }
+
+    .teacher-content {
+      display: contents;
     }
 
     .teacher-card:first-child {
@@ -312,29 +322,24 @@ const teachers = [
     }
 
     .teacher-card:nth-child(2) {
-      height: 332px;
+      min-height: 332px;
     }
 
     .teacher-card:nth-child(3) {
-      height: 302px;
-    }
-
-    .teacher-top {
-      display: grid;
-      height: 146px;
-      grid-template-columns: 136px minmax(0, 1fr);
-      gap: 16px;
+      min-height: 302px;
     }
 
     .teacher-image {
       width: 136px;
       height: 146px;
+      grid-column: 1;
+      grid-row: 1;
       border-radius: 20px;
     }
 
     .teacher-intro {
-      grid-column: auto;
-      grid-row: auto;
+      grid-column: 2;
+      grid-row: 1;
       gap: 10px;
     }
 
@@ -349,6 +354,8 @@ const teachers = [
     }
 
     .teacher-details {
+      grid-column: 1 / -1;
+      grid-row: 2;
       padding-top: 23px;
       gap: 6px;
       font-size: 14px;

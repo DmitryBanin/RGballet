@@ -24,7 +24,7 @@ const { title, buttonLabel, titleId } = Astro.props;
 
   .banner-content {
     display: flex;
-    width: min(100%, 1450px);
+    width: min(100%, 1155px);
     padding-top: 50px;
     flex-direction: column;
     align-items: center;
@@ -34,16 +34,16 @@ const { title, buttonLabel, titleId } = Astro.props;
   h2 {
     margin: 0;
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: clamp(44px, 2.604vw, 50px);
+    font-size: clamp(26px, calc(20.462px + 1.538vw), 50px);
     font-weight: 400;
-    line-height: clamp(64px, 6.25vw, 120px);
+    line-height: clamp(85px, 6.25vw, 120px);
     text-align: center;
   }
 
   @media (max-width: 1199px) and (min-width: 768px) {
     .banner {
       height: 330px;
-      margin-top: 70px;
+      /* margin-top: 50px; */
     }
 
     .banner-content {
@@ -53,30 +53,28 @@ const { title, buttonLabel, titleId } = Astro.props;
 
     h2 {
       max-width: 900px;
-      font-size: 44px;
-      line-height: 64px;
+      line-height: 85px;
     }
   }
 
   @media (max-width: 767px) {
     .banner {
-      height: 294px;
-      margin-top: 0;
+      height: 385px;
+      /* margin-top: 10px; */
       padding-inline: 20px;
     }
 
     .banner-content {
-      width: 320px;
+      /* width: 320px; */
       max-width: 100%;
-      padding-top: 30px;
-      gap: 30px;
+      /* padding-top: 30px; */
+      /* gap: 30px; */
     }
 
     h2 {
-      height: 150px;
+      height: 200px;
       max-width: 100%;
-      font-size: clamp(28px, 8.5vw, 34px);
-      line-height: clamp(44px, 12.5vw, 50px);
+      line-height: clamp(30px, 25vw, 60px);
     }
   }
 </style>
