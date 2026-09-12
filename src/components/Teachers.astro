@@ -134,10 +134,13 @@ const teachers = [
 
   .teacher-card {
     display: grid;
+    width: 100%;
+    max-width: 600px;
     min-height: 428px;
     padding: 20px;
     grid-template-columns: 210px minmax(0, 1fr);
     align-content: start;
+    justify-self: center;
     column-gap: 22px;
     background: var(--color-accent-secondary-10);
     border-radius: 30px;
@@ -215,14 +218,29 @@ const teachers = [
     text-align: center;
   }
 
-  @media (max-width: 1919px) {
+  @media (width < 1920px) {
     .teachers {
       width: auto;
       margin-inline: var(--page-gutter);
     }
   }
 
-  @media (max-width: 1599px) and (min-width: 1200px) {
+  @media (width < 1770px) and (width >= 1200px) {
+    .teacher-cards {
+      width: 100%;
+      max-width: 1220px;
+      margin-inline: auto;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .teacher-card:nth-child(3) {
+      width: calc(50% - 10px);
+      grid-column: 1 / -1;
+      justify-self: center;
+    }
+  }
+
+  @media (width < 1600px) and (width >= 1200px) {
     .teacher-card {
       grid-template-columns: minmax(160px, 38%) minmax(0, 1fr);
       column-gap: 16px;
@@ -248,7 +266,7 @@ const teachers = [
     }
   }
 
-  @media (max-width: 1199px) and (min-width: 768px) {
+  @media (width < 1200px) and (width >= 768px) {
     .teachers {
       margin-top: 90px;
     }
@@ -273,7 +291,7 @@ const teachers = [
     }
   }
 
-  @media (max-width: 767px) {
+  @media (width < 768px) {
     .teachers {
       width: auto;
       min-height: 1474px;
