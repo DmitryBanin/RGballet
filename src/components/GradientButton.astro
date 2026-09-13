@@ -30,6 +30,21 @@ const { label, fullWidth = false, disabled = false, opensForm = false } = Astro.
     line-height: 27px;
     white-space: nowrap;
     cursor: pointer;
+    transition:
+      box-shadow 0.2s ease,
+      filter 0.2s ease,
+      transform 0.1s ease;
+  }
+
+  .gradient-button:not(:disabled):hover {
+    filter: brightness(1.12);
+  }
+
+  .gradient-button:not(:disabled):active {
+    box-shadow:
+      0 3px 7px var(--color-button-shadow-18),
+      0 8px 20px var(--color-button-gradient-start-28);
+    transform: translateY(2px);
   }
 
   .gradient-button.full-width {

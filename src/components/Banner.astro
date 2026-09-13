@@ -14,9 +14,8 @@ const { title, buttonLabel, titleId } = Astro.props;
 <style>
   .banner {
     display: flex;
-    height: 450px;
     margin-top: 110px;
-    padding-inline: var(--page-gutter);
+    padding: 48px var(--page-gutter);
     align-items: flex-start;
     justify-content: center;
     background: var(--color-accent-secondary-20);
@@ -25,7 +24,6 @@ const { title, buttonLabel, titleId } = Astro.props;
   .banner-content {
     display: flex;
     width: min(100%, 1155px);
-    padding-top: 50px;
     flex-direction: column;
     align-items: center;
     gap: 45px;
@@ -34,47 +32,40 @@ const { title, buttonLabel, titleId } = Astro.props;
   h2 {
     margin: 0;
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: clamp(26px, calc(20.462px + 1.538vw), 50px);
+    font-size: clamp(26px, calc(-13.98px + 5.206vw), 50px);
     font-weight: 400;
-    line-height: clamp(85px, 6.25vw, 120px);
+    line-height: clamp(60px, calc(-39.96px + 13.015vw), 120px);
     text-align: center;
   }
 
-  @media (max-width: 1199px) and (min-width: 768px) {
-    .banner {
-      height: 330px;
-      /* margin-top: 50px; */
-    }
+  #invitation-title {
+    width: min(100%, 1155px);
+  }
 
-    .banner-content {
-      padding-top: 45px;
-      gap: 35px;
-    }
-
-    h2 {
-      max-width: 900px;
-      line-height: 85px;
-    }
+  #recruitment-title {
+    width: min(100%, 1080px);
   }
 
   @media (max-width: 767px) {
     .banner {
       height: 385px;
       /* margin-top: 10px; */
+      padding-block: 0;
       padding-inline: 20px;
     }
 
     .banner-content {
       /* width: 320px; */
       max-width: 100%;
-      /* padding-top: 30px; */
+      padding-top: 50px;
       /* gap: 30px; */
     }
 
     h2 {
       height: 200px;
       max-width: 100%;
-      line-height: clamp(30px, 25vw, 60px);
+      font-size: clamp(26px, calc(20.462px + 1.538vw), 50px);
+      line-height: normal;
     }
   }
 </style>
