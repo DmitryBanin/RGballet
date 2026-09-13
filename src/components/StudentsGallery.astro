@@ -193,10 +193,17 @@ const students = [
   }
 
   .students-mosaic {
+    --square-column-width: min(20vw, 360px);
+
     display: grid;
-    width: min(100%, 1500px);
+    width: 100%;
+    height: calc(var(--square-column-width) + var(--square-column-width) + 20px);
     margin: 40px auto 0;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns:
+      minmax(0, 1fr)
+      var(--square-column-width)
+      minmax(0, 1fr)
+      var(--square-column-width);
     gap: 20px;
   }
 
@@ -224,6 +231,12 @@ const students = [
 
   .gallery-column-tall img {
     min-height: 0;
+  }
+
+  .gallery-column-tall {
+    min-height: 0;
+    grid-template-rows: 1fr;
+    overflow: hidden;
   }
 
   .gallery-dots {

@@ -65,13 +65,13 @@ const photos = [
 
 <script>
   document.querySelectorAll('[data-atmosphere-gallery]').forEach((gallery) => {
-    const slides = [...gallery.querySelectorAll('[data-atmosphere-slide]')];
-    const dots = [...gallery.querySelectorAll('[data-atmosphere-dot]')];
-    const previousButton = gallery.querySelector('[data-atmosphere-prev]');
-    const nextButton = gallery.querySelector('[data-atmosphere-next]');
+    const slides = [...gallery.querySelectorAll<HTMLElement>('[data-atmosphere-slide]')];
+    const dots = [...gallery.querySelectorAll<HTMLButtonElement>('[data-atmosphere-dot]')];
+    const previousButton = gallery.querySelector<HTMLButtonElement>('[data-atmosphere-prev]');
+    const nextButton = gallery.querySelector<HTMLButtonElement>('[data-atmosphere-next]');
     let current = 0;
 
-    const update = (nextIndex) => {
+    const update = (nextIndex: number) => {
       current = Math.min(Math.max(nextIndex, 0), slides.length - 1);
       slides.forEach((slide, index) => slide.classList.toggle('is-active', index === current));
       dots.forEach((dot, index) => {
@@ -114,6 +114,7 @@ const photos = [
   h2 {
     width: 100%;
     color: var(--color-accent-primary);
+    /* cspell:ignore Corvetta */
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
     font-size: clamp(26px, calc(-13.98px + 5.206vw), 50px);
     font-weight: 400;
