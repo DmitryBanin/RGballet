@@ -100,8 +100,11 @@ const students = [
     const nextButtons = [...gallery.querySelectorAll('[data-gallery-next]')].filter(
       (element) => element instanceof HTMLButtonElement,
     );
+    const slider = gallery.querySelector<HTMLElement>('.students-slider');
     const initialTiles = tiles.map((tile) => ({ src: tile.src, alt: tile.alt }));
     let current = 0;
+    let swipeStartX = 0;
+    let swipeStartY = 0;
 
     const update = (nextIndex = 0) => {
       current = Math.min(Math.max(nextIndex, 0), slides.length - 1);
@@ -130,6 +133,26 @@ const students = [
       button.addEventListener('click', () => update(current + 1));
     });
     dots.forEach((dot, index) => dot.addEventListener('click', () => update(index)));
+
+    slider?.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse') return;
+
+      swipeStartX = event.clientX;
+      swipeStartY = event.clientY;
+      (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    });
+
+    slider?.addEventListener('pointerup', (event) => {
+      if (event.pointerType === 'mouse') return;
+
+      const distanceX = event.clientX - swipeStartX;
+      const distanceY = event.clientY - swipeStartY;
+
+      if (Math.abs(distanceX) >= 50 && Math.abs(distanceX) > Math.abs(distanceY)) {
+        update(current + (distanceX < 0 ? 1 : -1));
+      }
+    });
+
     update(0);
   });
 </script>
@@ -357,11 +380,7 @@ const students = [
     }
 
     .gallery-arrows-mobile {
-      position: absolute;
-      right: 0;
-      display: flex;
-      height: 30px;
-      gap: 16px;
+      display: none;
     }
 
     .gallery-navigation {
@@ -383,6 +402,8 @@ const students = [
       overflow: hidden;
       border-radius: 30px;
       background: var(--color-photo-placeholder);
+      touch-action: pan-y;
+      user-select: none;
     }
 
     .student-slide {
