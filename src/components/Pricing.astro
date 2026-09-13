@@ -18,33 +18,34 @@ const prices = [
   style={`--pricing-background-desktop: url("${assetPath}/pricing-background-desktop.png"); --pricing-background-mobile: url("${assetPath}/pricing-background-mobile.png");`}
 >
   <div class="pricing-inner">
-    <h2 id="pricing-title">Стоимость</h2>
+    <div class="pricing-content">
+      <h2 id="pricing-title">Стоимость</h2>
 
-    <div class="price-grid">
-      {prices.map((item) => (
-        <article class="price-card">
-          <span class="price-icon">
-            <img src={`${assetPath}/${item.icon}`} alt="" loading="lazy" />
-          </span>
-          <div class="price-copy">
-            <p class="price-title">
-              <span class="mobile-title">{item.title}</span>
-              <span class="desktop-title">{item.desktopTitle.map((line) => <span>{line}</span>)}</span>
-            </p>
-            <p class="price-value">{item.price}</p>
-          </div>
-        </article>
-      ))}
-    </div>
+      <div class="price-grid">
+        {prices.map((item) => (
+          <article class="price-card">
+            <span class="price-icon">
+              <img src={`${assetPath}/${item.icon}`} alt="" loading="lazy" />
+            </span>
+            <div class="price-copy">
+              <p class="price-title">
+                <span class="mobile-title">{item.title}</span>
+                <span class="desktop-title">{item.desktopTitle.map((line) => <span>{line}</span>)}</span>
+              </p>
+              <p class="price-value">{item.price}</p>
+            </div>
+          </article>
+        ))}
+      </div>
 
-    <div class="discount">
-      <img src={`${assetPath}/pricing-discount.svg`} alt="" width="116" height="116" loading="lazy" />
-      <div>
-        <p class="discount-title">Скидка до <strong>20%</strong></p>
-        <p class="discount-note">для льготных категорий, а также второго члена семьи.</p>
+      <div class="discount">
+        <img src={`${assetPath}/pricing-discount.svg`} alt="" width="116" height="116" loading="lazy" />
+        <div>
+          <p class="discount-title">Скидка до <strong>20%</strong></p>
+          <p class="discount-note">для льготных категорий, а также второго члена семьи.</p>
+        </div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -62,6 +63,12 @@ const prices = [
     padding-top: 70px;
   }
 
+  .pricing-content {
+    box-sizing: border-box;
+    width: min(100%, 1550px);
+    padding-right: 330px;
+  }
+
   h2,
   p {
     margin: 0;
@@ -77,9 +84,9 @@ const prices = [
 
   .price-grid {
     display: grid;
-    width: min(100%, 1220px);
+    width: 100%;
     margin-top: 30px;
-    grid-template-columns: repeat(4, minmax(0, 290px));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
   }
 
@@ -142,7 +149,7 @@ const prices = [
 
   .discount {
     display: flex;
-    width: min(100%, 1220px);
+    width: 100%;
     height: 177px;
     margin-top: 40px;
     padding: 28px 49px;
@@ -188,15 +195,26 @@ const prices = [
     }
   }
 
-  @media (max-width: 1199px) and (min-width: 768px) {
+  @media (max-width: 1619px) and (min-width: 1200px) {
+    .pricing {
+      background-position: calc(100% + 150px) center;
+    }
+  }
+
+  @media (max-width: 1199px) and (min-width: 960px) {
     .pricing {
       height: auto;
       min-height: 990px;
-      background-position: 62% center;
+      background-position: calc(100% + 350px) center;
     }
 
     .pricing-inner {
       padding-block: 60px;
+    }
+
+    .pricing-content {
+      width: min(100%, 600px);
+      padding-right: 0;
     }
 
     h2 {
@@ -205,11 +223,9 @@ const prices = [
     }
 
     .price-grid {
-      width: 600px;
-      grid-template-columns: repeat(2, 290px);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .discount,
     .pricing-action {
       width: 600px;
     }
@@ -220,7 +236,7 @@ const prices = [
     }
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 959px) {
     .pricing {
       height: 767px;
       margin-top: 70px;
@@ -232,6 +248,11 @@ const prices = [
       max-width: calc(100% - 40px);
       margin-inline: auto;
       padding-top: 30px;
+    }
+
+    .pricing-content {
+      width: 100%;
+      padding-right: 0;
     }
 
     h2 {
