@@ -69,11 +69,18 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     background: var(--color-surface-primary);
     border: 1px solid var(--color-button-border);
     border-radius: 30px;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
     box-shadow: 0 12px 15px var(--color-accent-primary-30);
     font-size: 20px;
     font-weight: 400;
     line-height: 27px;
     cursor: pointer;
+    transition: outline-color 0.2s ease;
+  }
+
+  .hero-button:hover {
+    outline-color: var(--color-accent-primary);
   }
 
   .button-text {
