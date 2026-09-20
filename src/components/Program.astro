@@ -82,7 +82,7 @@ const programs = [
   .program-card {
     display: flex;
     min-width: 0;
-    height: 217px;
+    min-height: 217px;
     padding: 20px;
     align-items: flex-start;
     gap: 22px;
@@ -153,7 +153,7 @@ const programs = [
     }
   }
 
-  @media (width < 768px) {
+  @media (width < 459px) {
     .program {
       width: auto;
       min-height: 1082px;
@@ -176,20 +176,20 @@ const programs = [
     }
 
     .program-cards {
-      margin-top: 30px;
+      margin-top: 38px;
       grid-template-columns: 1fr;
       gap: 16px;
     }
 
     .program-card {
-      height: 256px;
+      min-height: 256px;
       padding: 16px;
       flex-direction: column;
       gap: 14px;
     }
 
     .program-card:last-child {
-      height: 236px;
+      min-height: 236px;
     }
 
     .program-image {

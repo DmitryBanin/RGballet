@@ -49,11 +49,12 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     width: calc(100% - 80px);
     margin: 0;
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: clamp(26px, calc(18.154px + 2.179vw), 60px);
+    font-size: clamp(41px, calc(9.333px + 2.639vw), 60px);
     font-weight: 400;
     line-height: clamp(42px, calc(28.615px + 3.718vw), 100px);
     text-align: center;
     text-wrap: balance;
+    white-space: nowrap;
   }
 
   .hero-button {
@@ -128,6 +129,11 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
       padding-top: 40px;
     }
 
+    h1 {
+      width: calc(100% - 40px);
+      font-size: clamp(26.8px, calc(1.556px + 3.287vw), 41px);
+    }
+
     .hero-button {
       width: calc(100% - 40px);
       max-width: 319px;
@@ -154,8 +160,8 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     }
 
     .button-arrow img {
-      width: 11px;
-      height: 19px;
+      width: 25px;
+      height: 25px;
     }
   }
 
@@ -167,7 +173,33 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     h1 {
       width: calc(100% - 26px);
       max-width: 700px;
-      line-height: clamp(42px, 7.171vw, 55px);
+      font-size: clamp(26px, calc(25.294px + 0.196vw), 26.8px);
+      line-height: 55px;
+      white-space: normal;
+    }
+
+      .button-arrow img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  @media (width < 360px) {
+    .hero-background {
+      left: calc(50% - 40px);
+    }
+
+    h1 {
+      width: calc(100% - 26px);
+      max-width: 700px;
+      font-size: clamp(26px, calc(25.294px + 0.196vw), 26.8px);
+      line-height: 45px;
+      white-space: normal;
+    }
+
+      .button-arrow img {
+      width: 20px;
+      height: 20px;
     }
   }
 
