@@ -98,6 +98,7 @@ const teachers = [
     min-height: 827px;
     margin: 150px auto 0;
     scroll-margin-top: 30px;
+    container-type: inline-size;
   }
 
   .teachers-header {
@@ -306,7 +307,7 @@ const teachers = [
 
     .teachers-header h2 {
       max-width: 100%;
-      font-size: 32px;
+      font-size: clamp(30px, calc(16px + 5cqi), 32px);
       line-height: 60px;
       white-space: nowrap;
     }
@@ -325,7 +326,7 @@ const teachers = [
     .teacher-card {
       min-height: 374px;
       padding: 15px 16px 16px;
-      grid-template-columns: 136px minmax(0, 1fr);
+      grid-template-columns: clamp(120px, calc(8px + 40cqi), 136px) minmax(0, 1fr);
       grid-template-rows: auto auto;
       column-gap: 16px;
       row-gap: 0;
@@ -346,7 +347,7 @@ const teachers = [
 
     .teacher-image-frame {
       position: relative;
-      width: 136px;
+      width: clamp(120px, calc(8px + 40cqi), 136px);
       height: 146px;
       grid-column: 1;
       grid-row: 1;
@@ -360,7 +361,7 @@ const teachers = [
     }
 
     .teacher-intro h3 {
-      font-size: 24px;
+      font-size: clamp(20px, calc(-8px + 10cqi), 24px);
       line-height: 26px;
     }
 

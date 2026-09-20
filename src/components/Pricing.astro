@@ -65,6 +65,7 @@ const prices = [
     height: 100%;
     margin-inline: auto;
     padding-top: 70px;
+    container-type: inline-size;
   }
 
   .pricing-content {
@@ -262,7 +263,7 @@ const prices = [
     h2 {
       height: 60px;
       max-width: 100%;
-      font-size: clamp(32px, 10vw, 40px);
+      font-size: clamp(30px, calc(16px + 5cqi), 32px);
       line-height: clamp(50px, 15vw, 60px);
     }
 

@@ -111,7 +111,7 @@ const comments = [
           data-ios-map={contacts.map.ios}
         >
           <span class="contact-icon"><img src={`${assetPath}/contact-location.svg`} alt="" /></span>
-          <span>{contacts.address}</span>
+          <span class="contact-address">{contacts.address}</span>
         </a>
         <a class="contact" href={contacts.email.href}>
           <span class="contact-icon"><img src={`${assetPath}/contact-mail.svg`} alt="" /></span>
@@ -430,6 +430,7 @@ const comments = [
 
   .contacts {
     height: 353px;
+    container-type: inline-size;
   }
 
   .contacts h2 {
@@ -491,6 +492,7 @@ const comments = [
 
   .question-form {
     height: 343px;
+    container-type: inline-size;
   }
 
   .question-heading {
@@ -502,8 +504,9 @@ const comments = [
 
   .question-heading h2 {
     height: 58px;
-    font-size: clamp(34px, 2.083vw, 40px);
+    font-size: clamp(18px, 8.246cqi, 40px);
     line-height: clamp(68px, 4.167vw, 80px);
+    white-space: nowrap;
   }
 
   .question-heading p {
@@ -585,7 +588,7 @@ const comments = [
     }
   }
 
-  @media (max-width: 1424px) and (min-width: 768px) {
+  @media (max-width: 1272px) and (min-width: 599px) {
     .site-footer {
       min-height: auto;
       margin-top: 90px;
@@ -596,13 +599,20 @@ const comments = [
       display: grid;
       min-height: auto;
       padding: 30px;
-      grid-template-columns: 1fr 1fr;
-      gap: 150px;
+      grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+      column-gap: clamp(12px, 2.948vw, 37.5px);
+      row-gap: 75px;
       border-radius: 30px;
     }
 
     .footer-divider {
       display: none;
+    }
+
+    .reviews + .footer-divider {
+      display: block;
+      grid-column: 2;
+      grid-row: 1;
     }
 
     .question-form {
@@ -613,6 +623,10 @@ const comments = [
       width: min(100%, 600px);
     }
 
+    .contact-phone strong {
+      font-size: 24px;
+    }
+
     .copyright {
       position: static;
       grid-column: 1 / -1;
@@ -621,7 +635,15 @@ const comments = [
     }
   }
 
-  @media (max-width: 767px) {
+  @media (min-width: 601px) {
+    .contact-address {
+      font-size: clamp(16px, calc(1.6px + 4.4cqi), 20px);
+      white-space: nowrap;
+    }
+
+  }
+
+  @media (max-width: 599px) {
     .site-footer {
       min-height: 1138px;
       margin-top: 70px;
@@ -649,7 +671,7 @@ const comments = [
     .contacts h2 {
       height: 67px;
       max-width: 100%;
-      font-size: clamp(26px, 7.5vw, 30px);
+      font-size: 30px;
       line-height: clamp(52px, 15vw, 60px);
     }
 
@@ -759,7 +781,6 @@ const comments = [
     .question-heading h2 {
       height: 52px;
       max-width: 100%;
-      font-size: clamp(22px, 6.25vw, 25px);
       line-height: clamp(48px, 15vw, 60px);
     }
 

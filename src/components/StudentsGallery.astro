@@ -163,6 +163,7 @@ const students = [
     width: min(100%, var(--container-max-width));
     margin: 150px auto 0;
     scroll-margin-top: 30px;
+    container-type: inline-size;
   }
 
   h2 {
@@ -429,6 +430,12 @@ const students = [
     .gallery-dot {
       width: 16px;
       height: 16px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    h2 {
+      font-size: clamp(30px, calc(24px + 2.5cqi), 32px);
     }
   }
 
