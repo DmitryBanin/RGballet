@@ -9,7 +9,7 @@ html {
 }
 
 body {
-  min-width: 320px;
+  min-width: min(320px, 100%);
   margin: 0;
   color: var(--color-text-primary);
   background: var(--color-surface-primary);

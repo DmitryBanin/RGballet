@@ -323,7 +323,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     overflow: hidden;
   }
 
-  @media (max-width: 767px) {
+  @media (width < 768px) {
     .contact-modal {
       top: max(20px, min(16.9vh, calc(100dvh - 590px)));
       width: 320px;

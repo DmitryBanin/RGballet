@@ -14,7 +14,7 @@ const { title, buttonLabel, titleId } = Astro.props;
 <style>
   .banner {
     display: flex;
-    margin-top: 110px;
+    margin-top: var(--banner-space);
     padding: 48px var(--page-gutter);
     align-items: flex-start;
     justify-content: center;
@@ -46,7 +46,7 @@ const { title, buttonLabel, titleId } = Astro.props;
     width: min(100%, 1080px);
   }
 
-  @media (max-width: 767px) {
+  @media (width < 768px) {
     h2 {
       max-width: 100%;
       font-size: clamp(22px, calc(20.462px + 1.538vw), 30px);
@@ -54,7 +54,7 @@ const { title, buttonLabel, titleId } = Astro.props;
     }
 
     .banner {
-    margin-top: 70px;
+      margin-top: var(--banner-space);
     }
   }
   

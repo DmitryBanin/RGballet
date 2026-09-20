@@ -94,12 +94,12 @@ const photos = [
   .atmosphere {
     width: min(100%, var(--container-max-width));
     min-height: 578px;
-    margin: 150px auto 0;
+    margin: var(--section-space) auto 0;
   }
 
   .atmosphere-header {
     display: flex;
-    height: 198px;
+    min-height: 198px;
     flex-direction: column;
     align-items: center;
     gap: 30px;
@@ -116,7 +116,7 @@ const photos = [
     color: var(--color-accent-primary);
     /* cspell:ignore Corvetta */
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: clamp(26px, calc(-13.98px + 5.206vw), 50px);
+    font-size: var(--section-title-compact);
     font-weight: 400;
     line-height: clamp(80px, 5.208vw, 100px);
   }
@@ -152,21 +152,21 @@ const photos = [
     display: none;
   }
 
-  @media (max-width: 1919px) {
+  @media (width < 1920px) {
     .atmosphere {
       width: auto;
       margin-inline: var(--page-gutter);
     }
   }
 
-  @media (max-width: 1199px) and (min-width: 768px) {
+  @media (768px <= width < 1200px) {
     .atmosphere {
       min-height: auto;
-      margin-top: 90px;
+      margin-top: var(--section-space);
     }
 
     .atmosphere-header {
-      height: auto;
+      min-height: 0;
     }
 
     h2 {
@@ -188,15 +188,15 @@ const photos = [
     }
   }
 
-  @media (max-width: 767px) {
+  @media (width < 768px) {
     .atmosphere {
       width: auto;
       min-height: 856px;
-      margin: 70px 20px 0;
+      margin: var(--section-space) 20px 0;
     }
 
     .atmosphere-header {
-      height: 320px;
+      min-height: 320px;
       gap: 30px;
     }
 
@@ -210,8 +210,8 @@ const photos = [
     .atmosphere-header p {
       width: 320px;
       max-width: 100%;
-      font-size: 14px;
-      line-height: 22px;
+      font-size: var(--mobile-copy-size);
+      line-height: var(--mobile-copy-line);
     }
 
     .atmosphere-grid {

@@ -56,8 +56,11 @@ const prices = [
 <style>
   .pricing {
     height: 870px;
-    margin-top: 150px;
-    background: var(--pricing-background-desktop) center / cover no-repeat;
+    margin-top: var(--section-space);
+    background-image: var(--pricing-background-desktop);
+    background-position: calc(50% + clamp(0px, calc(640px - 33.333vw), 235px)) center;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
   .pricing-inner {
@@ -82,7 +85,7 @@ const prices = [
   h2 {
     height: 100px;
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: clamp(52px, 3.125vw, 60px);
+    font-size: var(--section-title-size);
     font-weight: 400;
     line-height: clamp(80px, 5.208vw, 100px);
   }
@@ -193,20 +196,14 @@ const prices = [
     justify-content: center;
   }
 
-  @media (max-width: 1919px) {
+  @media (width < 1920px) {
     .pricing-inner {
       width: auto;
       margin-inline: var(--page-gutter);
     }
   }
 
-  @media (max-width: 1619px) and (min-width: 1200px) {
-    .pricing {
-      background-position: calc(100% + 235px) center;
-    }
-  }
-
-  @media (max-width: 1199px) and (min-width: 960px) {
+  @media (768px <= width < 1200px) {
     .pricing {
       height: auto;
       min-height: 990px;
@@ -218,12 +215,11 @@ const prices = [
     }
 
     .pricing-content {
-      width: min(100%, 600px);
+      width: min(100%, 900px);
       padding-right: 0;
     }
 
     h2 {
-      font-size: 52px;
       line-height: 80px;
     }
 
@@ -232,7 +228,7 @@ const prices = [
     }
 
     .pricing-action {
-      width: 600px;
+      width: 100%;
     }
 
     .discount-title {
@@ -241,10 +237,10 @@ const prices = [
     }
   }
 
-  @media (max-width: 959px) {
+  @media (width < 768px) {
     .pricing {
       height: 787px;
-      margin-top: 70px;
+      margin-top: var(--section-space);
       background-image: var(--pricing-background-mobile);
     }
 

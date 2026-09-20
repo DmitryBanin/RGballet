@@ -205,18 +205,7 @@ const features = [
     transform: translateY(-50%);
   }
 
-  @media (max-width: 1599px) and (min-width: 1200px) {
-    .features {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .feature {
-      font-size: 15px;
-      line-height: 22px;
-    }
-  }
-
-  @media (max-width: 1199px) and (min-width: 768px) {
+  @media (768px <= width < 1200px) {
     .about {
       padding-block: 60px;
     }
@@ -241,7 +230,7 @@ const features = [
     }
   }
 
-  @media (max-width: 767px) {
+  @media (width < 768px) {
     .about {
       min-height: 810px;
       padding: 70px 20px 0px 20px;
@@ -266,8 +255,8 @@ const features = [
 
     .about-copy p {
       margin-top: 30px;
-      font-size: 14px;
-      line-height: 22px;
+      font-size: var(--mobile-copy-size);
+      line-height: var(--mobile-copy-line);
     }
 
     .features {

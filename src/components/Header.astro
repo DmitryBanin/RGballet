@@ -114,7 +114,7 @@ const homePath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
   .site-header {
     position: relative;
     z-index: 10;
-    height: 80px;
+    height: clamp(60px, calc(26.667px + 2.778vw), 80px);
     background: var(--color-surface-primary);
   }
 
@@ -143,9 +143,9 @@ const homePath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
   }
 
   .logo {
-    width: 135px;
-    height: 60px;
-    flex: 0 0 135px;
+    width: clamp(108px, calc(63px + 3.75vw), 135px);
+    height: clamp(48px, calc(28px + 1.667vw), 60px);
+    flex: 0 0 clamp(108px, calc(63px + 3.75vw), 135px);
   }
 
   .logo img {
@@ -177,15 +177,15 @@ const homePath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
     margin-left: auto;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: clamp(10px, 0.833vw, 16px);
     flex: 0 0 auto;
   }
 
   .social-icon {
     display: grid;
-    width: 50px;
-    height: 50px;
-    flex: 0 0 50px;
+    width: clamp(40px, calc(23.333px + 1.389vw), 50px);
+    height: clamp(40px, calc(23.333px + 1.389vw), 50px);
+    flex: 0 0 clamp(40px, calc(23.333px + 1.389vw), 50px);
     place-items: center;
     line-height: 0;
   }
@@ -246,33 +246,7 @@ const homePath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
     stroke-dashoffset: -68px;
   }
 
-  @media (max-width: 1500px) {
-    .site-header {
-      height: 60px;
-    }
-
-    .logo {
-      width: 108px;
-      height: 48px;
-      flex-basis: 108px;
-    }
-
-    .navigation {
-      gap: 34px;
-    }
-
-    .socials {
-      gap: 10px;
-    }
-
-    .social-icon {
-      width: 40px;
-      height: 40px;
-      flex-basis: 40px;
-    }
-  }
-
-  @media (max-width: 1199px) {
+  @media (width < 1200px) {
     .header-inner {
       justify-content: space-between;
     }
@@ -396,7 +370,7 @@ const homePath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
     }
   }
 
-  @media (max-width: 767px) {
+  @media (width < 768px) {
 
 
     /* .logo {
@@ -426,7 +400,7 @@ const homePath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
   const backgroundElements = document.querySelectorAll(
     '.page-wrapper > main, .page-wrapper > footer, .header-inner > :not([data-menu-button])',
   );
-  const mobileMedia = window.matchMedia('(max-width: 1199px)');
+  const mobileMedia = window.matchMedia('(width < 1200px)');
 
   if (
     menuButton instanceof HTMLButtonElement &&

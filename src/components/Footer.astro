@@ -261,7 +261,7 @@ const comments = [
 <style>
   .site-footer {
     min-height: 524px;
-    margin-top: 100px;
+    margin-top: var(--footer-space);
     padding: 50px 40px 0;
     background: var(--color-accent-secondary-20);
   }
@@ -572,7 +572,7 @@ const comments = [
     border: 0;
   }
 
-  @media (max-width: 1919px) and (min-width: 1200px) {
+  @media (1200px <= width < 1920px) {
     .footer-panel {
       padding-inline: 24px;
       grid-template-columns: 1.15fr 1px 0.9fr 1px 1.1fr;
@@ -588,10 +588,10 @@ const comments = [
     }
   }
 
-  @media (max-width: 1272px) and (min-width: 599px) {
+  @media (768px <= width < 1200px) {
     .site-footer {
       min-height: auto;
-      margin-top: 90px;
+      margin-top: var(--footer-space);
       padding: 40px var(--page-gutter);
     }
 
@@ -635,7 +635,7 @@ const comments = [
     }
   }
 
-  @media (min-width: 601px) {
+  @media (width >= 768px) {
     .contact-address {
       font-size: clamp(16px, calc(1.6px + 4.4cqi), 20px);
       white-space: nowrap;
@@ -643,10 +643,10 @@ const comments = [
 
   }
 
-  @media (max-width: 599px) {
+  @media (width < 768px) {
     .site-footer {
       min-height: 1138px;
-      margin-top: 70px;
+      margin-top: var(--footer-space);
       padding: 28px 20px 0;
     }
 

@@ -2,6 +2,14 @@
   --page-max-width: 1920px;
   --container-max-width: 1840px;
   --page-gutter: clamp(20px, 2.083vw, 40px);
+  --section-space: clamp(70px, calc(51.538px + 5.128vw), 150px);
+  --section-space-compact: clamp(50px, calc(26.923px + 6.41vw), 150px);
+  --banner-space: clamp(70px, calc(60.769px + 2.564vw), 110px);
+  --footer-space: clamp(70px, calc(63.077px + 1.923vw), 100px);
+  --section-title-size: clamp(32px, calc(13.333px + 2.431vw), 60px);
+  --section-title-compact: clamp(32px, calc(20px + 1.5625vw), 50px);
+  --mobile-copy-size: clamp(14px, calc(8.706px + 1.471vw), 20px);
+  --mobile-copy-line: clamp(22px, calc(14.941px + 1.961vw), 30px);
 
   --color-text-primary: #232323;
   --color-surface-primary: #ffffff;

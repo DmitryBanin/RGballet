@@ -46,7 +46,7 @@ const opportunities = [
   .opportunities {
     width: min(100%, var(--container-max-width));
     min-height: 604px;
-    margin: 150px auto 0;
+    margin: var(--section-space) auto 0;
     container-type: inline-size;
   }
 
@@ -59,7 +59,7 @@ const opportunities = [
     height: 100px;
     color: var(--color-accent-primary);
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: clamp(26px, calc(-13.98px + 5.206vw), 50px);
+    font-size: var(--section-title-compact);
     font-weight: 400;
     line-height: clamp(80px, 5.208vw, 100px);
     text-align: center;
@@ -108,17 +108,17 @@ const opportunities = [
     display: none;
   }
 
-  @media (max-width: 1919px) {
+  @media (width < 1920px) {
     .opportunities {
       width: auto;
       margin-inline: var(--page-gutter);
     }
   }
 
-  @media (max-width: 1199px) and (min-width: 768px) {
+  @media (768px <= width < 1200px) {
     .opportunities {
       min-height: auto;
-      margin-top: 90px;
+      margin-top: var(--section-space);
     }
 
     h2 {
@@ -131,11 +131,11 @@ const opportunities = [
     }
   }
 
-  @media (max-width: 767px) {
+  @media (width < 768px) {
     .opportunities {
       width: auto;
       min-height: 542px;
-      margin: 70px 20px 0;
+      margin: var(--section-space) 20px 0;
     }
 
     h2 {
@@ -167,8 +167,8 @@ const opportunities = [
     }
 
     .opportunity-card p {
-      font-size: 14px;
-      line-height: 22px;
+      font-size: var(--mobile-copy-size);
+      line-height: var(--mobile-copy-line);
     }
 
     .mobile-extra {

@@ -54,14 +54,15 @@ const programs = [
   .program {
     width: min(100%, var(--container-max-width));
     min-height: 411px;
-    margin: 150px auto 0;
+    margin: var(--section-space-compact) auto 0;
+    container-type: inline-size;
   }
 
   h2 {
     margin: 0;
     color: var(--color-accent-primary);
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: clamp(36px, calc(-13.98px + 5.206vw), 50px);
+    font-size: var(--section-title-compact);
     font-weight: 400;
     line-height: clamp(80px, 5.208vw, 100px);
     text-align: center;
@@ -74,7 +75,7 @@ const programs = [
   .program-cards {
     display: grid;
     margin-top: 40px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
     gap: 20px;
   }
 
@@ -91,9 +92,9 @@ const programs = [
   }
 
   .program-image {
-    width: 185px;
+    width: clamp(142px, 9.635vw, 185px);
     height: 177px;
-    flex: 0 0 185px;
+    flex: 0 0 clamp(142px, 9.635vw, 185px);
     border-radius: 24px;
     object-fit: cover;
   }
@@ -112,14 +113,14 @@ const programs = [
 
   .program-copy h3 {
     max-width: 341px;
-    font-size: 24px;
+    font-size: clamp(20px, calc(13.333px + 0.556vw), 24px);
     font-weight: 600;
     line-height: 34px;
     overflow-wrap: anywhere;
   }
 
   .program-copy p {
-    font-size: 18px;
+    font-size: clamp(16px, calc(12.667px + 0.278vw), 18px);
     line-height: 24px;
   }
 
@@ -130,64 +131,33 @@ const programs = [
     text-align: center;
   }
 
-  @media (max-width: 1919px) {
+  @media (width < 1920px) {
     .program {
       width: auto;
       margin-inline: var(--page-gutter);
     }
   }
 
-  @media (max-width: 1599px) and (min-width: 1200px) {
-    .program-card {
-      gap: 16px;
-    }
-
-    /* .program-image {
-      width: 155px;
-      flex-basis: 155px;
-    } */
-
-    .program-copy h3 {
-      font-size: 20px;
-      line-height: 28px;
-    }
-
-    .program-copy p {
-      font-size: 16px;
-      line-height: 22px;
-    }
-  }
-
-  @media (max-width: 1340px) and (min-width: 768px) {
+  @media (768px <= width < 1200px) {
     .program {
-      margin-top: 90px;
+      margin-top: var(--section-space-compact);
     }
 
     h2 {
       line-height: 80px;
     }
 
-    .program-cards {
-      max-width: 700px;
-      margin: 35px auto 0;
-      grid-template-columns: 1fr;
-    }
-
-    .program-card {
-      height: 217px;
-    }
-
     .program-summary {
-      max-width: 700px;
+      max-width: 1000px;
       margin: 25px auto 0;
     }
   }
 
-  @media (max-width: 767px) {
+  @media (width < 768px) {
     .program {
       width: auto;
       min-height: 1082px;
-      margin: 50px 20px 0;
+      margin: var(--section-space-compact) 20px 0;
     }
 
     h2 {

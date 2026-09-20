@@ -56,7 +56,7 @@ const { label, fullWidth = false, disabled = false, opensForm = false } = Astro.
     cursor: default;
   }
 
-  @media (max-width: 767px) {
+  @media (width < 768px) {
     .gradient-button {
       width: 320px;
       max-width: 100%;

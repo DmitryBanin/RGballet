@@ -96,7 +96,7 @@ const teachers = [
   .teachers {
     width: min(100%, var(--container-max-width));
     min-height: 827px;
-    margin: 150px auto 0;
+    margin: var(--section-space) auto 0;
     scroll-margin-top: 30px;
     container-type: inline-size;
   }
@@ -123,7 +123,7 @@ const teachers = [
     width: 100%;
     color: var(--color-accent-primary);
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: clamp(52px, 3.125vw, 60px);
+    font-size: var(--section-title-size);
     font-weight: 400;
     line-height: clamp(80px, 5.208vw, 100px);
   }
@@ -138,7 +138,7 @@ const teachers = [
   .teacher-cards {
     display: grid;
     margin-top: 30px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
     gap: 20px;
   }
 
@@ -254,14 +254,7 @@ const teachers = [
     }
   }
 
-  @media (width < 1770px) and (width >= 1200px) {
-    .teacher-cards {
-      width: 100%;
-      max-width: 1220px;
-      margin-inline: auto;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
+  @container (1000px <= width < 1730px) {
     .teacher-card:first-child {
       grid-column: 1 / -1;
       justify-self: center;
@@ -270,7 +263,7 @@ const teachers = [
 
   @media (width < 1200px) and (width >= 768px) {
     .teachers {
-      margin-top: 90px;
+      margin-top: var(--section-space);
     }
 
     .teachers-header {
@@ -278,14 +271,7 @@ const teachers = [
     }
 
     .teachers-header h2 {
-      font-size: 52px;
       line-height: 80px;
-    }
-
-    .teacher-cards {
-      max-width: 700px;
-      margin-inline: auto;
-      grid-template-columns: 1fr;
     }
 
     .teachers-footer {
@@ -297,7 +283,7 @@ const teachers = [
     .teachers {
       width: auto;
       min-height: 1474px;
-      margin: 70px 20px 0;
+      margin: var(--section-space) 20px 0;
     }
 
     .teachers-header {
@@ -313,8 +299,8 @@ const teachers = [
     }
 
     .teachers-header p {
-      font-size: 14px;
-      line-height: 22px;
+      font-size: var(--mobile-copy-size);
+      line-height: var(--mobile-copy-line);
     }
 
     .teacher-cards {

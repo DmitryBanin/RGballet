@@ -35,7 +35,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     display: none;
   }
 
-  @media (min-width: 1200px) {
+  @media (width >= 1200px) {
     .scroll-to-top {
       display: none;
     }
@@ -44,7 +44,7 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
 
 <script>
   const scrollToTopButton = document.querySelector('[data-scroll-to-top]');
-  const mobileMedia = window.matchMedia('(max-width: 1199px)');
+  const mobileMedia = window.matchMedia('(width < 1200px)');
   const reducedMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   if (scrollToTopButton instanceof HTMLButtonElement) {
