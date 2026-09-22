@@ -1,5 +1,6 @@
 ---
 import { contacts } from '../config/contacts.js';
+import Copyright from './Copyright.astro';
 import GradientButton from './GradientButton.astro';
 
 const assetPath = `${import.meta.env.BASE_URL}/images`;
@@ -157,7 +158,7 @@ const comments = [
 
     <div class="footer-legal">
       <a href={privacyPolicyPath}>Политика в отношении обработки персональных данных</a>
-      <p>© RG BALLET, 2026</p>
+      <Copyright />
     </div>
   </div>
 </footer>
@@ -572,10 +573,6 @@ const comments = [
   .footer-legal a {
     color: var(--color-accent-primary);
     text-underline-offset: 3px;
-  }
-
-  .footer-legal p {
-    margin: 0;
   }
 
   .visually-hidden {

@@ -1,5 +1,5 @@
 ---
-import Footer from '../components/Footer.astro';
+import Copyright from '../components/Copyright.astro';
 import Header from '../components/Header.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
@@ -276,13 +276,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </main>
 
-    <div class="footer-legal">
-      <p>© RG BALLET, 2026</p>
-    </div>
-  <!-- <Footer /> -->
+  <div class="policy-copyright">
+    <Copyright />
+  </div>
 </BaseLayout>
 
 <style>
+  .policy-copyright {
+    padding: 20px var(--page-gutter) 64px;
+  }
+
   .policy-page {
     padding-block: clamp(60px, 6.25vw, 120px);
     background: linear-gradient(180deg, var(--color-accent-secondary-10), transparent 420px);
@@ -372,6 +375,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   @media (width < 768px) {
+    .policy-copyright {
+      padding-bottom: 40px;
+    }
+
     .policy-page {
       padding-block: 45px 70px;
     }
