@@ -3,6 +3,7 @@ import { contacts } from '../config/contacts.js';
 import GradientButton from './GradientButton.astro';
 
 const assetPath = `${import.meta.env.BASE_URL}/images`;
+const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privacy-policy/`;
 
 const comments = [
   // Здесь добавлять комментарии
@@ -154,7 +155,10 @@ const comments = [
       </form>
     </section>
 
-    <p class="copyright">© RG BALLET, 2026</p>
+    <div class="footer-legal">
+      <a href={privacyPolicyPath}>Политика в отношении обработки персональных данных</a>
+      <p>© RG BALLET, 2026</p>
+    </div>
   </div>
 </footer>
 
@@ -551,13 +555,27 @@ const comments = [
     margin-top: 12px;
   }
 
-  .copyright {
+  .footer-legal {
     position: absolute;
     bottom: 17px;
     left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
     font-size: 14px;
     line-height: 18px;
+    text-align: center;
     transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .footer-legal a {
+    color: var(--color-accent-primary);
+    text-underline-offset: 3px;
+  }
+
+  .footer-legal p {
+    margin: 0;
   }
 
   .visually-hidden {
@@ -627,9 +645,10 @@ const comments = [
       font-size: 24px;
     }
 
-    .copyright {
+    .footer-legal {
       position: static;
       grid-column: 1 / -1;
+      justify-content: center;
       transform: none;
       text-align: center;
     }
@@ -807,10 +826,14 @@ const comments = [
       margin-top: 12px;
     }
 
-    .copyright {
+    .footer-legal {
       bottom: 24px;
+      width: calc(100% - 32px);
+      flex-direction: column;
+      gap: 4px;
       font-size: 10px;
       line-height: 12px;
+      white-space: normal;
     }
   }
 </style>

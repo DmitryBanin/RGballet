@@ -1,22 +1,24 @@
 ---
 import { contacts } from '../config/contacts.js';
 
+const homePath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const navigationPrefix = Astro.url.pathname === homePath ? '' : homePath;
+
 const leftNavigation = [
-  { label: 'О нас', href: '#about' },
-  { label: 'Наши педагоги', href: '#teachers' },
-  { label: 'Фотогалерея', href: '#gallery' },
+  { label: 'О нас', href: `${navigationPrefix}#about` },
+  { label: 'Наши педагоги', href: `${navigationPrefix}#teachers` },
+  { label: 'Фотогалерея', href: `${navigationPrefix}#gallery` },
 ];
 
 const rightNavigation = [
-  { label: 'Стоимость', href: '#pricing' },
-  { label: 'Отзывы', href: '#reviews' },
-  { label: 'Контакты', href: '#contacts' },
+  { label: 'Стоимость', href: `${navigationPrefix}#pricing` },
+  { label: 'Отзывы', href: `${navigationPrefix}#reviews` },
+  { label: 'Контакты', href: `${navigationPrefix}#contacts` },
 ];
 
 const mobileNavigation = [...leftNavigation, ...rightNavigation];
 const mobilePhone = contacts.phone.display.replace('+7', '8');
 const assetPath = `${import.meta.env.BASE_URL}/images`;
-const homePath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 ---
 
 <header class="site-header">
