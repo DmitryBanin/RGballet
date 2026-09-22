@@ -56,7 +56,7 @@ const prices = [
 <style>
   .pricing {
     height: 870px;
-    margin-top: var(--section-space);
+    margin-top: 150px;
     background: var(--pricing-background-desktop) center / cover no-repeat;
   }
 
@@ -82,7 +82,7 @@ const prices = [
   h2 {
     height: 100px;
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
-    font-size: var(--section-title-size);
+    font-size: clamp(52px, 3.125vw, 60px);
     font-weight: 400;
     line-height: clamp(80px, 5.208vw, 100px);
   }
@@ -193,29 +193,24 @@ const prices = [
     justify-content: center;
   }
 
-  @media (width < 1920px) {
+  @media (max-width: 1919px) {
     .pricing-inner {
       width: auto;
       margin-inline: var(--page-gutter);
     }
   }
 
-  @media (1200px <= width < 1620px) {
+  @media (max-width: 1619px) and (min-width: 1200px) {
     .pricing {
       background-position: calc(100% + 235px) center;
     }
   }
 
-  @media (901px <= width < 1200px) {
-    .pricing {
-      background-position: calc(100% + 350px) center;
-    }
-  }
-
-  @media (768px <= width < 1200px) {
+  @media (max-width: 1199px) and (min-width: 960px) {
     .pricing {
       height: auto;
       min-height: 990px;
+      background-position: calc(100% + 350px) center;
     }
 
     .pricing-inner {
@@ -223,13 +218,12 @@ const prices = [
     }
 
     .pricing-content {
-      width: auto;
-      max-width: 920px;
-      margin-right: 425px;
+      width: min(100%, 600px);
       padding-right: 0;
     }
 
     h2 {
+      font-size: 52px;
       line-height: 80px;
     }
 
@@ -238,7 +232,7 @@ const prices = [
     }
 
     .pricing-action {
-      width: 100%;
+      width: 600px;
     }
 
     .discount-title {
@@ -247,17 +241,11 @@ const prices = [
     }
   }
 
-  @media (width < 902px) {
-    .pricing {
-      background-image: var(--pricing-background-mobile);
-      background-position: center;
-    }
-  }
-
-  @media (width < 768px) {
+  @media (max-width: 959px) {
     .pricing {
       height: 787px;
-      margin-top: var(--section-space);
+      margin-top: 70px;
+      background-image: var(--pricing-background-mobile);
     }
 
     .pricing-inner {
