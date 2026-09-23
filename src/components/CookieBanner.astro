@@ -53,22 +53,22 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   .cookie-banner {
     position: fixed;
     z-index: 90;
-    right: var(--page-gutter);
     bottom: max(20px, env(safe-area-inset-bottom));
-    left: var(--page-gutter);
+    left: 50%;
     display: flex;
-    width: min(100% - 2 * var(--page-gutter), 840px);
+    width: min(840px, calc(100% - 40px));
+    min-height: 200px;
     max-height: calc(100dvh - 40px);
-    padding: clamp(20px, 2.083vw, 32px);
-    margin-inline: auto;
+    padding: 32px;
     align-items: center;
-    gap: clamp(20px, 2.083vw, 40px);
+    gap: 30px;
     overflow-y: auto;
     background: var(--color-surface-primary);
     border: 1px solid var(--color-accent-primary-30);
     border-radius: 24px;
     box-shadow: 0 12px 44px rgb(35 35 35 / 16%);
     overscroll-behavior: contain;
+    transform: translateX(-50%);
   }
 
   .cookie-banner[hidden] {
@@ -129,7 +129,6 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     .cookie-banner {
       flex-direction: column;
       align-items: stretch;
-      gap: 20px;
       border-radius: 20px;
     }
 
