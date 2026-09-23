@@ -17,33 +17,151 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 
 <script>
   const banner = document.querySelector('[data-cookie-banner]');
-  const storageKey = 'rgballet-cookie-consent-v1';
+  const COOKIE_NAME = 'rgballet_cookie_consent';
+  const LEGACY_STORAGE_KEY = 'rgballet-cookie-consent-v1';
+  // При изменении текста согласия обновить версию, например на '2.0'.
+  const CONSENT_VERSION = '1.0';
 
-  if (banner instanceof HTMLElement) {
-    let savedChoice = null;
-
-    try {
-      savedChoice = window.localStorage.getItem(storageKey);
-    } catch {
-      // Если хранилище недоступно, выбор останется действительным только до перезагрузки.
+  function isValidConsentData(consentData) {
+    if (
+      !consentData ||
+      typeof consentData !== 'object' ||
+      Array.isArray(consentData) ||
+      Object.keys(consentData).length !== 3 ||
+      (consentData.choice !== 'all' && consentData.choice !== 'necessary') ||
+      consentData.consentVersion !== CONSENT_VERSION ||
+      typeof consentData.consentDate !== 'string'
+    ) {
+      return false;
     }
 
-    banner.hidden = savedChoice === 'all' || savedChoice === 'necessary';
+    const consentDate = new Date(consentData.consentDate);
+    return !Number.isNaN(consentDate.getTime()) && consentDate.toISOString() === consentData.consentDate;
+  }
+
+  function keepConsentFields(savedData) {
+    return {
+      choice: savedData?.choice,
+      consentVersion: savedData?.consentVersion,
+      consentDate: savedData?.consentDate,
+    };
+  }
+
+  function getCookieValue() {
+    const prefix = `${COOKIE_NAME}=`;
+    const cookie = document.cookie.split(';').find((part) => part.trim().startsWith(prefix));
+    return cookie === undefined ? null : cookie.trim().slice(prefix.length);
+  }
+
+  function readCookieConsent() {
+    const cookieValue = getCookieValue();
+    if (cookieValue === null) return { exists: false, consentData: null };
+
+    try {
+      const consentData = JSON.parse(decodeURIComponent(cookieValue));
+      if (isValidConsentData(consentData)) return { exists: true, consentData };
+
+      // Ранее выданную cookie с четвёртым полем заменяем без повторного запроса согласия.
+      if (consentData && typeof consentData === 'object' && Object.keys(consentData).length === 4) {
+        const migratedData = keepConsentFields(consentData);
+        if (isValidConsentData(migratedData) && writeCookieConsent(migratedData)) {
+          return { exists: true, consentData: migratedData };
+        }
+      }
+    } catch {
+      // Повреждённую cookie не считаем действительным согласием.
+    }
+
+    return { exists: true, consentData: null };
+  }
+
+  function writeCookieConsent(consentData) {
+    try {
+      const value = encodeURIComponent(JSON.stringify(consentData));
+      document.cookie = `${COOKIE_NAME}=${value}; Path=/; SameSite=Lax; Secure; Max-Age=31536000`;
+      const savedValue = getCookieValue();
+      if (savedValue === null) return false;
+      const savedConsent = JSON.parse(decodeURIComponent(savedValue));
+      return isValidConsentData(savedConsent) &&
+        savedConsent.choice === consentData.choice &&
+        savedConsent.consentDate === consentData.consentDate;
+    } catch {
+      return false;
+    }
+  }
+
+  function migrateLegacyConsent() {
+    let savedData;
+    try {
+      savedData = window.localStorage.getItem(LEGACY_STORAGE_KEY);
+    } catch {
+      return null;
+    }
+
+    if (savedData === null) return null;
+
+    let legacyData;
+    try {
+      legacyData = JSON.parse(savedData);
+    } catch {
+      legacyData = null;
+    }
+
+    const consentData = keepConsentFields(legacyData);
+
+    if (!isValidConsentData(consentData)) {
+      try {
+        window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+      } catch {
+        // Доступ к старому хранилищу может быть ограничен браузером.
+      }
+      return null;
+    }
+
+    if (!writeCookieConsent(consentData)) return null;
+
+    try {
+      window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+    } catch {
+      // Cookie уже сохранена; старая запись больше не используется.
+    }
+    return consentData;
+  }
+
+  function enableYandexMetrica() {
+    // TODO: здесь добавить ID и загрузку Яндекс Метрики. Функция вызывается только при choice === 'all'.
+  }
+
+  function saveCookieConsent(choice) {
+    if (choice !== 'all' && choice !== 'necessary') return null;
+
+    const consentData = {
+      choice,
+      consentVersion: CONSENT_VERSION,
+      consentDate: new Date().toISOString(),
+    };
+
+    if (!writeCookieConsent(consentData)) return null;
+
+    return consentData;
+  }
+
+  if (banner instanceof HTMLElement) {
+    const cookieConsent = readCookieConsent();
+    const savedConsent = cookieConsent.exists ? cookieConsent.consentData : migrateLegacyConsent();
+    banner.hidden = savedConsent !== null;
+
+    if (savedConsent?.choice === 'all') enableYandexMetrica();
 
     banner.querySelectorAll('[data-cookie-choice]').forEach((button) => {
       if (!(button instanceof HTMLButtonElement)) return;
 
       button.addEventListener('click', () => {
-        const choice = button.dataset.cookieChoice;
-        if (choice !== 'all' && choice !== 'necessary') return;
-
-        try {
-          window.localStorage.setItem(storageKey, choice);
-        } catch {
-          // Баннер всё равно закрывается на текущей странице.
-        }
+        const consentData = saveCookieConsent(button.dataset.cookieChoice);
+        if (!consentData) return;
 
         banner.hidden = true;
+        if (consentData.choice === 'all') enableYandexMetrica();
       });
     });
   }
