@@ -1,0 +1,145 @@
+---
+const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privacy-policy/`;
+---
+
+<section class="cookie-banner" aria-label="Настройки cookie" data-cookie-banner hidden>
+  <div class="cookie-copy">
+    <p>Мы используем файлы cookie и Яндекс Метрику для анализа посещаемости сайта и оценки эффективности рекламы.</p>
+    <p>Вы можете разрешить использование аналитических cookie или оставить только необходимые для работы сайта.</p>
+    <p>Подробнее — в <a href={privacyPolicyPath}>Политике в отношении обработки персональных данных</a>.</p>
+  </div>
+
+  <div class="cookie-actions">
+    <button type="button" class="cookie-accept" data-cookie-choice="all">Принять</button>
+    <button type="button" class="cookie-necessary" data-cookie-choice="necessary">Только необходимые</button>
+  </div>
+</section>
+
+<script>
+  const banner = document.querySelector('[data-cookie-banner]');
+  const storageKey = 'rgballet-cookie-consent-v1';
+
+  if (banner instanceof HTMLElement) {
+    let savedChoice = null;
+
+    try {
+      savedChoice = window.localStorage.getItem(storageKey);
+    } catch {
+      // Если хранилище недоступно, выбор останется действительным только до перезагрузки.
+    }
+
+    banner.hidden = savedChoice === 'all' || savedChoice === 'necessary';
+
+    banner.querySelectorAll('[data-cookie-choice]').forEach((button) => {
+      if (!(button instanceof HTMLButtonElement)) return;
+
+      button.addEventListener('click', () => {
+        const choice = button.dataset.cookieChoice;
+        if (choice !== 'all' && choice !== 'necessary') return;
+
+        try {
+          window.localStorage.setItem(storageKey, choice);
+        } catch {
+          // Баннер всё равно закрывается на текущей странице.
+        }
+
+        banner.hidden = true;
+      });
+    });
+  }
+</script>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    z-index: 90;
+    right: var(--page-gutter);
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: var(--page-gutter);
+    display: flex;
+    width: min(100% - 2 * var(--page-gutter), 840px);
+    max-height: calc(100dvh - 40px);
+    padding: clamp(20px, 2.083vw, 32px);
+    margin-inline: auto;
+    align-items: center;
+    gap: clamp(20px, 2.083vw, 40px);
+    overflow-y: auto;
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-accent-primary-30);
+    border-radius: 24px;
+    box-shadow: 0 12px 44px rgb(35 35 35 / 16%);
+    overscroll-behavior: contain;
+  }
+
+  .cookie-banner[hidden] {
+    display: none;
+  }
+
+  .cookie-copy {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .cookie-copy p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .cookie-copy p + p {
+    margin-top: 10px;
+  }
+
+  .cookie-copy a {
+    color: var(--color-accent-primary);
+    text-underline-offset: 3px;
+  }
+
+  .cookie-actions {
+    display: flex;
+    width: 220px;
+    flex: 0 0 220px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cookie-actions button {
+    min-height: 46px;
+    padding: 10px 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .cookie-accept {
+    color: var(--color-surface-primary);
+    background: linear-gradient(180deg, var(--color-button-gradient-start), var(--color-button-gradient-end));
+    border: 1px solid var(--color-button-border);
+  }
+
+  .cookie-necessary {
+    color: var(--color-text-primary);
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-accent-primary);
+  }
+
+  @media (width < 768px) {
+    .cookie-banner {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 20px;
+      border-radius: 20px;
+    }
+
+    .cookie-copy p {
+      font-size: 14px;
+    }
+
+    .cookie-actions {
+      width: 100%;
+      flex: 0 0 auto;
+    }
+  }
+</style>
