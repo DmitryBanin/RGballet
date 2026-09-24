@@ -6,6 +6,7 @@ import GradientButton from './GradientButton.astro';
 const assetPath = `${import.meta.env.BASE_URL}/images`;
 const consentPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/personal-data-consent/`;
 const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privacy-policy/`;
+const [addressMain, addressFloor] = contacts.address.split(/ (?=\()/, 2);
 
 const comments = [
   {
@@ -113,7 +114,11 @@ const comments = [
           data-ios-map={contacts.map.ios}
         >
           <span class="contact-icon"><img src={`${assetPath}/contact-location.svg`} alt="" /></span>
-          <span class="contact-address">{contacts.address}</span>
+          <span class="contact-address" data-contact-address>
+            <span class="contact-address-main" data-contact-address-main>{addressMain}</span><br
+              class="contact-address-break"
+            /><span class="contact-address-floor">{addressFloor}</span>
+          </span>
         </a>
         <a class="contact" href={contacts.email.href}>
           <span class="contact-icon"><img src={`${assetPath}/contact-mail.svg`} alt="" /></span>
@@ -227,6 +232,30 @@ const comments = [
       mapLink.removeAttribute('rel');
       mapLink.setAttribute('aria-label', 'Открыть адрес в Apple Maps');
     }
+  }
+
+  const contactAddress = document.querySelector('[data-contact-address]');
+  const contactAddressMain = contactAddress?.querySelector('[data-contact-address-main]');
+
+  if (contactAddress instanceof HTMLElement && contactAddressMain instanceof HTMLElement) {
+    let observedAddressWidth = -1;
+
+    const updateAddressWrap = () => {
+      contactAddress.classList.remove('is-inline-wrap');
+      const mainTextWidth = contactAddressMain.getBoundingClientRect().width;
+      contactAddress.classList.toggle('is-inline-wrap', mainTextWidth > contactAddress.clientWidth);
+    };
+
+    const addressObserver = new ResizeObserver(([entry]) => {
+      const currentWidth = entry.contentRect.width;
+      if (Math.abs(currentWidth - observedAddressWidth) < 0.5) return;
+
+      observedAddressWidth = currentWidth;
+      updateAddressWrap();
+    });
+
+    addressObserver.observe(contactAddress);
+    document.fonts.ready.then(updateAddressWrap);
   }
 
   document.querySelectorAll('[data-review-toggle]').forEach((toggle) => {
@@ -512,6 +541,28 @@ const comments = [
     line-height: 40px;
   }
 
+  .contact-address {
+    min-width: 0;
+    flex: 1;
+    white-space: normal;
+  }
+
+  .contact-address-main {
+    white-space: nowrap;
+  }
+
+  .contact-address-floor::before {
+    content: ' ';
+  }
+
+  .contact-address.is-inline-wrap .contact-address-main {
+    white-space: normal;
+  }
+
+  .contact-address.is-inline-wrap .contact-address-break {
+    display: none;
+  }
+
   .contact-icon {
     display: grid;
     width: 30px;
@@ -728,7 +779,7 @@ const comments = [
     }
   }
 
-  @media (768px <= width < 1200px) {
+  @media (768px <= width < 1236px) {
     .site-footer {
       min-height: auto;
       margin-top: var(--footer-space);
@@ -778,8 +829,7 @@ const comments = [
 
   @media (width >= 768px) {
     .contact-address {
-      font-size: clamp(16px, calc(1.6px + 4.4cqi), 20px);
-      white-space: nowrap;
+      font-size: 20px;
     }
 
   }
