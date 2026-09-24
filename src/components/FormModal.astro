@@ -2,6 +2,8 @@
 import { contacts } from '../config/contacts.js';
 
 const assetPath = `${import.meta.env.BASE_URL}/images`;
+const consentPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/personal-data-consent/`;
+const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privacy-policy/`;
 ---
 
 <dialog
@@ -28,8 +30,11 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
     </label>
 
     <label class="consent">
-      <input type="checkbox" name="consent" checked required />
-      <span>Нажимая на кнопку «Отправить», Вы соглашаетесь с политикой конфиденциальности</span>
+      <input type="checkbox" name="consent" required />
+      <span>
+        Я даю <a href={consentPath}>согласие на обработку персональных данных</a> и подтверждаю, что ознакомлен(а) с
+        <a href={privacyPolicyPath}>Политикой обработки персональных данных</a>.
+      </span>
     </label>
 
     <button class="form-submit" type="submit" disabled>Отправить</button>
@@ -246,6 +251,11 @@ const assetPath = `${import.meta.env.BASE_URL}/images`;
 
   .consent span {
     width: 435px;
+  }
+
+  .consent a {
+    color: var(--color-accent-primary);
+    text-underline-offset: 2px;
   }
 
   .form-submit {
