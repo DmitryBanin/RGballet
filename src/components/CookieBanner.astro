@@ -15,7 +15,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   </div>
 </section>
 
-<script>
+<script is:inline>
   const banner = document.querySelector('[data-cookie-banner]');
   const COOKIE_NAME = 'rgballet_cookie_consent';
   const LEGACY_STORAGE_KEY = 'rgballet-cookie-consent-v1';
