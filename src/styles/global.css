@@ -52,10 +52,17 @@ svg {
   display: block;
 }
 
-button:focus-visible,
 a:focus-visible {
   outline: 2px solid var(--color-accent-primary);
   outline-offset: 3px;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:focus-visible {
+  filter: brightness(0.85);
 }
 
 .container {
