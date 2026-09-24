@@ -4,10 +4,10 @@ import Copyright from './Copyright.astro';
 import GradientButton from './GradientButton.astro';
 
 const assetPath = `${import.meta.env.BASE_URL}/images`;
+const consentPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/personal-data-consent/`;
 const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privacy-policy/`;
 
 const comments = [
-  // Здесь добавлять комментарии
   {
     name: 'Ирина Солоха',
     date: '21.06.2026',
@@ -134,28 +134,57 @@ const comments = [
 
     <div class="footer-divider" aria-hidden="true"></div>
 
-    <section class="question-form" aria-labelledby="question-title">
+    <section
+      class="question-form"
+      aria-labelledby="question-title"
+      style={`--form-checkbox-image: url("${assetPath}/form-checkbox.svg")`}
+    >
       <div class="question-heading">
         <h2 id="question-title">Остались вопросы?</h2>
         <p>Мы с радостью ответим!</p>
       </div>
 
-      <form aria-describedby="form-disabled-note">
-        <span class="visually-hidden" id="form-disabled-note">Отправка формы пока не подключена</span>
-        <label>
+      <form>
+        <label class="form-field">
           <span class="visually-hidden">Ваше имя</span>
-          <input type="text" name="name" placeholder="Ваше имя" autocomplete="name" readonly />
+          <input
+            type="text"
+            name="name"
+            placeholder="Ваше имя"
+            autocomplete="name"
+            title="Используйте только буквы, пробелы и дефис"
+            required
+          />
         </label>
-        <label>
+        <label class="form-field">
           <span class="visually-hidden">Телефон</span>
-          <input type="tel" name="phone" placeholder="Телефон" autocomplete="tel" readonly />
+          <input
+            type="tel"
+            name="phone"
+            placeholder="+7 000 000-00-00"
+            autocomplete="tel"
+            inputmode="tel"
+            pattern="\+7 [0-9]{3} [0-9]{3}-[0-9]{2}-[0-9]{2}"
+            title="Введите номер телефона цифрами в формате +7 000 000-00-00"
+            required
+          />
         </label>
-        <label>
+        <label class="form-field">
           <span class="visually-hidden">Комментарий</span>
-          <textarea name="comment" placeholder="Комментарий" rows="3" readonly></textarea>
+          <textarea name="comment" placeholder="Комментарий" rows="3" maxlength="300"></textarea>
+        </label>
+        <label class="form-consent">
+          <input type="checkbox" name="consent" required />
+          <span>
+            Я даю <a href={consentPath}>согласие на обработку персональных данных</a> и подтверждаю, что ознакомлен(а) с
+            <a href={privacyPolicyPath}>Политикой обработки персональных данных</a>.
+          </span>
         </label>
         <div class="form-action">
-          <GradientButton label="Отправить" fullWidth={true} disabled={true} />
+          <GradientButton label="Отправить" fullWidth={true} />
+          <p class="demo-status" role="status" aria-live="polite" data-form-demo-status hidden>
+            Спасибо! Тестовый режим — данные не отправлены.
+          </p>
         </div>
       </form>
     </section>
@@ -168,6 +197,17 @@ const comments = [
 </footer>
 
 <script>
+  import { setupDemoFormSubmit } from '../demoFormSubmit.js';
+  import { setupNameInput } from '../nameInput.js';
+  import { setupPhoneMask } from '../phoneMask.js';
+
+  setupNameInput(document.querySelector('.question-form input[name="name"]'));
+  setupPhoneMask(document.querySelector('.question-form input[name="phone"]'));
+  setupDemoFormSubmit(
+    document.querySelector('.question-form form'),
+    document.querySelector('.question-form .form-action button'),
+  );
+
   const mapLink = document.querySelector('[data-map-link]');
 
   if (mapLink instanceof HTMLAnchorElement) {
@@ -532,15 +572,15 @@ const comments = [
     gap: 8px;
   }
 
-  label,
-  input,
-  textarea {
+  .form-field,
+  .form-field input,
+  .form-field textarea {
     display: block;
     width: 100%;
   }
 
-  input,
-  textarea {
+  .form-field input,
+  .form-field textarea {
     padding: 12px 24px;
     color: var(--color-text-primary);
     background: var(--color-surface-primary);
@@ -551,25 +591,94 @@ const comments = [
     line-height: 25px;
   }
 
-  input {
+  .form-field input {
     height: 50px;
   }
 
-  textarea {
-    min-height: 96px;
+  .form-field textarea {
+    height: 104px;
     font-family: inherit;
     resize: vertical;
   }
 
-  input::placeholder,
-  textarea::placeholder {
+  .form-field input:hover,
+  .form-field input:focus,
+  .form-field textarea:hover,
+  .form-field textarea:focus {
+    border: 2px solid var(--color-accent-primary);
+    outline: none;
+  }
+
+  .form-field input::placeholder,
+  .form-field textarea::placeholder {
     color: rgb(35 35 35 / 30%);
     opacity: 1;
   }
 
   .form-action {
+    position: relative;
     width: 100%;
     margin-top: 12px;
+  }
+
+  .form-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12px;
+    line-height: 17px;
+    cursor: pointer;
+  }
+
+  .form-consent input {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    margin: 0;
+    appearance: none;
+    background: var(--color-surface-primary) center / 14.1767px 10px no-repeat;
+    border: 1px solid var(--color-accent-primary);
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .form-consent input:checked {
+    background-image: var(--form-checkbox-image);
+  }
+
+  .form-consent input:hover,
+  .form-consent input:focus {
+    border: 2px solid var(--color-accent-primary);
+    outline: none;
+  }
+
+  .form-consent span {
+    min-width: 0;
+  }
+
+  .form-consent a {
+    color: var(--color-accent-primary);
+    text-underline-offset: 2px;
+  }
+
+  .demo-status {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    min-height: 100%;
+    padding: 6px 16px;
+    color: var(--color-accent-primary);
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-accent-primary);
+    border-radius: 30px;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+    place-items: center;
+  }
+
+  .demo-status[hidden] {
+    display: none;
   }
 
   .footer-legal {
@@ -828,23 +937,28 @@ const comments = [
       gap: 8px;
     }
 
-    input,
-    textarea {
+    .form-field input,
+    .form-field textarea {
       font-size: 14px;
       line-height: 19px;
     }
 
-    input {
+    .form-field input {
       height: 43px;
       padding: 12px 24px;
     }
 
-    textarea {
-      min-height: 84px;
+    .form-field textarea {
+      height: 86px;
     }
 
     .form-action {
       margin-top: 12px;
+    }
+
+    .demo-status {
+      font-size: 12px;
+      line-height: 16px;
     }
 
     .footer-legal {

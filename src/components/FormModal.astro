@@ -12,7 +12,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   data-form-modal
   style={`--form-checkbox-image: url("${assetPath}/form-checkbox.svg")`}
 >
-  <form class="contact-form" aria-describedby="contact-form-disabled-note">
+  <form class="contact-form">
     <h2 id="contact-modal-title">Оставьте <span>ваши контакты</span></h2>
 
     <button class="modal-close" type="button" aria-label="Закрыть форму" data-form-close>
@@ -21,12 +21,28 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 
     <label class="form-field name-field">
       <span>Ваше имя <b aria-hidden="true">*</b></span>
-      <input type="text" name="name" placeholder="Имя" autocomplete="name" required />
+      <input
+        type="text"
+        name="name"
+        placeholder="Имя"
+        autocomplete="name"
+        title="Используйте только буквы, пробелы и дефис"
+        required
+      />
     </label>
 
     <label class="form-field phone-field">
       <span>Ваш номер телефона <b aria-hidden="true">*</b></span>
-      <input type="tel" name="phone" placeholder="8 (000) 000-00-00" autocomplete="tel" inputmode="tel" required />
+      <input
+        type="tel"
+        name="phone"
+        placeholder="+7 000 000-00-00"
+        autocomplete="tel"
+        inputmode="tel"
+        pattern="\+7 [0-9]{3} [0-9]{3}-[0-9]{2}-[0-9]{2}"
+        title="Введите номер телефона цифрами в формате +7 000 000-00-00"
+        required
+      />
     </label>
 
     <label class="consent">
@@ -37,8 +53,10 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
       </span>
     </label>
 
-    <button class="form-submit" type="submit" disabled>Отправить</button>
-    <span class="visually-hidden" id="contact-form-disabled-note">Отправка формы пока не подключена</span>
+    <button class="form-submit" type="button">Отправить</button>
+    <p class="demo-status" role="status" aria-live="polite" data-form-demo-status hidden>
+      Спасибо! Тестовый режим — данные не отправлены.
+    </p>
 
     <p class="alternative-contact">
       <span>Или</span>
@@ -57,12 +75,17 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 </dialog>
 
 <script>
+  import { setupDemoFormSubmit } from '../demoFormSubmit.js';
+  import { setupNameInput } from '../nameInput.js';
+  import { setupPhoneMask } from '../phoneMask.js';
+
   const modal = document.querySelector('[data-form-modal]');
 
   if (modal instanceof HTMLDialogElement) {
     const form = modal.querySelector('.contact-form');
     const closeButton = modal.querySelector('[data-form-close]');
-    const nameInput = modal.querySelector('input[name="name"]');
+    setupNameInput(modal.querySelector('input[name="name"]'));
+    setupPhoneMask(modal.querySelector('input[name="phone"]'));
     let previousFocus = document.activeElement;
 
     const openModal = () => {
@@ -71,10 +94,6 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
       previousFocus = document.activeElement;
       modal.showModal();
       document.body.classList.add('modal-open');
-
-      requestAnimationFrame(() => {
-        if (nameInput instanceof HTMLInputElement) nameInput.focus();
-      });
     };
 
     const closeModal = () => {
@@ -85,7 +104,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
       trigger.addEventListener('click', openModal);
     });
 
-    form?.addEventListener('submit', (event) => event.preventDefault());
+    const hideDemoStatus = setupDemoFormSubmit(form, form?.querySelector('.form-submit'));
     closeButton?.addEventListener('click', closeModal);
 
     modal.addEventListener('click', (event) => {
@@ -93,6 +112,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     });
 
     modal.addEventListener('close', () => {
+      hideDemoStatus?.();
       document.body.classList.remove('modal-open');
 
       if (previousFocus instanceof HTMLElement) previousFocus.focus();
@@ -206,7 +226,6 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     font-size: 16px;
     font-weight: 300;
     line-height: 22px;
-    outline: none;
   }
 
   .form-field input::placeholder {
@@ -214,10 +233,12 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     opacity: 0.4;
   }
 
-  .form-field input:focus-visible,
-  .consent input:focus-visible {
-    outline: 2px solid var(--color-accent-primary);
-    outline-offset: 2px;
+  .form-field input:hover,
+  .form-field input:focus,
+  .consent input:hover,
+  .consent input:focus {
+    border: 2px solid var(--color-accent-primary);
+    outline: none;
   }
 
   .consent {
@@ -260,7 +281,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 
   .form-submit {
     position: absolute;
-    top: 375px;
+    top: 395px;
     left: 52px;
     display: flex;
     width: 496px;
@@ -279,11 +300,49 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     font-weight: 500;
     line-height: 27px;
     opacity: 1;
+    cursor: pointer;
+    transition:
+      box-shadow 0.2s ease,
+      filter 0.2s ease,
+      transform 0.1s ease;
+  }
+
+  .form-submit:hover {
+    filter: brightness(1.12);
+  }
+
+  .form-submit:active {
+    box-shadow:
+      0 3px 7px var(--color-button-shadow-18),
+      0 8px 20px var(--color-button-gradient-start-28);
+    transform: translateY(2px);
+  }
+
+  .demo-status {
+    position: absolute;
+    top: 395px;
+    left: 52px;
+    display: grid;
+    width: 496px;
+    min-height: 59px;
+    padding: 6px 16px;
+    color: var(--color-accent-primary);
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-accent-primary);
+    border-radius: 30px;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+    place-items: center;
+  }
+
+  .demo-status[hidden] {
+    display: none;
   }
 
   .alternative-contact {
     position: absolute;
-    top: 454px;
+    top: 465px;
     left: 50%;
     width: 435px;
     font-size: 20px;
@@ -304,7 +363,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 
   .form-socials {
     position: absolute;
-    top: 529px;
+    top: 545px;
     left: 50%;
     display: flex;
     gap: 20px;
@@ -404,6 +463,15 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
       left: 16px;
       width: 288px;
       height: 54px;
+    }
+
+    .demo-status {
+      top: 357px;
+      left: 16px;
+      width: 288px;
+      min-height: 54px;
+      font-size: 12px;
+      line-height: 16px;
     }
 
     .alternative-contact {
