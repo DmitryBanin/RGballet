@@ -150,6 +150,10 @@ const comments = [
           <span class="visually-hidden">Телефон</span>
           <input type="tel" name="phone" placeholder="Телефон" autocomplete="tel" readonly />
         </label>
+        <label>
+          <span class="visually-hidden">Комментарий</span>
+          <textarea name="comment" placeholder="Комментарий" rows="3" readonly></textarea>
+        </label>
         <div class="form-action">
           <GradientButton label="Отправить" fullWidth={true} disabled={true} />
         </div>
@@ -496,7 +500,7 @@ const comments = [
   }
 
   .question-form {
-    height: 343px;
+    min-height: 343px;
     container-type: inline-size;
   }
 
@@ -529,13 +533,14 @@ const comments = [
   }
 
   label,
-  input {
+  input,
+  textarea {
     display: block;
     width: 100%;
   }
 
-  input {
-    height: 50px;
+  input,
+  textarea {
     padding: 12px 24px;
     color: var(--color-text-primary);
     background: var(--color-surface-primary);
@@ -546,7 +551,18 @@ const comments = [
     line-height: 25px;
   }
 
-  input::placeholder {
+  input {
+    height: 50px;
+  }
+
+  textarea {
+    min-height: 96px;
+    font-family: inherit;
+    resize: vertical;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
     color: rgb(35 35 35 / 30%);
     opacity: 1;
   }
@@ -786,7 +802,7 @@ const comments = [
     }
 
     .question-form {
-      height: 293px;
+      min-height: 293px;
     }
 
     .question-heading {
@@ -812,11 +828,19 @@ const comments = [
       gap: 8px;
     }
 
+    input,
+    textarea {
+      font-size: 14px;
+      line-height: 19px;
+    }
+
     input {
       height: 43px;
       padding: 12px 24px;
-      font-size: 14px;
-      line-height: 19px;
+    }
+
+    textarea {
+      min-height: 84px;
     }
 
     .form-action {
