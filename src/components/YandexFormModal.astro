@@ -1,0 +1,268 @@
+---
+import { contacts } from '../config/contacts.js';
+
+const assetPath = `${import.meta.env.BASE_URL}/images`;
+const formUrl = 'https://forms.yandex.ru/u/6ac0ddbf505690bba151f83c';
+---
+
+<dialog class="yandex-form-modal" aria-labelledby="yandex-form-title" data-form-modal>
+  <div class="modal-header">
+    <h2 id="yandex-form-title">Оставьте <span>ваши контакты</span></h2>
+    <button class="modal-close" type="button" aria-label="Закрыть форму" data-form-close autofocus>
+      <img src={`${assetPath}/close.svg`} alt="" width="50" height="50" />
+    </button>
+  </div>
+
+  <div class="modal-content">
+    <script is:inline src="https://forms.yandex.ru/_static/embed.js" defer></script>
+    <iframe
+      src={`${formUrl}?iframe=1`}
+      name="ya-form-6ac0ddbf505690bba151f83c"
+      title="Форма записи RG Ballet"
+      width="650"
+      height="650"
+      loading="lazy"
+    ></iframe>
+
+    <!-- <p class="alternative-contact">
+      <span>Или</span>
+      <span>Вы можете <strong>написать нам здесь:</strong></span>
+    </p>
+
+    <div class="form-socials" aria-label="Написать в социальной сети">
+      <a href={contacts.vk} target="_blank" rel="noopener noreferrer" aria-label="Написать ВКонтакте">
+        <img src={`${assetPath}/social-vk.svg`} alt="" width="50" height="50" />
+      </a>
+      <a href={contacts.max} target="_blank" rel="noopener noreferrer" aria-label="Написать в MAX">
+        <img src={`${assetPath}/social-MAX.svg`} alt="" width="50" height="50" />
+      </a>
+    </div> -->
+
+    <!-- <p class="form-link">
+      Если форма не загрузилась,
+      <a href={formUrl} target="_blank" rel="noopener noreferrer">откройте её в новой вкладке</a>.
+    </p> -->
+  </div>
+</dialog>
+
+<script>
+  const modal = document.querySelector('[data-form-modal]');
+
+  if (modal instanceof HTMLDialogElement) {
+    const closeButton = modal.querySelector('[data-form-close]');
+    let previousFocus: Element | null = null;
+
+    const openModal = () => {
+      if (modal.open) return;
+
+      previousFocus = document.activeElement;
+      modal.showModal();
+      document.body.classList.add('modal-open');
+    };
+
+    const closeModal = () => {
+      if (modal.open) modal.close();
+    };
+
+    document.querySelectorAll('[data-form-open]').forEach((trigger) => {
+      trigger.addEventListener('click', openModal);
+    });
+
+    closeButton?.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal();
+    });
+
+    modal.addEventListener('close', () => {
+      document.body.classList.remove('modal-open');
+
+      if (previousFocus instanceof HTMLElement) previousFocus.focus();
+      previousFocus = null;
+    });
+  }
+</script>
+
+<style>
+  .yandex-form-modal {
+    width: 600px;
+    max-width: none;
+    height: 620px;
+    max-width: calc(100% - 40px);
+    max-height: calc(100dvh - 16px);
+    padding: 0;
+    margin: auto;
+    overflow: hidden;
+    color: var(--color-text-primary);
+    background: var(--color-surface-primary);
+    border: 0;
+    border-radius: 30px;
+  }
+
+  .yandex-form-modal[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .yandex-form-modal::backdrop {
+    background: var(--color-overlay-70);
+  }
+
+  .modal-header {
+    position: relative;
+    display: grid;
+    min-height: 110px;
+    padding: 40px 72px 15px;
+    flex-shrink: 0;
+    place-items: center;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 46px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    appearance: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .modal-close img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .modal-content {
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    container-type: inline-size;
+  }
+
+  .modal-content::-webkit-scrollbar {
+    display: none;
+  }
+
+  iframe {
+    display: block;
+    width: min(556px, 100%);
+    margin-inline: auto;
+    border: 0;
+  }
+
+  /* Подвал Яндекс Формы требует около 330px даже на узком экране. */
+  @container (width < 330px) {
+    iframe {
+      zoom: 0.85;
+    }
+  }
+
+  .alternative-contact {
+    margin: 0;
+    padding: 0 16px;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+  }
+
+  .alternative-contact span {
+    display: block;
+  }
+
+  .alternative-contact strong,
+  .form-link a {
+    color: var(--color-accent-primary);
+    font-weight: 600;
+  }
+
+  .form-socials {
+    display: flex;
+    margin-top: 16px;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .form-socials a,
+  .form-socials img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .form-link {
+    margin: 18px 0 0;
+    padding: 0 16px 20px;
+    color: var(--color-text-primary);
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+  }
+
+  .form-link a {
+    text-underline-offset: 2px;
+  }
+
+  :global(body.modal-open) {
+    overflow: hidden;
+  }
+
+  @media (width < 768px) {
+    .yandex-form-modal {
+      width: 320px;
+      height: 650px;
+      max-width: calc(100% - 32px);
+      max-height: calc(100dvh - 16px);
+      border-radius: 20px;
+    }
+
+    .modal-header {
+      min-height: 104px;
+      padding: 27px 45px 10px;
+    }
+
+    h2 {
+      font-size: 24px;
+      line-height: 30px;
+      white-space: normal;
+    }
+
+    h2 span {
+      display: block;
+    }
+
+    .modal-close {
+      top: 16px;
+      right: 16px;
+      width: 30px;
+      height: 30px;
+    }
+
+    .alternative-contact {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .form-socials {
+      margin-top: 12px;
+      gap: 12px;
+    }
+
+    .form-socials a,
+    .form-socials img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+</style>

@@ -3,7 +3,8 @@ import About from '../components/About.astro';
 import AtmosphereGallery from '../components/AtmosphereGallery.astro';
 import Banner from '../components/Banner.astro';
 import Footer from '../components/Footer.astro';
-import FormModal from '../components/FormModal.astro';
+// import FormModal from '../components/FormModal.astro'; // Исходная форма сохранена для возврата.
+import YandexFormModal from '../components/YandexFormModal.astro';
 import Program from '../components/Program.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
@@ -40,6 +41,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </main>
   <Footer />
   <ScrollToTop />
-  <FormModal />
+  {/* <FormModal /> — временно заменена тестовой Яндекс Формой. */}
+  <YandexFormModal />
   <VideoModal />
 </BaseLayout>
