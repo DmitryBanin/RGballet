@@ -1,7 +1,7 @@
 ---
 import Reviews from './Reviews.astro';
 import Contacts from './Contacts.astro';
-import QuestionForm from './QuestionForm.astro';
+// import QuestionForm from './QuestionForm.astro';
 import Copyright from './Copyright.astro';
 
 const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privacy-policy/`;
@@ -12,8 +12,8 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     <Reviews />
     <div class="footer-divider" aria-hidden="true"></div>
     <Contacts />
-    <!-- <div class="footer-divider" aria-hidden="true"></div> -->
-    <!-- <QuestionForm /> -->
+    <!-- <div class="footer-divider" aria-hidden="true"></div>
+    <QuestionForm /> -->
     <div class="footer-legal">
       <a href={privacyPolicyPath}>Политика в отношении обработки персональных данных</a>
       <Copyright />
@@ -31,15 +31,34 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 
   .footer-panel {
     position: relative;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     width: min(100%, var(--container-max-width));
     min-height: 471px;
     margin-inline: auto;
-    padding: 30px 30px 50px;
-    grid-template-columns: 539px 1px 418px 1px 513px;
+    padding: 30px 30px 15px;
     column-gap: 77px;
     background: var(--color-surface-primary);
     border-radius: 30px 30px 0 0;
+  }
+
+  .footer-panel > :is(.reviews, .contacts, .question-form) {
+    min-width: 0;
+    flex: 1 1 0;
+  }
+
+  @media (width >= 1920px) {
+    .footer-panel:has(> .question-form) > .reviews {
+      flex-grow: 539;
+    }
+
+    .footer-panel:has(> .question-form) > .contacts {
+      flex-grow: 418;
+    }
+
+    .footer-panel:has(> .question-form) > .question-form {
+      flex-grow: 513;
+    }
   }
 
   .site-footer h2,
@@ -187,8 +206,13 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   .footer-divider {
     width: 1px;
     min-height: 368px;
+    flex: 0 0 1px;
     background: var(--color-text-primary);
     opacity: 0.15;
+  }
+
+  .footer-divider:not(:has(+ .contacts, + .question-form)) {
+    display: none;
   }
 
   .contacts {
@@ -418,17 +442,15 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   }
 
   .footer-legal {
-    position: absolute;
-    bottom: 17px;
-    left: 50%;
     display: flex;
+    flex: 0 0 100%;
+    margin-top: 80px;
+    flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 8px;
     font-size: 14px;
     line-height: 18px;
     text-align: center;
-    transform: translateX(-50%);
-    white-space: nowrap;
   }
 
   .footer-legal a {
@@ -451,8 +473,19 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   @media (1200px <= width < 1920px) {
     .footer-panel {
       padding-inline: 24px;
-      grid-template-columns: 1.15fr 1px 0.9fr 1px 1.1fr;
       column-gap: 30px;
+    }
+
+    .footer-panel:has(> .question-form) > .reviews {
+      flex-grow: 1.15;
+    }
+
+    .footer-panel:has(> .question-form) > .contacts {
+      flex-grow: 0.9;
+    }
+
+    .footer-panel:has(> .question-form) > .question-form {
+      flex-grow: 1.1;
     }
 
     .site-footer form {
@@ -472,12 +505,10 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     }
 
     .footer-panel {
-      display: grid;
+      flex-wrap: wrap;
       min-height: auto;
       padding: 30px;
-      grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
-      column-gap: clamp(12px, 2.948vw, 37.5px);
-      row-gap: 75px;
+      gap: 75px clamp(12px, 2.948vw, 37.5px);
       border-radius: 30px;
     }
 
@@ -485,14 +516,16 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
       display: none;
     }
 
-    .reviews + .footer-divider {
+    .reviews + .footer-divider:has(+ .contacts) {
       display: block;
-      grid-column: 2;
-      grid-row: 1;
     }
 
-    .question-form {
-      grid-column: 1 / -1;
+    .footer-panel > .question-form {
+      flex: 0 0 100%;
+    }
+
+    .footer-panel:has(> .question-form) > :is(.reviews, .contacts) {
+      flex-grow: 1;
     }
 
     .site-footer form {
@@ -504,11 +537,8 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     }
 
     .footer-legal {
-      position: static;
-      grid-column: 1 / -1;
+      margin-top: 0;
       justify-content: center;
-      transform: none;
-      text-align: center;
     }
   }
 
@@ -521,7 +551,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 
   @media (width < 768px) {
     .site-footer {
-      min-height: 1138px;
+      min-height: auto;
       margin-top: var(--footer-space);
       padding: 28px 20px 0;
     }
@@ -530,7 +560,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
       display: block;
       width: 320px;
       max-width: 100%;
-      min-height: 1110px;
+      min-height: auto;
       padding: 30px 16px 48px;
       border-radius: 30px 30px 0 0;
     }
@@ -697,13 +727,11 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     }
 
     .footer-legal {
-      bottom: 24px;
-      width: calc(100% - 32px);
-      flex-direction: column;
+      width: 100%;
+      margin-top: 50px;
       gap: 4px;
       font-size: 10px;
       line-height: 12px;
-      white-space: normal;
     }
   }
 </style>
