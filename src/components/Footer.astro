@@ -147,15 +147,15 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   }
 
   .review-navigation {
-    display: flex;
+    display: grid;
     margin-top: 28px;
     align-items: center;
-    justify-content: flex-end;
-    gap: 50px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   }
 
   .review-dots {
     display: flex;
+    grid-column: 2;
     gap: 6px;
   }
 
@@ -175,6 +175,8 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 
   .review-arrows {
     display: flex;
+    grid-column: 3;
+    justify-self: end;
     gap: 20px;
   }
 
@@ -216,7 +218,9 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   }
 
   .contacts {
-    height: 353px;
+    display: flex;
+    min-height: 353px;
+    flex-direction: column;
     container-type: inline-size;
   }
 
@@ -246,7 +250,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   }
 
   .contact-phone strong {
-    font-size: 30px;
+    font-size: 24px;
     line-height: 40px;
   }
 
@@ -289,7 +293,8 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 
   .footer-socials {
     display: flex;
-    margin-top: 67px;
+    margin-top: 22px;
+    padding-top: 16px;
     gap: 12px;
   }
 
@@ -542,11 +547,33 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     }
   }
 
-  @media (width >= 768px) {
+  /* @media (width >= 768px) {
     .contact-address {
       font-size: 20px;
     }
 
+  } */
+
+  @media (768px <= width < 1000px) {
+    .footer-panel {
+      display: block;
+      min-height: auto;
+    }
+
+    .reviews + .footer-divider:has(+ .contacts) {
+      width: 100%;
+      height: 1px;
+      min-height: 1px;
+      margin-block: 30px;
+    }
+
+    .contacts + .question-form {
+      margin-top: 30px;
+    }
+
+    .footer-legal {
+      margin-top: 50px;
+    }
   }
 
   @media (width < 768px) {
@@ -614,7 +641,6 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 
     .review-navigation {
       margin-top: 20px;
-      justify-content: center;
     }
 
     .review-arrows {
@@ -630,7 +656,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     }
 
     .contacts {
-      height: 252px;
+      min-height: 252px;
     }
 
     .contacts h2 {
@@ -665,7 +691,6 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     }
 
     .footer-socials {
-      margin-top: 30px;
       gap: 12px;
     }
 
