@@ -1,0 +1,166 @@
+---
+import { contacts } from '../config/contacts.js';
+
+const assetPath = `${import.meta.env.BASE_URL}/images`;
+
+const comments = [
+  {
+    name: 'Ирина Солоха',
+    date: '21.06.2026',
+    comment: 'Дочка с огромным удовольствием ходит на занятия, и мы видим, как она развивается. Отношение к детям просто замечательное: доброжелательная атмосфера, поддержка и поощрение даже самых маленьких успехов. Мы очень довольны выбором и с уверенностью рекомендуем эту танцевальную студию всем, кто хочет привить ребёнку любовь к танцам и развить его физические и творческие способности! Спасибо за ваш труд и заботу о наших детях!',
+  },
+  {
+    name: 'Александр Фёдоров',
+    date: '22.06.2026',
+    comment: 'Наши девочки ходят уже более полугода к Елене и мы очень довольны. Очень грамотные преподаватели, наши девочки выросли прям на глазах в плане хореографии и растяжке. И самое главное самим девчонкам очень нравится. Всем родителям рекомендую👍👍👍',
+  },
+  {
+    name: 'Elena Druzhinina',
+    date: '21.06.2026',
+    comment: 'Ценим за индивидуальный подход абсолютно к каждому ребёнку! Хореографы студии заинтересованы в результатах обучения, делают все возможное, чтобы дети хотели ходить на занятия и ощущать свои успехи.',
+  },
+  {
+    name: 'Алексей Гончаров',
+    date: '26.04.2026',
+    comment: 'Если вы думаете отдать своего ребенка в танцы , советую Rg ballet. Отличная база, квалифицированные тренера, которые найдут подход к каждому ребенку. Ребенок в восторге и с удовольствием занимается',
+  },
+  {
+    name: 'Анна Ц.',
+    date: '01.01.2026',
+    comment: 'Отличная балетная студия для детей! Хотим выразить огромную благодарность замечательной студии балета. Моя дочь занимается здесь уже пол года и мы видим потрясающие результаты. Самое главное для нас — это не только красивые позиции, но и гармоничное развитие. Благодаря грамотному и внимательному подходу педагогов, дочь стала невероятно гибкой, пластичной и грациозной. Уроки построены очень профессионально: разминка, растяжка, хореография — всё идет постепенно, без перегрузок, но с ощутимым прогрессом.Отдельное спасибо преподавателям за их доброе, но требовательное отношение к детям. Они умеют создать атмосферу настоящего искусства, где есть и дисциплина, и радость творчества. Дочь ходит на занятия с огромным удовольствием, а я как родитель вижу, как крепчает ее спинка, улучшается осанка и появляется уверенность в себе.Рекомендуем эту студию всем, кто хочет приобщить ребенка к прекрасному и подарить ему здоровье, грацию и хороший вкус!',
+  },
+];
+---
+
+    <section class="reviews" id="reviews" aria-labelledby="reviews-title">
+      <div class="reviews-heading">
+        <h2 id="reviews-title">Отзывы</h2>
+        <a class="reviews-all" href={contacts.map.reviews} target="_blank" rel="noopener noreferrer">
+          Смотреть все отзывы
+        </a>
+      </div>
+
+      {comments.map((comment, index) => (
+        <article class="review" data-review-card hidden={index !== 0}>
+          <h3>{comment.name}</h3>
+          <time datetime={comment.date.split('.').reverse().join('-')}>{comment.date}</time>
+          <p class="review-text" id={`review-text-${index + 1}`}>{comment.comment}</p>
+          <button
+            class="review-more"
+            type="button"
+            aria-expanded="false"
+            aria-controls={`review-text-${index + 1}`}
+            data-review-toggle
+          >
+            Читать полностью
+          </button>
+        </article>
+      ))}
+
+      <div class="review-navigation" aria-label="Навигация по отзывам">
+        <div class="review-dots">
+          {comments.map((_, index) => (
+            <button
+              class={index === 0 ? 'review-dot active' : 'review-dot'}
+              type="button"
+              aria-label={`Показать отзыв ${index + 1}`}
+              aria-current={index === 0 ? 'true' : undefined}
+              data-review-dot={index}
+            ></button>
+          ))}
+        </div>
+        <div class="review-arrows">
+          <button class="review-arrow review-prev" type="button" aria-label="Предыдущий отзыв" data-review-prev disabled>
+            <img src={`${assetPath}/arrow.svg`} alt="" width="30" height="30" />
+          </button>
+          <button
+            class="review-arrow"
+            type="button"
+            aria-label="Следующий отзыв"
+            data-review-next
+            disabled={comments.length < 2}
+          >
+            <img src={`${assetPath}/arrow.svg`} alt="" width="30" height="30" />
+          </button>
+        </div>
+      </div>
+    </section>
+
+<script>
+  document.querySelectorAll('[data-review-toggle]').forEach((toggle) => {
+    if (!(toggle instanceof HTMLButtonElement)) return;
+
+    const textId = toggle.getAttribute('aria-controls');
+    const reviewText = textId ? document.getElementById(textId) : null;
+
+    if (!reviewText) return;
+
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+      toggle.setAttribute('aria-expanded', String(!isExpanded));
+      toggle.textContent = isExpanded ? 'Читать полностью' : 'Свернуть';
+      reviewText.classList.toggle('is-expanded', !isExpanded);
+    });
+  });
+
+  const reviews = document.querySelector('.reviews');
+
+  if (reviews instanceof HTMLElement) {
+    const reviewCards = Array.from(reviews.querySelectorAll('[data-review-card]')).filter(
+      (card): card is HTMLElement => card instanceof HTMLElement,
+    );
+    const reviewDots = Array.from(reviews.querySelectorAll('[data-review-dot]')).filter(
+      (dot): dot is HTMLButtonElement => dot instanceof HTMLButtonElement,
+    );
+    const previousButton = reviews.querySelector('[data-review-prev]');
+    const nextButton = reviews.querySelector('[data-review-next]');
+    let activeReview = 0;
+
+    const collapseReview = (card: HTMLElement) => {
+      const toggle = card.querySelector('[data-review-toggle]');
+      const reviewText = card.querySelector('.review-text');
+
+      if (toggle instanceof HTMLButtonElement && reviewText instanceof HTMLElement) {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = 'Читать полностью';
+        reviewText.classList.remove('is-expanded');
+      }
+    };
+
+    const showReview = (index: number) => {
+      if (index < 0 || index >= reviewCards.length) return;
+
+      reviewCards.forEach((card, cardIndex) => {
+        if (cardIndex !== index) collapseReview(card);
+        card.hidden = cardIndex !== index;
+      });
+
+      reviewDots.forEach((dot, dotIndex) => {
+        const isActive = dotIndex === index;
+        dot.classList.toggle('active', isActive);
+
+        if (isActive) {
+          dot.setAttribute('aria-current', 'true');
+        } else {
+          dot.removeAttribute('aria-current');
+        }
+      });
+
+      activeReview = index;
+
+      if (previousButton instanceof HTMLButtonElement) previousButton.disabled = activeReview === 0;
+      if (nextButton instanceof HTMLButtonElement) nextButton.disabled = activeReview === reviewCards.length - 1;
+    };
+
+    reviewDots.forEach((dot, index) => dot.addEventListener('click', () => showReview(index)));
+
+    if (previousButton instanceof HTMLButtonElement) {
+      previousButton.addEventListener('click', () => showReview(activeReview - 1));
+    }
+
+    if (nextButton instanceof HTMLButtonElement) {
+      nextButton.addEventListener('click', () => showReview(activeReview + 1));
+    }
+  }
+</script>

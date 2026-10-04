@@ -1,199 +1,19 @@
 ---
-import { contacts } from '../config/contacts.js';
+import Reviews from './Reviews.astro';
+import Contacts from './Contacts.astro';
+import QuestionForm from './QuestionForm.astro';
 import Copyright from './Copyright.astro';
-import GradientButton from './GradientButton.astro';
 
-const assetPath = `${import.meta.env.BASE_URL}/images`;
-const consentPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/personal-data-consent/`;
 const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privacy-policy/`;
-const [addressMain, addressFloor] = contacts.address.split(/ (?=\()/, 2);
-
-const comments = [
-  {
-    name: 'Ирина Солоха',
-    date: '21.06.2026',
-    comment: 'Дочка с огромным удовольствием ходит на занятия, и мы видим, как она развивается. Отношение к детям просто замечательное: доброжелательная атмосфера, поддержка и поощрение даже самых маленьких успехов. Мы очень довольны выбором и с уверенностью рекомендуем эту танцевальную студию всем, кто хочет привить ребёнку любовь к танцам и развить его физические и творческие способности! Спасибо за ваш труд и заботу о наших детях!',
-  },
-  {
-    name: 'Александр Фёдоров',
-    date: '22.06.2026',
-    comment: 'Наши девочки ходят уже более полугода к Елене и мы очень довольны. Очень грамотные преподаватели, наши девочки выросли прям на глазах в плане хореографии и растяжке. И самое главное самим девчонкам очень нравится. Всем родителям рекомендую👍👍👍',
-  },
-  {
-    name: 'Elena Druzhinina',
-    date: '21.06.2026',
-    comment: 'Ценим за индивидуальный подход абсолютно к каждому ребёнку! Хореографы студии заинтересованы в результатах обучения, делают все возможное, чтобы дети хотели ходить на занятия и ощущать свои успехи.',
-  },
-  {
-    name: 'Алексей Гончаров',
-    date: '26.04.2026',
-    comment: 'Если вы думаете отдать своего ребенка в танцы , советую Rg ballet. Отличная база, квалифицированные тренера, которые найдут подход к каждому ребенку. Ребенок в восторге и с удовольствием занимается',
-  },
-  {
-    name: 'Анна Ц.',
-    date: '01.01.2026',
-    comment: 'Отличная балетная студия для детей! Хотим выразить огромную благодарность замечательной студии балета. Моя дочь занимается здесь уже пол года и мы видим потрясающие результаты. Самое главное для нас — это не только красивые позиции, но и гармоничное развитие. Благодаря грамотному и внимательному подходу педагогов, дочь стала невероятно гибкой, пластичной и грациозной. Уроки построены очень профессионально: разминка, растяжка, хореография — всё идет постепенно, без перегрузок, но с ощутимым прогрессом.Отдельное спасибо преподавателям за их доброе, но требовательное отношение к детям. Они умеют создать атмосферу настоящего искусства, где есть и дисциплина, и радость творчества. Дочь ходит на занятия с огромным удовольствием, а я как родитель вижу, как крепчает ее спинка, улучшается осанка и появляется уверенность в себе.Рекомендуем эту студию всем, кто хочет приобщить ребенка к прекрасному и подарить ему здоровье, грацию и хороший вкус!',
-  },
-];
 ---
 
 <footer class="site-footer">
   <div class="footer-panel">
-    <section class="reviews" id="reviews" aria-labelledby="reviews-title">
-      <div class="reviews-heading">
-        <h2 id="reviews-title">Отзывы</h2>
-        <a class="reviews-all" href={contacts.map.reviews} target="_blank" rel="noopener noreferrer">
-          Смотреть все отзывы
-        </a>
-      </div>
-
-      {comments.map((comment, index) => (
-        <article class="review" data-review-card hidden={index !== 0}>
-          <h3>{comment.name}</h3>
-          <time datetime={comment.date.split('.').reverse().join('-')}>{comment.date}</time>
-          <p class="review-text" id={`review-text-${index + 1}`}>{comment.comment}</p>
-          <button
-            class="review-more"
-            type="button"
-            aria-expanded="false"
-            aria-controls={`review-text-${index + 1}`}
-            data-review-toggle
-          >
-            Читать полностью
-          </button>
-        </article>
-      ))}
-
-      <div class="review-navigation" aria-label="Навигация по отзывам">
-        <div class="review-dots">
-          {comments.map((_, index) => (
-            <button
-              class={index === 0 ? 'review-dot active' : 'review-dot'}
-              type="button"
-              aria-label={`Показать отзыв ${index + 1}`}
-              aria-current={index === 0 ? 'true' : undefined}
-              data-review-dot={index}
-            ></button>
-          ))}
-        </div>
-        <div class="review-arrows">
-          <button class="review-arrow review-prev" type="button" aria-label="Предыдущий отзыв" data-review-prev disabled>
-            <img src={`${assetPath}/arrow.svg`} alt="" width="30" height="30" />
-          </button>
-          <button
-            class="review-arrow"
-            type="button"
-            aria-label="Следующий отзыв"
-            data-review-next
-            disabled={comments.length < 2}
-          >
-            <img src={`${assetPath}/arrow.svg`} alt="" width="30" height="30" />
-          </button>
-        </div>
-      </div>
-    </section>
-
+    <Reviews />
     <div class="footer-divider" aria-hidden="true"></div>
-
-    <section class="contacts" id="contacts" aria-labelledby="contacts-title">
-      <h2 id="contacts-title">Контакты</h2>
-
-      <div class="contact-list">
-        <a class="contact contact-phone" href={contacts.phone.href}>
-          <span class="contact-icon"><img src={`${assetPath}/contact-phone.svg`} alt="" /></span>
-          <strong>{contacts.phone.display}</strong>
-        </a>
-        <a
-          class="contact"
-          href={contacts.map.desktop}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Открыть адрес в Яндекс Картах"
-          data-map-link
-          data-android-map={contacts.map.android}
-          data-ios-map={contacts.map.ios}
-        >
-          <span class="contact-icon"><img src={`${assetPath}/contact-location.svg`} alt="" /></span>
-          <span class="contact-address" data-contact-address>
-            <span class="contact-address-main" data-contact-address-main>{addressMain}</span><br
-              class="contact-address-break"
-            /><span class="contact-address-floor">{addressFloor}</span>
-          </span>
-        </a>
-        <a class="contact" href={contacts.email.href}>
-          <span class="contact-icon"><img src={`${assetPath}/contact-mail.svg`} alt="" /></span>
-          <span>{contacts.email.display}</span>
-        </a>
-      </div>
-
-      <div class="footer-socials" aria-label="Социальные сети">
-      <a href={contacts.vk} target="_blank" rel="noopener noreferrer" aria-label="Открыть VK в новой вкладке"
-      >
-        <img src={`${assetPath}/social-vk.svg`} alt="" width="50" height="50" />
-      </a>
-        <a href={contacts.max} target="_blank" rel="noopener noreferrer" aria-label="Открыть MAX в новой вкладке">
-          <img src={`${assetPath}/social-MAX.svg`} alt="" width="50" height="50" />
-        </a>
-      </div>
-    </section>
-
-    <div class="footer-divider" aria-hidden="true"></div>
-
-    <section
-      class="question-form"
-      aria-labelledby="question-title"
-      style={`--form-checkbox-image: url("${assetPath}/form-checkbox.svg")`}
-    >
-      <div class="question-heading">
-        <h2 id="question-title">Остались вопросы?</h2>
-        <p>Мы с радостью ответим!</p>
-      </div>
-
-      <form>
-        <label class="form-field">
-          <span class="visually-hidden">Ваше имя</span>
-          <input
-            type="text"
-            name="name"
-            placeholder="Ваше имя"
-            autocomplete="name"
-            title="Используйте только буквы, пробелы и дефис"
-            required
-          />
-        </label>
-        <label class="form-field">
-          <span class="visually-hidden">Телефон</span>
-          <input
-            type="tel"
-            name="phone"
-            placeholder="+7 000 000-00-00"
-            autocomplete="tel"
-            inputmode="tel"
-            pattern="\+7 [0-9]{3} [0-9]{3}-[0-9]{2}-[0-9]{2}"
-            title="Введите номер телефона цифрами в формате +7 000 000-00-00"
-            required
-          />
-        </label>
-        <label class="form-field">
-          <span class="visually-hidden">Комментарий</span>
-          <textarea name="comment" placeholder="Комментарий" rows="3" maxlength="300"></textarea>
-        </label>
-        <label class="form-consent">
-          <input type="checkbox" name="consent" required />
-          <span>
-            Я даю <a href={consentPath}>согласие на обработку персональных данных</a> и подтверждаю, что ознакомлен(а) с
-            <a href={privacyPolicyPath}>Политикой обработки персональных данных</a>.
-          </span>
-        </label>
-        <div class="form-action">
-          <GradientButton label="Отправить" fullWidth={true} />
-          <p class="demo-status" role="status" aria-live="polite" data-form-demo-status hidden>
-            Спасибо! Тестовый режим — данные не отправлены.
-          </p>
-        </div>
-      </form>
-    </section>
-
+    <Contacts />
+    <!-- <div class="footer-divider" aria-hidden="true"></div> -->
+    <!-- <QuestionForm /> -->
     <div class="footer-legal">
       <a href={privacyPolicyPath}>Политика в отношении обработки персональных данных</a>
       <Copyright />
@@ -201,142 +21,7 @@ const comments = [
   </div>
 </footer>
 
-<script>
-  import { setupDemoFormSubmit } from '../js/demoFormSubmit.js';
-  import { setupNameInput } from '../js/nameInput.js';
-  import { setupPhoneMask } from '../js/phoneMask.js';
-
-  setupNameInput(document.querySelector('.question-form input[name="name"]'));
-  setupPhoneMask(document.querySelector('.question-form input[name="phone"]'));
-  setupDemoFormSubmit(
-    document.querySelector('.question-form form'),
-    document.querySelector('.question-form .form-action button'),
-  );
-
-  const mapLink = document.querySelector('[data-map-link]');
-
-  if (mapLink instanceof HTMLAnchorElement) {
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isIOS =
-      /iPad|iPhone|iPod/i.test(navigator.userAgent) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-    if (isAndroid && mapLink.dataset.androidMap) {
-      mapLink.href = mapLink.dataset.androidMap;
-      mapLink.removeAttribute('target');
-      mapLink.removeAttribute('rel');
-      mapLink.setAttribute('aria-label', 'Открыть адрес в приложении карт');
-    } else if (isIOS && mapLink.dataset.iosMap) {
-      mapLink.href = mapLink.dataset.iosMap;
-      mapLink.removeAttribute('target');
-      mapLink.removeAttribute('rel');
-      mapLink.setAttribute('aria-label', 'Открыть адрес в Apple Maps');
-    }
-  }
-
-  const contactAddress = document.querySelector('[data-contact-address]');
-  const contactAddressMain = contactAddress?.querySelector('[data-contact-address-main]');
-
-  if (contactAddress instanceof HTMLElement && contactAddressMain instanceof HTMLElement) {
-    let observedAddressWidth = -1;
-
-    const updateAddressWrap = () => {
-      contactAddress.classList.remove('is-inline-wrap');
-      const mainTextWidth = contactAddressMain.getBoundingClientRect().width;
-      contactAddress.classList.toggle('is-inline-wrap', mainTextWidth > contactAddress.clientWidth);
-    };
-
-    const addressObserver = new ResizeObserver(([entry]) => {
-      const currentWidth = entry.contentRect.width;
-      if (Math.abs(currentWidth - observedAddressWidth) < 0.5) return;
-
-      observedAddressWidth = currentWidth;
-      updateAddressWrap();
-    });
-
-    addressObserver.observe(contactAddress);
-    document.fonts.ready.then(updateAddressWrap);
-  }
-
-  document.querySelectorAll('[data-review-toggle]').forEach((toggle) => {
-    if (!(toggle instanceof HTMLButtonElement)) return;
-
-    const textId = toggle.getAttribute('aria-controls');
-    const reviewText = textId ? document.getElementById(textId) : null;
-
-    if (!reviewText) return;
-
-    toggle.addEventListener('click', () => {
-      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-
-      toggle.setAttribute('aria-expanded', String(!isExpanded));
-      toggle.textContent = isExpanded ? 'Читать полностью' : 'Свернуть';
-      reviewText.classList.toggle('is-expanded', !isExpanded);
-    });
-  });
-
-  const reviews = document.querySelector('.reviews');
-
-  if (reviews instanceof HTMLElement) {
-    const reviewCards = Array.from(reviews.querySelectorAll('[data-review-card]')).filter(
-      (card): card is HTMLElement => card instanceof HTMLElement,
-    );
-    const reviewDots = Array.from(reviews.querySelectorAll('[data-review-dot]')).filter(
-      (dot): dot is HTMLButtonElement => dot instanceof HTMLButtonElement,
-    );
-    const previousButton = reviews.querySelector('[data-review-prev]');
-    const nextButton = reviews.querySelector('[data-review-next]');
-    let activeReview = 0;
-
-    const collapseReview = (card: HTMLElement) => {
-      const toggle = card.querySelector('[data-review-toggle]');
-      const reviewText = card.querySelector('.review-text');
-
-      if (toggle instanceof HTMLButtonElement && reviewText instanceof HTMLElement) {
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.textContent = 'Читать полностью';
-        reviewText.classList.remove('is-expanded');
-      }
-    };
-
-    const showReview = (index: number) => {
-      if (index < 0 || index >= reviewCards.length) return;
-
-      reviewCards.forEach((card, cardIndex) => {
-        if (cardIndex !== index) collapseReview(card);
-        card.hidden = cardIndex !== index;
-      });
-
-      reviewDots.forEach((dot, dotIndex) => {
-        const isActive = dotIndex === index;
-        dot.classList.toggle('active', isActive);
-
-        if (isActive) {
-          dot.setAttribute('aria-current', 'true');
-        } else {
-          dot.removeAttribute('aria-current');
-        }
-      });
-
-      activeReview = index;
-
-      if (previousButton instanceof HTMLButtonElement) previousButton.disabled = activeReview === 0;
-      if (nextButton instanceof HTMLButtonElement) nextButton.disabled = activeReview === reviewCards.length - 1;
-    };
-
-    reviewDots.forEach((dot, index) => dot.addEventListener('click', () => showReview(index)));
-
-    if (previousButton instanceof HTMLButtonElement) {
-      previousButton.addEventListener('click', () => showReview(activeReview - 1));
-    }
-
-    if (nextButton instanceof HTMLButtonElement) {
-      nextButton.addEventListener('click', () => showReview(activeReview + 1));
-    }
-  }
-</script>
-
-<style>
+<style is:global>
   .site-footer {
     min-height: 524px;
     margin-top: var(--footer-space);
@@ -357,13 +42,13 @@ const comments = [
     border-radius: 30px 30px 0 0;
   }
 
-  h2,
-  h3,
-  p {
+  .site-footer h2,
+  .site-footer h3,
+  .site-footer p {
     margin: 0;
   }
 
-  h2 {
+  .site-footer h2 {
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
     font-weight: 400;
   }
@@ -615,7 +300,7 @@ const comments = [
     line-height: 40px;
   }
 
-  form {
+  .site-footer form {
     display: flex;
     width: 469px;
     margin-top: 20px;
@@ -623,15 +308,15 @@ const comments = [
     gap: 8px;
   }
 
-  .form-field,
-  .form-field input,
-  .form-field textarea {
+  .site-footer .form-field,
+  .site-footer .form-field input,
+  .site-footer .form-field textarea {
     display: block;
     width: 100%;
   }
 
-  .form-field input,
-  .form-field textarea {
+  .site-footer .form-field input,
+  .site-footer .form-field textarea {
     padding: 12px 24px;
     color: var(--color-text-primary);
     background: var(--color-surface-primary);
@@ -642,37 +327,37 @@ const comments = [
     line-height: 25px;
   }
 
-  .form-field input {
+  .site-footer .form-field input {
     height: 50px;
   }
 
-  .form-field textarea {
+  .site-footer .form-field textarea {
     height: 104px;
     font-family: inherit;
     resize: vertical;
   }
 
-  .form-field input:hover,
-  .form-field input:focus,
-  .form-field textarea:hover,
-  .form-field textarea:focus {
+  .site-footer .form-field input:hover,
+  .site-footer .form-field input:focus,
+  .site-footer .form-field textarea:hover,
+  .site-footer .form-field textarea:focus {
     border: 2px solid var(--color-accent-primary);
     outline: none;
   }
 
-  .form-field input::placeholder,
-  .form-field textarea::placeholder {
+  .site-footer .form-field input::placeholder,
+  .site-footer .form-field textarea::placeholder {
     color: rgb(35 35 35 / 30%);
     opacity: 1;
   }
 
-  .form-action {
+  .site-footer .form-action {
     position: relative;
     width: 100%;
     margin-top: 12px;
   }
 
-  .form-consent {
+  .site-footer .form-consent {
     display: flex;
     align-items: flex-start;
     gap: 10px;
@@ -681,7 +366,7 @@ const comments = [
     cursor: pointer;
   }
 
-  .form-consent input {
+  .site-footer .form-consent input {
     width: 24px;
     height: 24px;
     flex: 0 0 24px;
@@ -693,26 +378,26 @@ const comments = [
     cursor: pointer;
   }
 
-  .form-consent input:checked {
+  .site-footer .form-consent input:checked {
     background-image: var(--form-checkbox-image);
   }
 
-  .form-consent input:hover,
-  .form-consent input:focus {
+  .site-footer .form-consent input:hover,
+  .site-footer .form-consent input:focus {
     border: 2px solid var(--color-accent-primary);
     outline: none;
   }
 
-  .form-consent span {
+  .site-footer .form-consent span {
     min-width: 0;
   }
 
-  .form-consent a {
+  .site-footer .form-consent a {
     color: var(--color-accent-primary);
     text-underline-offset: 2px;
   }
 
-  .demo-status {
+  .site-footer .demo-status {
     position: absolute;
     inset: 0;
     display: grid;
@@ -728,7 +413,7 @@ const comments = [
     place-items: center;
   }
 
-  .demo-status[hidden] {
+  .site-footer .demo-status[hidden] {
     display: none;
   }
 
@@ -751,7 +436,7 @@ const comments = [
     text-underline-offset: 3px;
   }
 
-  .visually-hidden {
+  .site-footer .visually-hidden {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -770,7 +455,7 @@ const comments = [
       column-gap: 30px;
     }
 
-    form {
+    .site-footer form {
       width: 100%;
     }
 
@@ -810,7 +495,7 @@ const comments = [
       grid-column: 1 / -1;
     }
 
-    form {
+    .site-footer form {
       width: min(100%, 600px);
     }
 
@@ -980,33 +665,33 @@ const comments = [
       line-height: 32px;
     }
 
-    form {
+    .site-footer form {
       width: 288px;
       max-width: 100%;
       margin-top: 20px;
       gap: 8px;
     }
 
-    .form-field input,
-    .form-field textarea {
+    .site-footer .form-field input,
+    .site-footer .form-field textarea {
       font-size: 14px;
       line-height: 19px;
     }
 
-    .form-field input {
+    .site-footer .form-field input {
       height: 43px;
       padding: 12px 24px;
     }
 
-    .form-field textarea {
+    .site-footer .form-field textarea {
       height: 86px;
     }
 
-    .form-action {
+    .site-footer .form-action {
       margin-top: 12px;
     }
 
-    .demo-status {
+    .site-footer .demo-status {
       font-size: 12px;
       line-height: 16px;
     }
