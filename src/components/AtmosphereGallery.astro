@@ -1,6 +1,5 @@
 ---
 const assetPath = `${import.meta.env.BASE_URL}/images/atmosphere`;
-const assetPathArrow = `${import.meta.env.BASE_URL}/images`;
 
 const photos = [
   { image: 'atmosphere-1.webp', alt: 'Сольное выступление ученицы RG-ballet' },
@@ -25,15 +24,6 @@ const photos = [
     {photos.map((photo) => (
       <img src={`${assetPath}/${photo.image}`} alt={photo.alt} width="290" height="340" loading="lazy" />
     ))}
-  </div>
-
-  <div class="atmosphere-controls" aria-label="Управление галереей">
-    <button class="atmosphere-arrow prev" type="button" aria-label="Предыдущая фотография" data-atmosphere-prev>
-      <img src={`${assetPathArrow}/arrow.svg`} alt="" width="30" height="30" />
-    </button>
-    <button class="atmosphere-arrow next" type="button" aria-label="Следующая фотография" data-atmosphere-next>
-      <img src={`${assetPathArrow}/arrow.svg`} alt="" width="30" height="30" />
-    </button>
   </div>
 
   <div class="atmosphere-slider" aria-live="polite">
@@ -67,9 +57,10 @@ const photos = [
   document.querySelectorAll('[data-atmosphere-gallery]').forEach((gallery) => {
     const slides = [...gallery.querySelectorAll<HTMLElement>('[data-atmosphere-slide]')];
     const dots = [...gallery.querySelectorAll<HTMLButtonElement>('[data-atmosphere-dot]')];
-    const previousButton = gallery.querySelector<HTMLButtonElement>('[data-atmosphere-prev]');
-    const nextButton = gallery.querySelector<HTMLButtonElement>('[data-atmosphere-next]');
+    const slider = gallery.querySelector<HTMLElement>('.atmosphere-slider');
     let current = 0;
+    let swipeStartX = 0;
+    let swipeStartY = 0;
 
     const update = (nextIndex: number) => {
       current = Math.min(Math.max(nextIndex, 0), slides.length - 1);
@@ -79,13 +70,28 @@ const photos = [
         dot.classList.toggle('is-active', active);
         active ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current');
       });
-      if (previousButton) previousButton.disabled = current === 0;
-      if (nextButton) nextButton.disabled = current === slides.length - 1;
     };
 
-    previousButton?.addEventListener('click', () => update(current - 1));
-    nextButton?.addEventListener('click', () => update(current + 1));
     dots.forEach((dot, index) => dot.addEventListener('click', () => update(index)));
+    slider?.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse') return;
+
+      swipeStartX = event.clientX;
+      swipeStartY = event.clientY;
+      (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    });
+
+    slider?.addEventListener('pointerup', (event) => {
+      if (event.pointerType === 'mouse') return;
+
+      const distanceX = event.clientX - swipeStartX;
+      const distanceY = event.clientY - swipeStartY;
+
+      if (Math.abs(distanceX) >= 50 && Math.abs(distanceX) > Math.abs(distanceY)) {
+        update(current + (distanceX < 0 ? 1 : -1));
+      }
+    });
+
     update(0);
   });
 </script>
@@ -146,7 +152,6 @@ const photos = [
     object-fit: cover;
   }
 
-  .atmosphere-controls,
   .atmosphere-slider,
   .atmosphere-dots {
     display: none;
@@ -218,48 +223,17 @@ const photos = [
       display: none;
     }
 
-    .atmosphere-controls {
-      display: flex;
-      height: 30px;
-      margin-top: 20px;
-      justify-content: center;
-      gap: 16px;
-    }
-
-    .atmosphere-arrow {
-      display: grid;
-      width: 30px;
-      height: 30px;
-      padding: 0;
-      place-items: center;
-      background: transparent;
-      border: 0;
-      cursor: pointer;
-    }
-
-    .atmosphere-arrow img {
-      width: 30px;
-      height: 30px;
-    }
-
-    .atmosphere-arrow.prev img {
-      transform: scaleX(-1);
-    }
-
-    .atmosphere-arrow:disabled {
-      opacity: 0.5;
-      cursor: default;
-    }
-
     .atmosphere-slider {
       position: relative;
       display: block;
       width: 100%;
       height: 437px;
-      margin-top: 14px;
+      margin-top: 64px;
       overflow: hidden;
       border-radius: 30px;
       background: var(--color-photo-placeholder);
+      touch-action: pan-y;
+      user-select: none;
     }
 
     .atmosphere-slide {
