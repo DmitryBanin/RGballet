@@ -68,6 +68,7 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   }
 
   .site-footer h2 {
+    /* cspell:ignore Corvetta */
     font-family: 'Corvetta', 'Cormorant Garamond', serif;
     font-weight: 400;
   }
@@ -517,10 +518,6 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
       border-radius: 30px;
     }
 
-    .footer-divider {
-      display: none;
-    }
-
     .reviews + .footer-divider:has(+ .contacts) {
       display: block;
     }
@@ -554,10 +551,16 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
 
   } */
 
+
+  /* Перестраивается друг под другом */
   @media (768px <= width < 1000px) {
     .footer-panel {
       display: block;
       min-height: auto;
+    }
+
+        .footer-divider {
+      display: none;
     }
 
     .reviews + .footer-divider:has(+ .contacts) {

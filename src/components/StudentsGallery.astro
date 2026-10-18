@@ -1,15 +1,17 @@
 ---
+import { getGalleryPhotos } from '../config/galleryPhotos.js';
+
 const assetPath = `${import.meta.env.BASE_URL}/images/students`;
 const assetPathArrow = `${import.meta.env.BASE_URL}/images`;
 
-const students = [
-  { image: 'students-1.png', alt: 'Ученицы RG-ballet вместе' },
-  { image: 'students-2.png', alt: 'Выступление ученицы RG-ballet' },
-  { image: 'students-3.png', alt: 'Группа учениц RG-ballet' },
-  { image: 'students-4.png', alt: 'Ученица RG-ballet на сцене' },
-  { image: 'students-5.png', alt: 'Танцевальный номер учениц RG-ballet' },
-  { image: 'students-6.png', alt: 'Гимнастический элемент ученицы RG-ballet' },
-];
+const students = await getGalleryPhotos('students', {
+  'students-1.png': 'Ученицы RG-ballet вместе',
+  'students-2.png': 'Выступление ученицы RG-ballet',
+  'students-3.png': 'Группа учениц RG-ballet',
+  'students-4.png': 'Ученица RG-ballet на сцене',
+  'students-5.png': 'Танцевальный номер учениц RG-ballet',
+  'students-6.png': 'Гимнастический элемент ученицы RG-ballet',
+}, 'Ученицы RG-ballet');
 
 ---
 
@@ -18,32 +20,33 @@ const students = [
 
   <div class="students-mosaic">
     <div class="gallery-column gallery-column-tall">
-      <img src={`${assetPath}/${students[0].image}`} alt={students[0].alt} loading="lazy" data-gallery-tile />
+      <img src={`${assetPath}/${encodeURIComponent(students[0].image)}`} alt={students[0].alt} loading="lazy" data-gallery-tile />
     </div>
 
     <div class="gallery-column gallery-column-squares">
       {students.slice(1, 3).map((student) => (
-        <img src={`${assetPath}/${student.image}`} alt={student.alt} loading="lazy" data-gallery-tile />
+        <img src={`${assetPath}/${encodeURIComponent(student.image)}`} alt={student.alt} loading="lazy" data-gallery-tile />
       ))}
     </div>
 
     <div class="gallery-column gallery-column-tall">
-      <img src={`${assetPath}/${students[3].image}`} alt={students[3].alt} loading="lazy" data-gallery-tile />
+      <img src={`${assetPath}/${encodeURIComponent(students[3].image)}`} alt={students[3].alt} loading="lazy" data-gallery-tile />
     </div>
 
     <div class="gallery-column gallery-column-squares">
       {students.slice(4, 6).map((student) => (
-        <img src={`${assetPath}/${student.image}`} alt={student.alt} loading="lazy" data-gallery-tile />
+        <img src={`${assetPath}/${encodeURIComponent(student.image)}`} alt={student.alt} loading="lazy" data-gallery-tile />
       ))}
     </div>
   </div>
 
   <div class="students-slider" aria-live="polite">
-    {students.slice(0, 5).map((student, index) => (
+    {students.map((student, index) => (
       <img
         class:list={['student-slide', { 'is-active': index === 0 }]}
-        src={`${assetPath}/${student.image}`}
+        src={`${assetPath}/${encodeURIComponent(student.image)}`}
         alt={student.alt}
+        aria-hidden={index === 0 ? 'false' : 'true'}
         loading="lazy"
         data-gallery-slide
       />
@@ -51,16 +54,19 @@ const students = [
   </div>
 
   <div class="gallery-navigation">
-    <div class="gallery-dots" aria-label="Выбор фотографии">
-      {students.slice(0, 5).map((_, index) => (
-        <button
-          class:list={['gallery-dot', { 'is-active': index === 0 }]}
-          type="button"
-          aria-label={`Фотография ${index + 1}`}
-          aria-current={index === 0 ? 'true' : undefined}
-          data-gallery-dot={index}
-        />
-      ))}
+    <div class="gallery-position">
+      <div class="gallery-dots" aria-label="Выбор фотографии">
+        {students.slice(0, 5).map((_, index) => (
+          <button
+            class:list={['gallery-dot', { 'is-active': index === 0 }]}
+            type="button"
+            aria-label={`Фотография ${index + 1} из ${students.length}`}
+            aria-current={index === 0 ? 'true' : undefined}
+            data-gallery-dot={index}
+          />
+        ))}
+      </div>
+      <span class="gallery-counter" aria-live="polite" data-gallery-counter>1 из {students.length}</span>
     </div>
 
     <div class="gallery-arrows gallery-arrows-desktop" aria-label="Управление галереей">
@@ -84,7 +90,7 @@ const students = [
 </section>
 
 <script>
-  document.querySelectorAll('[data-students-gallery]').forEach((gallery) => {
+  document.querySelectorAll<HTMLElement>('[data-students-gallery]').forEach((gallery) => {
     const slides = [...gallery.querySelectorAll('[data-gallery-slide]')].filter(
       (element) => element instanceof HTMLImageElement,
     );
@@ -101,7 +107,8 @@ const students = [
       (element) => element instanceof HTMLButtonElement,
     );
     const slider = gallery.querySelector<HTMLElement>('.students-slider');
-    const initialTiles = tiles.map((tile) => ({ src: tile.src, alt: tile.alt }));
+    const counter = gallery.querySelector<HTMLElement>('[data-gallery-counter]');
+    const images = slides.map((slide) => ({ src: slide.src, alt: slide.alt }));
     let current = 0;
     let swipeStartX = 0;
     let swipeStartY = 0;
@@ -109,14 +116,23 @@ const students = [
     const update = (nextIndex = 0) => {
       current = Math.min(Math.max(nextIndex, 0), slides.length - 1);
 
-      slides.forEach((slide, index) => slide.classList.toggle('is-active', index === current));
-      dots.forEach((dot, index) => {
+      slides.forEach((slide, index) => {
         const active = index === current;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', String(!active));
+      });
+      const firstDot = Math.min(Math.max(current - Math.floor(dots.length / 2), 0), slides.length - dots.length);
+      dots.forEach((dot, index) => {
+        const photoIndex = firstDot + index;
+        const active = photoIndex === current;
+        dot.dataset.galleryDot = String(photoIndex);
+        dot.setAttribute('aria-label', `Фотография ${photoIndex + 1} из ${slides.length}`);
         dot.classList.toggle('is-active', active);
         active ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current');
       });
+      if (counter) counter.textContent = `${current + 1} из ${slides.length}`;
       tiles.forEach((tile, index) => {
-        const image = initialTiles[(index + current) % initialTiles.length];
+        const image = images[(index + current) % images.length];
         if (!image) return;
 
         tile.src = image.src;
@@ -132,7 +148,14 @@ const students = [
     nextButtons.forEach((button) => {
       button.addEventListener('click', () => update(current + 1));
     });
-    dots.forEach((dot, index) => dot.addEventListener('click', () => update(index)));
+    dots.forEach((dot) => dot.addEventListener('click', () => update(Number(dot.dataset.galleryDot))));
+    gallery.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      if (!(event.target instanceof HTMLElement) || !event.target.closest('.gallery-navigation')) return;
+
+      event.preventDefault();
+      update(current + (event.key === 'ArrowRight' ? 1 : -1));
+    });
 
     slider?.addEventListener('pointerdown', (event) => {
       if (event.pointerType === 'mouse') return;
@@ -190,6 +213,18 @@ const students = [
     margin-top: 20px;
     align-items: center;
     justify-content: center;
+  }
+
+  .gallery-position {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .gallery-counter {
+    font-size: 16px;
+    line-height: 24px;
+    white-space: nowrap;
   }
 
   .gallery-arrows-desktop {
@@ -355,6 +390,15 @@ const students = [
       gap: 6px;
     }
 
+    .gallery-position {
+      gap: 10px;
+    }
+
+    .gallery-counter {
+      font-size: 14px;
+      line-height: 16px;
+    }
+
     .gallery-dot {
       width: 16px;
       height: 16px;
@@ -426,6 +470,15 @@ const students = [
     .gallery-dots {
       height: 16px;
       gap: 6px;
+    }
+
+    .gallery-position {
+      gap: 10px;
+    }
+
+    .gallery-counter {
+      font-size: 14px;
+      line-height: 16px;
     }
 
     .gallery-dot {

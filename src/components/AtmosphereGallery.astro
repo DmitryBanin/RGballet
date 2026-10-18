@@ -1,14 +1,17 @@
 ---
-const assetPath = `${import.meta.env.BASE_URL}/images/atmosphere`;
+import { getGalleryPhotos } from '../config/galleryPhotos.js';
 
-const photos = [
-  { image: 'atmosphere-1.webp', alt: 'Сольное выступление ученицы RG-ballet' },
-  { image: 'atmosphere-2.webp', alt: 'Ученицы RG-ballet после занятия' },
-  { image: 'atmosphere-3.webp', alt: 'Сценический номер RG-ballet' },
-  { image: 'atmosphere-4.webp', alt: 'Выступление коллектива RG-ballet' },
-  { image: 'atmosphere-5.webp', alt: 'Ученицы RG-ballet с наградами' },
-  { image: 'atmosphere-6.webp', alt: 'Ученицы RG-ballet перед выступлением' },
-];
+const assetPath = `${import.meta.env.BASE_URL}/images/atmosphere`;
+const assetPathArrow = `${import.meta.env.BASE_URL}/images`;
+
+const photos = await getGalleryPhotos('atmosphere', {
+  'atmosphere-1.webp': 'Сольное выступление ученицы RG-ballet',
+  'atmosphere-2.webp': 'Ученицы RG-ballet после занятия',
+  'atmosphere-3.webp': 'Сценический номер RG-ballet',
+  'atmosphere-4.webp': 'Выступление коллектива RG-ballet',
+  'atmosphere-5.webp': 'Ученицы RG-ballet с наградами',
+  'atmosphere-6.webp': 'Ученицы RG-ballet перед выступлением',
+}, 'Атмосфера RG-ballet');
 ---
 
 <section class="atmosphere" aria-labelledby="atmosphere-title" data-atmosphere-gallery>
@@ -21,17 +24,18 @@ const photos = [
   </header>
 
   <div class="atmosphere-grid">
-    {photos.map((photo) => (
-      <img src={`${assetPath}/${photo.image}`} alt={photo.alt} width="290" height="340" loading="lazy" />
+    {photos.slice(0, 6).map((photo) => (
+      <img src={`${assetPath}/${encodeURIComponent(photo.image)}`} alt={photo.alt} width="290" height="340" loading="lazy" data-atmosphere-tile />
     ))}
   </div>
 
   <div class="atmosphere-slider" aria-live="polite">
-    {photos.slice(0, 5).map((photo, index) => (
+    {photos.map((photo, index) => (
       <img
         class:list={['atmosphere-slide', { 'is-active': index === 0 }]}
-        src={`${assetPath}/${photo.image}`}
+        src={`${assetPath}/${encodeURIComponent(photo.image)}`}
         alt={photo.alt}
+        aria-hidden={index === 0 ? 'false' : 'true'}
         width="320"
         height="437"
         loading="lazy"
@@ -40,39 +44,84 @@ const photos = [
     ))}
   </div>
 
-  <div class="atmosphere-dots" aria-label="Выбор фотографии">
-    {photos.slice(0, 5).map((_, index) => (
-      <button
-        class:list={['atmosphere-dot', { 'is-active': index === 0 }]}
-        type="button"
-        aria-label={`Фотография ${index + 1}`}
-        aria-current={index === 0 ? 'true' : undefined}
-        data-atmosphere-dot={index}
-      />
-    ))}
+  <div class="atmosphere-navigation">
+    <div class="atmosphere-position">
+      <div class="atmosphere-dots" aria-label="Выбор фотографии">
+        {photos.slice(0, 5).map((_, index) => (
+          <button
+            class:list={['atmosphere-dot', { 'is-active': index === 0 }]}
+            type="button"
+            aria-label={`Фотография ${index + 1} из ${photos.length}`}
+            aria-current={index === 0 ? 'true' : undefined}
+            data-atmosphere-dot={index}
+          />
+        ))}
+      </div>
+      <span class="atmosphere-counter" aria-live="polite" data-atmosphere-counter>1 из {photos.length}</span>
+    </div>
+    <div class="atmosphere-arrows" aria-label="Управление галереей">
+      <button class="atmosphere-arrow prev" type="button" aria-label="Предыдущая фотография" data-atmosphere-prev>
+        <img src={`${assetPathArrow}/arrow.svg`} alt="" width="50" height="50" />
+      </button>
+      <button class="atmosphere-arrow next" type="button" aria-label="Следующая фотография" data-atmosphere-next>
+        <img src={`${assetPathArrow}/arrow.svg`} alt="" width="50" height="50" />
+      </button>
+    </div>
   </div>
 </section>
 
 <script>
-  document.querySelectorAll('[data-atmosphere-gallery]').forEach((gallery) => {
-    const slides = [...gallery.querySelectorAll<HTMLElement>('[data-atmosphere-slide]')];
+  document.querySelectorAll<HTMLElement>('[data-atmosphere-gallery]').forEach((gallery) => {
+    const slides = [...gallery.querySelectorAll<HTMLImageElement>('[data-atmosphere-slide]')];
     const dots = [...gallery.querySelectorAll<HTMLButtonElement>('[data-atmosphere-dot]')];
+    const tiles = [...gallery.querySelectorAll<HTMLImageElement>('[data-atmosphere-tile]')];
+    const previousButton = gallery.querySelector<HTMLButtonElement>('[data-atmosphere-prev]');
+    const nextButton = gallery.querySelector<HTMLButtonElement>('[data-atmosphere-next]');
+    const counter = gallery.querySelector<HTMLElement>('[data-atmosphere-counter]');
     const slider = gallery.querySelector<HTMLElement>('.atmosphere-slider');
+    const images = slides.map((slide) => ({ src: slide.src, alt: slide.alt }));
     let current = 0;
     let swipeStartX = 0;
     let swipeStartY = 0;
 
     const update = (nextIndex: number) => {
       current = Math.min(Math.max(nextIndex, 0), slides.length - 1);
-      slides.forEach((slide, index) => slide.classList.toggle('is-active', index === current));
-      dots.forEach((dot, index) => {
+      slides.forEach((slide, index) => {
         const active = index === current;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', String(!active));
+      });
+      const firstDot = Math.min(Math.max(current - Math.floor(dots.length / 2), 0), slides.length - dots.length);
+      dots.forEach((dot, index) => {
+        const photoIndex = firstDot + index;
+        const active = photoIndex === current;
+        dot.dataset.atmosphereDot = String(photoIndex);
+        dot.setAttribute('aria-label', `Фотография ${photoIndex + 1} из ${slides.length}`);
         dot.classList.toggle('is-active', active);
         active ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current');
       });
+      if (counter) counter.textContent = `${current + 1} из ${slides.length}`;
+      tiles.forEach((tile, index) => {
+        const image = images[(index + current) % images.length];
+        if (!image) return;
+
+        tile.src = image.src;
+        tile.alt = image.alt;
+      });
+      if (previousButton) previousButton.disabled = current === 0;
+      if (nextButton) nextButton.disabled = current === slides.length - 1;
     };
 
-    dots.forEach((dot, index) => dot.addEventListener('click', () => update(index)));
+    previousButton?.addEventListener('click', () => update(current - 1));
+    nextButton?.addEventListener('click', () => update(current + 1));
+    dots.forEach((dot) => dot.addEventListener('click', () => update(Number(dot.dataset.atmosphereDot))));
+    gallery.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      if (!(event.target instanceof HTMLElement) || !event.target.closest('.atmosphere-navigation')) return;
+
+      event.preventDefault();
+      update(current + (event.key === 'ArrowRight' ? 1 : -1));
+    });
     slider?.addEventListener('pointerdown', (event) => {
       if (event.pointerType === 'mouse') return;
 
@@ -152,8 +201,85 @@ const photos = [
     object-fit: cover;
   }
 
-  .atmosphere-slider,
+  .atmosphere-navigation {
+    position: relative;
+    display: flex;
+    min-height: 50px;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .atmosphere-position,
+  .atmosphere-dots,
+  .atmosphere-arrows {
+    display: flex;
+    align-items: center;
+  }
+
+  .atmosphere-position {
+    gap: 16px;
+  }
+
+  .atmosphere-counter {
+    font-size: 16px;
+    line-height: 24px;
+    white-space: nowrap;
+  }
+
   .atmosphere-dots {
+    height: 24px;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .atmosphere-dot {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: 2px solid var(--color-accent-primary);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .atmosphere-dot.is-active {
+    background: var(--color-accent-primary);
+  }
+
+  .atmosphere-arrows {
+    position: absolute;
+    right: 0;
+    height: 50px;
+    gap: 29px;
+  }
+
+  .atmosphere-arrow {
+    display: grid;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    place-items: center;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .atmosphere-arrow img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .atmosphere-arrow.prev img {
+    transform: scaleX(-1);
+  }
+
+  .atmosphere-arrow:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .atmosphere-slider {
     display: none;
   }
 
@@ -190,6 +316,42 @@ const photos = [
 
     .atmosphere-grid img {
       height: 320px;
+    }
+
+    .atmosphere-navigation {
+      min-height: 30px;
+    }
+
+    .atmosphere-position {
+      gap: 10px;
+    }
+
+    .atmosphere-counter {
+      font-size: 14px;
+      line-height: 16px;
+    }
+
+    .atmosphere-dots {
+      height: 16px;
+      gap: 6px;
+    }
+
+    .atmosphere-dot {
+      width: 16px;
+      height: 16px;
+    }
+
+    .atmosphere-arrows,
+    .atmosphere-arrow {
+      height: 30px;
+    }
+
+    .atmosphere-arrows {
+      gap: 16px;
+    }
+
+    .atmosphere-arrow {
+      width: 30px;
     }
   }
 
@@ -251,27 +413,32 @@ const photos = [
       opacity: 1;
     }
 
-    .atmosphere-dots {
-      display: flex;
-      height: 16px;
+    .atmosphere-navigation {
+      min-height: 16px;
       margin-top: 19px;
-      align-items: center;
-      justify-content: center;
+    }
+
+    .atmosphere-position {
+      gap: 10px;
+    }
+
+    .atmosphere-counter {
+      font-size: 14px;
+      line-height: 16px;
+    }
+
+    .atmosphere-dots {
+      height: 16px;
       gap: 6px;
     }
 
     .atmosphere-dot {
       width: 16px;
       height: 16px;
-      padding: 0;
-      background: transparent;
-      border: 2px solid var(--color-accent-primary);
-      border-radius: 50%;
-      cursor: pointer;
     }
 
-    .atmosphere-dot.is-active {
-      background: var(--color-accent-primary);
+    .atmosphere-arrows {
+      display: none;
     }
   }
 
