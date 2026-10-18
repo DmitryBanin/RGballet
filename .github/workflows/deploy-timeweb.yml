@@ -36,9 +36,9 @@ jobs:
 
       - name: Deploy via SFTP
         env:
-          SFTP_HOST: $&#123;&#123; secrets.TIMEWEB_HOST &#125;&#125;
-          SFTP_USER: $&#123;&#123; secrets.TIMEWEB_USER &#125;&#125;
-          SFTP_PASSWORD: $&#123;&#123; secrets.TIMEWEB_PASSWORD &#125;&#125;
+          SFTP_HOST: ${{ secrets.TIMEWEB_HOST }}
+          SFTP_USER: ${{ secrets.TIMEWEB_USER }}
+          SFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H "$SFTP_HOST" >> ~/.ssh/known_hosts
