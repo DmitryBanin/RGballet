@@ -1,0 +1,54 @@
+
+name: Deploy RGballet to Timeweb
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Astro for Timeweb
+        run: npm run build
+        env:
+          DEPLOY_TARGET: timeweb
+
+      - name: Install deployment tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y lftp
+
+      - name: Deploy via SFTP
+        env:
+          SFTP_HOST: $&#123;&#123; secrets.TIMEWEB_HOST &#125;&#125;
+          SFTP_USER: $&#123;&#123; secrets.TIMEWEB_USER &#125;&#125;
+          SFTP_PASSWORD: $&#123;&#123; secrets.TIMEWEB_PASSWORD &#125;&#125;
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$SFTP_HOST" >> ~/.ssh/known_hosts
+
+          lftp -u "$SFTP_USER","$SFTP_PASSWORD" \
+            "sftp://$SFTP_HOST" <<EOF
+          set sftp:auto-confirm no
+          mirror -R --verbose \
+            --exclude-glob .htaccess \
+            --exclude-glob .htpasswd \
+            dist/ /home/c/cb007521/public_html/
+          bye
+          EOF
