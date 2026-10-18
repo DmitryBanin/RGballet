@@ -108,6 +108,17 @@ const opportunities = [
     display: none;
   }
 
+  @media (1200px <= width <= 1920px) {
+    .opportunity-card {
+      container-type: inline-size;
+    }
+
+    .opportunity-card p {
+      font-size: clamp(14px, calc(6px + 3.5cqi), 20px);
+      line-height: 1.5;
+    }
+  }
+
   @media (width < 1920px) {
     .opportunities {
       width: auto;

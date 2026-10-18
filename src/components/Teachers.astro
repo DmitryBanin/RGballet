@@ -255,6 +255,13 @@ const teachers = [
   }
 
   @container (1000px <= width < 1730px) {
+    .teacher-cards {
+      width: min(100%, 1220px);
+      margin-inline: auto;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 30px;
+    }
+
     .teacher-card:first-child {
       grid-column: 1 / -1;
       justify-self: center;
