@@ -112,13 +112,13 @@ Cormorant Garamond / Bold: 15
 
 Статическая сборка Astro из папки `dist` размещается на российском веб-хостинге.
 
-Рассматриваются Timeweb и SpaceWeb, окончательный вариант не выбран.
+Используется Timeweb; текущий адрес сайта — `https://cb007521.tw1.ru/`.
 
 Данные клиентов должны обрабатываться и храниться с учётом требований РФ.
 
 Домен: rgballet.ru, регистратор — REG.RU.
 
-GitHub и автоматический деплой через GitHub Actions планируются на последующих этапах.
+GitHub хранит исходный код; GitHub Actions автоматически публикует сборку на Timeweb через `.github/workflows/deploy-timeweb.yml`.
 
 Создать 
 robots.txt и sitemap.xml

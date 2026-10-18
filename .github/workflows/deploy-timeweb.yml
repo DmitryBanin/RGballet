@@ -26,8 +26,6 @@ jobs:
 
       - name: Build Astro for Timeweb
         run: npm run build
-        env:
-          DEPLOY_TARGET: timeweb
 
       - name: Install deployment tools
         run: |
