@@ -268,6 +268,13 @@ const teachers = [
     }
   }
 
+  @media (768px <= width <= 1061px) {
+    .teacher-cards {
+      grid-template-columns: 1fr;
+      row-gap: 30px;
+    }
+  }
+
   @media (width < 1200px) and (width >= 768px) {
     .teachers {
       margin-top: var(--section-space);

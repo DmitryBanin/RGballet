@@ -42,7 +42,7 @@ const prices = [
         <img src={`${assetPath}/pricing-discount.svg`} alt="" width="116" height="116" loading="lazy" />
         <div>
           <p class="discount-title">Скидка до <strong>20%</strong></p>
-          <p class="discount-note">для льготных категорий, а также второго члена семьи.</p>
+          <p class="discount-note">для льготных категорий, <span class="discount-note-continuation">а также второго члена семьи.</span></p>
         </div>
       </div>
 
@@ -193,6 +193,16 @@ const prices = [
     justify-content: center;
   }
 
+  @media (width < 1200px) {
+    .discount-note {
+      line-height: 30px;
+    }
+
+    .discount-note-continuation {
+      display: block;
+    }
+  }
+
   @media (width < 1920px) {
     .pricing-inner {
       width: auto;
@@ -247,10 +257,24 @@ const prices = [
     }
   }
 
-  @media (width < 1029px) {
+  @media (width < 1030px) {
     .pricing {
       background-image: var(--pricing-background-mobile);
       background-position: center;
+    }
+  }
+
+  @media (768px <= width < 1030px) {
+    .price-grid {
+      width: calc(100% + 425px);
+    }
+
+    .pricing-action {
+      width: calc(100% + 425px);
+    }
+
+    .discount {
+      width: calc(100% + 425px);
     }
   }
 
