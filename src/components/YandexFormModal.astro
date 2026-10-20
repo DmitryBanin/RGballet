@@ -2,7 +2,7 @@
 import { contacts } from '../config/contacts.js';
 
 const assetPath = '/images';
-const formUrl = 'https://forms.yandex.ru/u/6ac0ddbf505690bba151f83c';
+const formUrl = contacts.yandexForm.url;
 ---
 
 <dialog class="yandex-form-modal" aria-labelledby="yandex-form-title" data-form-modal>
@@ -17,7 +17,7 @@ const formUrl = 'https://forms.yandex.ru/u/6ac0ddbf505690bba151f83c';
     <script is:inline src="https://forms.yandex.ru/_static/embed.js" defer></script>
     <iframe
       src={`${formUrl}?iframe=1`}
-      name="ya-form-6ac0ddbf505690bba151f83c"
+      name={contacts.yandexForm.name}
       title="Форма записи RG Ballet"
       width="650"
       height="650"

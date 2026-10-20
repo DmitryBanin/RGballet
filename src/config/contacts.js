@@ -1,3 +1,5 @@
+const yandexFormId = '6ac25c4195add5f722759718';
+
 export const contacts = {
   phone: {
     display: '+7 915 374 75 56',
@@ -9,6 +11,10 @@ export const contacts = {
   email: {
     display: 'rg-ballet@mail.ru',
     href: 'mailto:rg-ballet@mail.ru',
+  },
+  yandexForm: {
+    url: `https://forms.yandex.ru/u/${yandexFormId}`,
+    name: `ya-form-${yandexFormId}`,
   },
   address: 'Люберцы, Октябрьский проспект, 186 (2-й этаж)',
   map: {
