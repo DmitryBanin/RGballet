@@ -1,8 +1,14 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://cb007521.tw1.ru',
+  site: 'https://rgballet.ru',
   base: '/',
+  integrations: [
+    sitemap({
+      filter: (page) => new URL(page).pathname === '/',
+    }),
+  ],
 
   devToolbar: {
     enabled: false,

@@ -28,7 +28,7 @@ npm run build
 
 ## Размещение
 
-Сайт размещается на Timeweb по адресу `https://cb007521.tw1.ru/`. Домен `rgballet.ru` зарегистрирован через REG.RU; в дальнейшем планируется переоформление домена и связанной инфраструктуры на ИП.
+Сайт размещается на Timeweb по основному адресу `https://rgballet.ru/`. Домен зарегистрирован через REG.RU.
 
 Схема публикации: локальная разработка → GitHub → сборка Astro → Timeweb. GitHub Actions публикует содержимое `dist` через `.github/workflows/deploy-timeweb.yml`.
 
@@ -36,6 +36,5 @@ npm run build
 
 - [Техническое задание](docs/TZ.md)
 - [Архитектура](docs/ARCHITECTURE.md)
-- [Принятые решения](docs/DECISIONS.md)
 - [Нерешённые вопросы](docs/QUESTIONS.md)
 

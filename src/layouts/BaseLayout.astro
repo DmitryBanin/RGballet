@@ -10,14 +10,8 @@ const {
 } = Astro.props;
 
 const faviconPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.ico`;
-
-// Запрещаем индексацию по умолчанию.
-// Для публичного сайта установить SEO_NOINDEX=false.
-const noindex = import.meta.env.SEO_NOINDEX === 'true';
-
-const robotsContent = noindex
-  ? 'noindex, follow'
-  : 'index, follow';
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const robotsContent = Astro.url.pathname === '/' ? 'index, follow' : 'noindex, follow';
 ---
 
 <!doctype html>
@@ -27,6 +21,7 @@ const robotsContent = noindex
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="robots" content={robotsContent} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href={faviconPath} type="image/x-icon" />
     <title>{title}</title>
   </head>
