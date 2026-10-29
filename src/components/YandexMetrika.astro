@@ -1,0 +1,39 @@
+<script is:inline>
+  (() => {
+    const COUNTER_ID = 113897792;
+    const DISABLE_KEY = `disableYaCounter${COUNTER_ID}`;
+    let initialized = false;
+
+    // Счётчик остаётся отключённым, пока CookieBanner не подтвердит сохранённое или новое согласие.
+    window[DISABLE_KEY] = true;
+
+    window.addEventListener('rgballet:cookie-consent', (event) => {
+      if (!(event instanceof CustomEvent)) return;
+
+      if (event.detail?.choice === 'necessary') {
+        window[DISABLE_KEY] = true;
+        if (initialized) window.location.reload();
+        return;
+      }
+
+      if (event.detail?.choice !== 'all' || initialized) return;
+
+      // Вебвизор не должен записывать значения полей, даже если на странице появится локальная форма.
+      document.querySelectorAll('input, textarea').forEach((field) => {
+        field.classList.add('ym-disable-keys');
+      });
+
+      window[DISABLE_KEY] = false;
+      initialized = true;
+
+      (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=113897792', 'ym');
+
+      ym(113897792, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    });
+  })();
+</script>

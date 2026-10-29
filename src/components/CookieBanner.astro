@@ -16,8 +16,11 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
   </div>
 </section>
 
+<button type="button" class="cookie-settings" data-cookie-settings hidden>Настройки cookie</button>
+
 <script is:inline>
   const banner = document.querySelector('[data-cookie-banner]');
+  const settingsButton = document.querySelector('[data-cookie-settings]');
   const COOKIE_NAME = 'rgballet_cookie_consent';
   const LEGACY_STORAGE_KEY = 'rgballet-cookie-consent-v1';
   // При изменении текста согласия обновить версию, например на '2.0'.
@@ -129,8 +132,8 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     return consentData;
   }
 
-  function enableYandexMetrica() {
-    // TODO: здесь добавить ID и загрузку Яндекс Метрики. Функция вызывается только при choice === 'all'.
+  function notifyConsent(choice) {
+    window.dispatchEvent(new CustomEvent('rgballet:cookie-consent', { detail: { choice } }));
   }
 
   function saveCookieConsent(choice) {
@@ -151,8 +154,14 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
     const cookieConsent = readCookieConsent();
     const savedConsent = cookieConsent.exists ? cookieConsent.consentData : migrateLegacyConsent();
     banner.hidden = savedConsent !== null;
+    if (settingsButton instanceof HTMLButtonElement) settingsButton.hidden = savedConsent === null;
 
-    if (savedConsent?.choice === 'all') enableYandexMetrica();
+    if (savedConsent) notifyConsent(savedConsent.choice);
+
+    settingsButton?.addEventListener('click', () => {
+      banner.hidden = false;
+      settingsButton.hidden = true;
+    });
 
     banner.querySelectorAll('[data-cookie-choice]').forEach((button) => {
       if (!(button instanceof HTMLButtonElement)) return;
@@ -162,13 +171,33 @@ const privacyPolicyPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/privac
         if (!consentData) return;
 
         banner.hidden = true;
-        if (consentData.choice === 'all') enableYandexMetrica();
+        if (settingsButton instanceof HTMLButtonElement) settingsButton.hidden = false;
+        notifyConsent(consentData.choice);
       });
     });
   }
 </script>
 
 <style>
+  .cookie-settings {
+    position: fixed;
+    z-index: 89;
+    bottom: 12px;
+    left: 12px;
+    padding: 8px 12px;
+    color: var(--color-text-primary);
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-accent-primary);
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgb(35 35 35 / 12%);
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .cookie-settings[hidden] {
+    display: none;
+  }
+
   .cookie-banner {
     position: fixed;
     z-index: 90;
