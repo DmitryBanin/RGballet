@@ -2,6 +2,7 @@
 import '../styles/fonts.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
+
 import CookieBanner from '../components/CookieBanner.astro';
 import YandexMetrika from '../components/YandexMetrika.astro';
 
@@ -10,9 +11,24 @@ const {
   description = 'Балетная студия RGballet: профессиональная танцевальная подготовка для детей.',
 } = Astro.props;
 
-const faviconPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.ico`;
+// Пути к статическим ресурсам
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const faviconPath = `${baseUrl}/favicon.ico`;
+
+// Основной URL страницы
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
-const robotsContent = Astro.url.pathname === '/' ? 'index, follow' : 'noindex, follow';
+
+// Индексация запрещена по умолчанию.
+// Для публичного запуска установить SEO_NOINDEX=false.
+const noindex = import.meta.env.SEO_NOINDEX !== 'false';
+
+// При публичном запуске индексируется только главная страница.
+// Юридические и остальные внутренние страницы не индексируются.
+const robotsContent = noindex
+  ? 'noindex, follow'
+  : Astro.url.pathname === '/'
+    ? 'index, follow'
+    : 'noindex, follow';
 ---
 
 <!doctype html>
@@ -20,17 +36,27 @@ const robotsContent = Astro.url.pathname === '/' ? 'index, follow' : 'noindex, f
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- SEO -->
     <meta name="description" content={description} />
     <meta name="robots" content={robotsContent} />
     <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Favicon -->
     <link rel="icon" href={faviconPath} type="image/x-icon" />
+
     <title>{title}</title>
   </head>
+
   <body>
     <div class="page-wrapper">
       <slot />
     </div>
+
+    <!-- Яндекс Метрика: загружается после согласия -->
     <YandexMetrika />
+
+    <!-- Управление согласием на cookies -->
     <CookieBanner />
   </body>
 </html>
