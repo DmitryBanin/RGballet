@@ -14,9 +14,9 @@ const formUrl = contacts.yandexForm.url;
   </div>
 
   <div class="modal-content">
-    <script is:inline src="https://forms.yandex.ru/_static/embed.js" defer></script>
     <iframe
-      src={`${formUrl}?iframe=1`}
+      data-yandex-form-iframe
+      data-src={`${formUrl}?iframe=1`}
       name={contacts.yandexForm.name}
       title="Форма записи RG Ballet"
       width="650"
@@ -50,6 +50,7 @@ const formUrl = contacts.yandexForm.url;
 
   if (modal instanceof HTMLDialogElement) {
     const closeButton = modal.querySelector('[data-form-close]');
+    const frame = modal.querySelector('[data-yandex-form-iframe]');
     let previousFocus: Element | null = null;
 
     const openModal = () => {
@@ -58,6 +59,14 @@ const formUrl = contacts.yandexForm.url;
       previousFocus = document.activeElement;
       modal.showModal();
       document.body.classList.add('modal-open');
+
+      if (frame instanceof HTMLIFrameElement && frame.dataset.src && !frame.hasAttribute('src')) {
+        // Загружаем форму один раз по открытию, сохраняя введённые данные при повторном показе.
+        frame.src = frame.dataset.src;
+        const embedScript = document.createElement('script');
+        embedScript.src = 'https://forms.yandex.ru/_static/embed.js';
+        document.body.append(embedScript);
+      }
     };
 
     const closeModal = () => {
